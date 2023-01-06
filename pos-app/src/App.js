@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import React,{ useState} from "react";
 import './App.css';
+import Login from './pages/Login';
+import { ReactDOM } from "react-dom";
+import { Log } from './pages/Log';
 
 function App() {
+
+  const [currentForm, setCurrentForm] = useState ("login");
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+}
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <div className="split App">
+      
+    {
+      currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Log onFormSwitch={toggleForm} />
+     }
+     
+
     </div>
+    
+    <div className="split logo">
+    <div className="centered">
+      <img src={require('./images/logo.png')} />
+      <p className="p1"><b> WELCOME !</b></p>
+      <p className="p2"> BY TECH POS SOLUTION </p>
+      <p className="p3"> Our technology creates your excellence </p>
+    </div>
+
+  </div>
+  </>
+
   );
 }
 
-export default App;
+export default App
