@@ -1,0 +1,45 @@
+.sidenavi{
+    height: 97vh;
+    width: 13vw;
+    background-color: rgba(255, 255, 255, 0.579); 
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    display: grid;
+    grid-template-rows: 0.6fr 2fr;
+    
+}
+
+.logo{
+    width: 18vh;
+    height: 18vh;
+    margin: 1vh 1vh 1vh 4vh;
+}
+
+.but{
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    color: rgb(2, 2, 59);
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    width: 10em;
+    padding: 0.5em;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin-left: 0em;
+    margin-top: 1em;
+    display: flex;
+    
+}
+.but:hover{
+    background-color: #0361f9;
+    color: #fff;
+
+}
+.icon{
+    margin-right: 2vh;
+}
+

@@ -1,0 +1,107 @@
+.addform{
+    background-color: rgba(255, 255, 255, 0.818);
+    opacity: 75%; 
+    width: 82.3vw;
+    padding: 1vw 1vw 1vw 1vw;
+    background-size: auto;
+    display:flex;    
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+
+.b1{
+    
+        display: inline-block;
+        border-radius: 5px;
+        border: none;
+        background: #1875FF;
+        color: white;
+        font-family: inherit;
+        text-align: center;
+        font-size: 16px;
+        box-shadow: 0px 14px 56px -11px #1875FF;
+        width: 4em;
+        padding: 0.5em;
+        transition: all 0.4s;
+        cursor: pointer;
+        margin-left: 10em;
+        margin-top: 5em;
+        display: flex;
+       
+}
+.b2{
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    background: #1875FF;
+    color: white;
+    font-family: inherit;
+    text-align: center;
+    font-size: 16px;
+    box-shadow: 0px 14px 56px -11px #1875FF;
+    width: 4em;
+    padding: 0.5em;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin-left: 10em;
+    margin-top: 1em;
+    display: flex;
+
+}
+
+.input {
+    width: 43vw;
+    height: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1.5vh 2vw 0 1vw;
+    
+  
+  }
+  
+  .input:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .input:active {
+    transform: scale(0.95);
+  }
+  
+  .input:focus {
+    border: 2px solid grey;
+  }
+
+  .inputshort {
+    width: 16vw;
+    margin: 1.5vh 2vw 0 1vw;
+    height: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .inputshort:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .inputshort:active {
+    transform: scale(0.95);
+  }
+  
+  .inputshort:focus {
+    border: 2px solid grey;
+  }
+.title{
+    color: rgb(2, 2, 59);
+    padding: 0.2vw 1vw 0vw 0vw;
+}
