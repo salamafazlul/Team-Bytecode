@@ -6,7 +6,7 @@
     background-size: auto;
     display:flex;    
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2.5fr 1fr;
 }
 .bar {
     width: 23.8vw;
@@ -61,41 +61,44 @@
   }
 
   .bb1{
-    display: inline-block;
-    border-radius: 5px;
-    border: none;
-    background: #1875FF;
-    color: white;
-    font-family: inherit;
-    text-align: center;
-    font-size: 16px;
-    box-shadow: 0px 14px 56px -11px #1875FF;
-    width: 4em;
-    padding: 0.5em;
-    transition: all 0.4s;
+    width: 9vw;
+    background-color: rgba(88, 154, 192, 1);
+    border-radius: 10px;
+    border-style: none;
+    box-shadow:#000205; 
+    color: #fff;
     cursor: pointer;
-    margin-left: 10em;
-    margin-top: 1em;
-    display: flex;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    height: 50px; 
+    text-align: center;
+    transform: translate3d(0, 0, 0);
+    transition: all .4s;
+    margin-left: 8vw;
+    margin-top: 0vh;
+    box-sizing: border-box;
 
 }
 .bb2{
-    display: inline-block;
-    border-radius: 5px;
-    border: none;
-    background: #1875FF;
-    color: white;
-    font-family: inherit;
-    text-align: center;
-    font-size: 16px;
-    box-shadow: 0px 14px 56px -11px #1875FF;
-    width: 4em;
-    padding: 0.5em;
-    transition: all 0.4s;
-    cursor: pointer;
-    margin-left: 10em;
-    margin-top: 1em;
-    display: flex;
+  width: 9vw;
+  background-color: rgba(88, 154, 192, 1);
+  border-radius: 10px;
+  border-style: none;
+  box-shadow:#000205; 
+  color: #fff;
+  cursor: pointer;
+  font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  height: 50px; 
+  text-align: center;
+  transform: translate3d(0, 0, 0);
+  transition: all .4s;
+  margin-left: 8vw;
+  margin-top: 1vh;
+  box-sizing: border-box;
+
 
 }
 .title2{

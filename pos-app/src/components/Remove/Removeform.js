@@ -4,8 +4,8 @@ import "./Removestyle.css";
 function Removeform() {
   return (
     <div className="removeform">
-      <form>
-        <h3 className="title2"> Return or Damage</h3>
+      <form className="Purchers">
+        <h3 className="title2"> Remove Product</h3>
 
         <table>
           <tr>

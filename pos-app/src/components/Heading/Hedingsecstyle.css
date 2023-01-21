@@ -3,14 +3,14 @@
     opacity: 75%;
     display: flex;
     flex-direction: column;
-    margin: 5vh 0vw 0vh 0vw;
+    margin: 3vh 0vw 0vh 2vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 .interfacename{
     margin-left: 1vw;
     color: aliceblue;
-    margin-top: 4vh;
+    margin-top: 3.1vh;
     margin-bottom: 1vh;
     
 }
@@ -22,5 +22,9 @@
 }
 .notification{
     display: flex;
-    margin-left: 70vh;
+    margin-left: 23vw;
+}
+
+.ntf{
+    margin-left: 2vw        ;
 }

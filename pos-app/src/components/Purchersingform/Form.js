@@ -101,9 +101,7 @@ function Form() {
 
         <div className="button">
           <button className="b1">Add</button>
-          <button className="b2">
-            <span>Clear</span>
-          </button>
+          <button className="b2">Clear</button>
         </div>
       </div>
       <hr className="hrule" />

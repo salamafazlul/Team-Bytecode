@@ -5,7 +5,7 @@ function Rform() {
   return (
     <>
       <div className="rform">
-        <form>
+        <form className="Purchers">
           <h3 className="title2"> Return or Damage</h3>
           <table>
             <tr>

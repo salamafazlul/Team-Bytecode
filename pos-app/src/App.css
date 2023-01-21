@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   background-image:url('./components/assets/Storkeeper.jpg');
-  background-size: cover;
+  background-size:cover;
   display: flex;
   font-size: medium;
   /*font-size: calc(10px + 2vmin);*/
@@ -12,4 +12,5 @@
 *{
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }

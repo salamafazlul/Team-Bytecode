@@ -5,6 +5,7 @@ import Form from "./components/Purchersingform/Form";
 import Headingsec from "./components/Heading/Headingsec";
 import Rform from "./components/Returnform/Rform";
 import Removeform from "./components/Remove/Removeform";
+import Footerbar from "./components/footer/Footerbar";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Form />
         <Rform />
         <Removeform />
+        <Footerbar />
       </div>
     </div>
   );

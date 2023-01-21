@@ -14,9 +14,15 @@ function Headingsec() {
       </div>
       <div className="notification">
         <IconContext.Provider value={{ size: "1.5rem", color: "white" }}>
-          <FiMessageSquare />
-          <IoMdNotificationsOutline />
-          <CgProfile />
+          <div className="ntf">
+            <FiMessageSquare />
+          </div>
+          <div className="ntf">
+            <IoMdNotificationsOutline />
+          </div>
+          <div className="ntf">
+            <CgProfile />
+          </div>
         </IconContext.Provider>
       </div>
     </div>
