@@ -4,7 +4,7 @@ import { Navideta } from "./Navideta";
 import logo from "../assets/logo.png";
 import { MdLogout } from "react-icons/md";
 
-function sideNavi() {
+function SideNavi() {
   return (
     <div className="sidenavi">
       <>
@@ -39,4 +39,4 @@ function sideNavi() {
   );
 }
 
-export default sideNavi;
+export default SideNavi;

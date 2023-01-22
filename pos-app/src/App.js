@@ -1,23 +1,22 @@
 import React from "react";
 import "./App.css";
-import SideNavi from "./components/sidebar/SideNavi";
-import Form from "./components/Purchersingform/Form";
-import Headingsec from "./components/Heading/Headingsec";
-import Rform from "./components/Returnform/Rform";
-import Removeform from "./components/Remove/Removeform";
-import Footerbar from "./components/footer/Footerbar";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import Mainpage from "./components/Page/Mainpage";
+import Category from "./components/Page/Category";
+import AddRemove from "./components/Page/AddRemove";
 
 function App() {
   return (
     <div className="App">
-      <SideNavi />
-      <div>
-        <Headingsec />
-        <Form />
-        <Rform />
-        <Removeform />
-        <Footerbar />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Outlet />}>
+            <Route index element={<Mainpage />} />
+            <Route path="addorremove" element={<AddRemove />} />
+            <Route path="category" element={<Category />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
