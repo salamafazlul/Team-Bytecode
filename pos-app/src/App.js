@@ -1,8 +1,8 @@
 import React,{ useState} from "react";
 import './App.css';
-import Login from './pages/Login';
+import Login from './components/UserMgt/Login';
 import { ReactDOM } from "react-dom";
-import { Log } from './pages/Log';
+import { Log } from './components/UserMgt/Log';
 
 function App() {
 
