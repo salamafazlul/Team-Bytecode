@@ -4,7 +4,7 @@ import { BsFileEarmarkDiff } from "react-icons/bs";
 import { TbReportSearch } from "react-icons/tb";
 export const Navideta = [
   {
-    title: "Purchercing",
+    title: "Purchasing",
     icon: <BsCheck2Square />,
     link: "/",
   },
