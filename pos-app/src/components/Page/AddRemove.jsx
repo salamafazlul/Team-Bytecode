@@ -6,7 +6,7 @@ import Rform from '../Returnform/Rform'
 import Removeform from '../Remove/Removeform'
 import Footerbar from '../footer/Footerbar'
 
-function AddRemove() {
+const AddRemove = () => {
   return (
     <>
     <SideNavi />
