@@ -1,0 +1,43 @@
+.side{
+    background-color: rgb(170, 196, 228);
+    font-family: Sans-serif;
+    width: 15%;
+    height: 750px;
+    float: left;
+}
+.logo{
+    width: 30%;
+    height: 10%;
+    padding-left: 70px;
+    border-radius: 60px;
+    
+}
+
+.link{
+    padding-top: 100px;
+    padding-left: 40px;
+    
+    
+
+
+}
+.button-link{
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: none;
+    padding : 10px;
+    background-color: rgb(84, 146, 179);
+
+    width: 100%;
+
+    
+}
+
+.button-link:hover{
+    background-color: rgb(130, 148, 170);
+   
+
+
+}
+
+
