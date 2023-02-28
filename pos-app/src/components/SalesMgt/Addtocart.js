@@ -16,6 +16,7 @@ import {
 import Header from './Header';
 import IncrementDecrement from "./IncrementDecrement"
 
+
 export const AddtoCart = () => {
     const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ export const AddtoCart = () => {
     <>
 
     <section className="section " >
+     {/* Left cart */}
       <div className=' container-l ' >
         <MDBRow className='m-0 '>
             <div className="addContainer m-0 p-2 my-2" style={{ background:"rgba(128,128,128,0.7)", height:"100%",width:"50%" ,border:"solid gray",}} >
@@ -90,12 +92,12 @@ export const AddtoCart = () => {
             </div>
 
             
-        
-    <div xl='5' className='flex mx-0 my-2 p-0' style={{width:"50%"}}>
-        <MDBRow md="6" lg="5" className="p-2 justify-content-center align-items-center " style={{ marginLeft:"10px" ,background:"rgba(128,128,128,0.7)", height:"100%", width:"100%", border:"solid gray"}}>
+        {/* Right Cart */}
+    <div xl='5' className='flex mx-0 my-2 p-0 ' style={{width:"50%"}}>
+        <MDBRow md="6" lg="5" className="p-2  justify-content-center  " style={{ marginLeft:"10px" ,background:"rgba(128,128,128,0.7)", height:"100%", width:"100%", border:"solid gray"}}>
           <MDBCol className='p-0 m-0'>
             <MDBCard >
-              <MDBCardBody className="cart-body px-2">
+              <MDBCardBody className="cart-body px-2 table-wrapper-scroll-y my-custom-scrollbar">
                 {/* <MDBRow className="align-items-center">
                   <MDBCol md="2">
                     <p className=" mb-4 pb-2">orderId</p>
@@ -143,7 +145,7 @@ export const AddtoCart = () => {
                   </MDBCol>     
 
                 </MDBRow>  */}
-                <table className='table'>
+                <table className='table '>
                     <thead>
                         <tr>
                             <td>Order Id</td>
@@ -166,6 +168,33 @@ export const AddtoCart = () => {
                     </tr>
                      <tr>
                         <td>2</td>
+                        <td>0215</td>
+                        <td>Munchee</td>
+                        <td>
+                        <div className='flex-wrap w-2 h-2'><IncrementDecrement/></div></td>
+                        <td>450</td>
+                        <td>450</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>0215</td>
+                        <td>Munchee</td>
+                        <td>
+                        <div className='flex-wrap w-2 h-2'><IncrementDecrement/></div></td>
+                        <td>450</td>
+                        <td>450</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>0215</td>
+                        <td>Munchee</td>
+                        <td>
+                        <div className='flex-wrap w-2 h-2'><IncrementDecrement/></div></td>
+                        <td>450</td>
+                        <td>450</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
                         <td>0215</td>
                         <td>Munchee</td>
                         <td>

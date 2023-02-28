@@ -6,7 +6,6 @@
     /* margin-left: 40px;
     margin-right: 40px; */
     width: 100%;
-    height: 100px;
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -16,12 +15,13 @@
 .header .left{
     display: inline-flex;
     align-items: center;
+    color:white;
 
 }
 
 .header .logo{
-    width: 90px;
-    height: 90px;
+    width: 150px;
+    height: auto;
     margin-left: 40px;
 }
 
@@ -32,6 +32,7 @@
 .header .button{
     background-color: rgba(163, 163, 163, 0);
     margin-right:40px;
-    color: rgb(187, 187, 187);
-    font-size: 30px;
+    color: rgb(255, 250, 250);
+    font-size: 40px;
+    margin-bottom: -10px;
 }

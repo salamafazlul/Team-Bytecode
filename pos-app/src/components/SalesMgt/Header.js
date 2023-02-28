@@ -35,7 +35,7 @@ const Header = () => {
     <div className='header'>
         <div className='left'>
             <img src={Logo} alt="logo" className='logo'></img>
-            <h1 className='mx-4'> BY TECH POS SYSTEM</h1>
+            <h1 className='mx-4 font-weight-bold'> BY TECH POS SYSTEM</h1>            
         </div>
             <UserProfile className="userprfl"/>
 
