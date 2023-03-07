@@ -3,7 +3,7 @@ import './IncrementDecrement.css';
 
 class IncrementDecrement extends React.Component
 {
-    state = { counter: 0 };
+    state = { counter: 1 };
 
     handleDecrement = () => {
         let value = this.state.counter - 1;
