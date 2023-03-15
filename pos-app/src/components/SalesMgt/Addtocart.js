@@ -25,21 +25,40 @@ import Axios from "axios";
 export const AddtoCart = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  console.log(search);
   const [amount, setAmount] = useState();
   const [productList, setProductList] = useState([]);
+  const [selectCode, setSelectCode] = useState();
+  const [selectName, setSelectName] = useState("Name");
+  const [selectPrice, setSelectPrice] = useState();
+  const [invoiceList, setInvoiceList] = useState([]);
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getProduct").then((response) => {
       setProductList(response.data);
     });
   });
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/getInvoiceList").then((response) => {
+      setInvoiceList(response.data);
+    });
+  });
+  const selectProduct = (pid, pname, price) => {
+    setSelectCode(pid);
+    setSelectName(pname);
+    setSelectPrice(price);
+  };
+
+  const addToInvoice = () => {
+    Axios.post(`http://localhost:3001/api/addToInvoice/`, {
+      pid: selectCode,
+      pname: selectName,
+      price: selectPrice,
+    });
+  };
 
   const submitAmount = () => {
     Axios.post("http://localhost:3001/api/insert", {
       amount: amount,
-    }).then(() => {
-      alert("success");
     });
   };
   return (
@@ -58,12 +77,28 @@ export const AddtoCart = () => {
               }}
             >
               <MDBRow style={{ width: "100%" }}>
-                <MDBCol className="flex">
-                  <MDBInput className="mb-2 mt-4 ml-3" placeholder="Code" />
+                <MDBCol className="flex col-md-2">
+                  <MDBInput
+                    className="mb-2 mt-4 ml-3 "
+                    placeholder="Code"
+                    value={selectCode}
+                  />
+                </MDBCol>
+
+                <MDBCol className="col-md-3">
+                  <MDBInput
+                    className="mb-2 mt-4 ml-3 "
+                    placeholder="Name"
+                    value={selectName}
+                  />
                 </MDBCol>
 
                 <MDBCol>
-                  <MDBInput className="mb-2 mt-4 ml-3" placeholder="Name" />
+                  <MDBInput
+                    className="mb-2 mt-4 ml-3"
+                    placeholder="Price"
+                    value={selectPrice}
+                  />
                 </MDBCol>
 
                 <MDBCol>
@@ -75,10 +110,7 @@ export const AddtoCart = () => {
                 </MDBCol>
 
                 <MDBCol className="mb-2 mt-3 ">
-                  <div
-                    className="button mt-2 pb-2 pt-2"
-                    onClick={() => navigate("/")}
-                  >
+                  <div className="button mt-2 pb-2 pt-2" onClick={addToInvoice}>
                     ADD ITEM
                   </div>
                 </MDBCol>
@@ -115,24 +147,46 @@ export const AddtoCart = () => {
                           <th>Product Code</th>
                           <th>Name</th>
                           <th>Price</th>
-                          <th>Quantity</th>
+                          <th>Stock</th>
                         </tr>
                       </thead>
                       <tbody>
                         {productList
-                          .filter((item) => {
+                          .filter((product) => {
                             return search.toLowerCase() === ""
-                              ? item
-                              : item.pname
+                              ? product
+                              : product.pname
                                   .toLowerCase()
                                   .includes(search.toLocaleLowerCase());
                           })
-                          .map((item) => (
-                            <tr key={item.id} style={{ lineHeight: "0.5" }}>
-                              <td>{item.pid}</td>
-                              <td>{item.pname}</td>
-                              <td>{item.price}</td>
-                              <td>{item.quantity}</td>
+                          .map((product) => (
+                            <tr style={{ lineHeight: "0.5" }}>
+                              <td>{product.pid}</td>
+                              <td>{product.pname}</td>
+                              <td>{product.price}</td>
+                              <td>{product.stock}</td>
+                              <td>
+                                <button
+                                  onClick={() => {
+                                    selectProduct(
+                                      product.pid,
+                                      product.pname,
+                                      product.price
+                                    );
+                                  }}
+                                  style={{
+                                    height: "15px",
+                                    fontSize: "10px",
+                                    backgroundColor: "#4483ad",
+                                    color: "white",
+                                    border: "none",
+                                    boxShadow: "1px 2px rgba(0,0,0,0.5)",
+                                    borderRadius: "2px",
+                                  }}
+                                >
+                                  ADD
+                                </button>
+                              </td>
                             </tr>
                           ))}
                       </tbody>
@@ -188,19 +242,20 @@ export const AddtoCart = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>biscuit</td>
-                            <td>0.00</td>
-                            <td>150</td>
-                            <td>
-                              {" "}
-                              <div className="flex-wrap w-2 h-3">
-                                <IncrementDecrement />
-                              </div>
-                            </td>
-                            <td>150</td>
-                          </tr>
+                          {invoiceList.map((product) => (
+                            <tr style={{ lineHeight: "0.5" }}>
+                              <td>{product.product_id}</td>
+                              <td>{product.name}</td>
+                              <td>0.00</td>
+                              <td>{product.price}</td>
+                              <td>
+                                <div className="flex-wrap w-2 h-3">
+                                  <IncrementDecrement />
+                                </div>
+                              </td>
+                              <td></td>
+                            </tr>
+                          ))}
                         </tbody>
                       </Table>
                     </div>
@@ -209,7 +264,7 @@ export const AddtoCart = () => {
                 </MDBCol>
 
                 <MDBCard className=" flex-end my-2 ">
-                  <div className="py-3">
+                  {/* <div className="py-3">
                     <div className="float-end">
                       <label>Order Total</label>
                       <input
@@ -218,15 +273,13 @@ export const AddtoCart = () => {
                         onChange={(e) => {
                           setAmount(e.target.value);
                         }}
-                      />
-                      {/* <p className="mb-0 me-5 d-flex align-items-center">
-                        <span className="small text-muted me-2">
-                          Order total:
-                        </span>
-                        <span className="lead fw-normal">1400.00</span>
-                      </p> */}
-                    </div>
-                  </div>
+                      /> */}
+                  <p className="mb-0 me-5 d-flex align-items-center">
+                    <span className="small text-muted me-2">Order total:</span>
+                    <span className="lead fw-normal">0.00</span>
+                  </p>
+                  {/* </div> */}
+                  {/* </div> */}
                 </MDBCard>
                 <MDBRow style={{ width: "80%" }}>
                   <MDBCol className="mb-2 mt-3 ">
@@ -248,7 +301,7 @@ export const AddtoCart = () => {
                   <MDBCol className="mb-2 mt-3 ">
                     <div
                       className="button mt-2 pb-2 pt-2"
-                      onClick={() => navigate("/")}
+                      // onClick={() => navigate("/")}
                     >
                       Card
                     </div>

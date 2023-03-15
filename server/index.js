@@ -21,11 +21,29 @@ app.get("/api/getProduct", (req, res) => {
     res.send(result);
   });
 });
+app.get("/api/getInvoiceList", (req, res) => {
+  const sqlSelect = "select * from invoice_items";
+  db.query(sqlSelect, (err, result) => {
+    res.send(result);
+  });
+});
+
 app.post("/api/insert", (req, res) => {
   const amount = req.body.amount;
   const sqlInsert = "insert into sale_amount (amount) values (?)";
   db.query(sqlInsert, [amount], (err, result) => {
     console.log("successful insert");
+  });
+});
+
+app.post("/api/addToInvoice/", (req, res) => {
+  const pid = req.body.pid;
+  const pname = req.body.pname;
+  const price = req.body.price;
+  const sqlInsert =
+    "Insert into invoice_items (product_id,name,price) values(?,?,?)";
+  db.query(sqlInsert, [pid, pname, price], (err, result) => {
+    if (err) console.log(err);
   });
 });
 
