@@ -1,0 +1,37 @@
+.increment-decrement {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.count-btn {
+    display: none;
+    border: 1px transparent;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+    cursor: pointer;
+    text-align:start;
+}
+
+.count-down {
+    color: #e73737;
+    background-color:#00000000;
+}
+
+.count-up {
+    color: #2bd92e;
+    background-color:#00000000;
+}
+
+.counter {
+    font-size: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 3px 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 40px;
+}

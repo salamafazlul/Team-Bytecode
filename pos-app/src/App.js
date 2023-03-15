@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import React,{ useState} from "react";
 import './App.css';
+import Login from './components/UserMgt/Login';
+import { ReactDOM } from "react-dom";
+import { Log } from './components/UserMgt/Log';
+import Checkout from "./components/SalesMgt/Checkout";
+import { BrowserRouter, Routes,Route } from "react-router-dom";
+import KeyBoard from "./components/SalesMgt/KeyBoard";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login/>} />
+        <Route path="/KeyBoard" element={<KeyBoard/>} />
+        <Route path="/Checkout" element={<Checkout/>} />
+      </Routes>
+    
+    </BrowserRouter>
+
+  </>
+
   );
 }
 
-export default App;
+export default App
