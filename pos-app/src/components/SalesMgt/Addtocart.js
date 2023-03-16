@@ -14,7 +14,7 @@ import { MDBIcon } from "mdbreact";
 import KeyBoard from "./KeyBoard";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
-import IncrementDecrement from "./IncrementDecrement";
+
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -30,7 +30,9 @@ export const AddtoCart = () => {
   const [selectCode, setSelectCode] = useState();
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
+  const [selectQuantity,setSelectQuantity] =useState()
   const [invoiceList, setInvoiceList] = useState([]);
+  const [total,setTotal] =useState()
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getProduct").then((response) => {
@@ -42,17 +44,24 @@ export const AddtoCart = () => {
       setInvoiceList(response.data);
     });
   });
-  const selectProduct = (pid, pname, price) => {
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/getTotal").then((response) => {
+      setTotal(response.amount);
+    });
+  });
+  const selectProduct = (pid, pname, price,) => {
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
+    setSelectQuantity(1)
   };
-
+ 
   const addToInvoice = () => {
     Axios.post(`http://localhost:3001/api/addToInvoice/`, {
       pid: selectCode,
       pname: selectName,
       price: selectPrice,
+      quantity : selectQuantity
     });
   };
 
@@ -97,7 +106,9 @@ export const AddtoCart = () => {
                   <MDBInput
                     className="mb-2 mt-4 ml-3"
                     placeholder="Price"
+                    type="text"
                     value={selectPrice}
+                    onChange={(e) => setSelectPrice(e.target.value)}
                   />
                 </MDBCol>
 
@@ -106,6 +117,9 @@ export const AddtoCart = () => {
                     className="mb-2 mt-4 ml-3"
                     placeholder="Qty"
                     type="number"
+                    defaultValue="1"
+                    value={selectQuantity}
+                    onChange={(e) => setSelectQuantity(e.target.value)}
                   />
                 </MDBCol>
 
@@ -160,7 +174,7 @@ export const AddtoCart = () => {
                                   .includes(search.toLocaleLowerCase());
                           })
                           .map((product) => (
-                            <tr style={{ lineHeight: "0.5" }}>
+                            <tr key={product.pid} style={{ lineHeight: "0.5" }}>
                               <td>{product.pid}</td>
                               <td>{product.pname}</td>
                               <td>{product.price}</td>
@@ -171,7 +185,8 @@ export const AddtoCart = () => {
                                     selectProduct(
                                       product.pid,
                                       product.pname,
-                                      product.price
+                                      product.price,
+                                      
                                     );
                                   }}
                                   style={{
@@ -197,7 +212,7 @@ export const AddtoCart = () => {
 
               <MDBRow>
                 <MDBCol className="mt-3 ">
-                  <KeyBoard class="row" className="" />
+                  <KeyBoard className="row"  />
                 </MDBCol>
               </MDBRow>
             </div>
@@ -248,12 +263,8 @@ export const AddtoCart = () => {
                               <td>{product.name}</td>
                               <td>0.00</td>
                               <td>{product.price}</td>
-                              <td>
-                                <div className="flex-wrap w-2 h-3">
-                                  <IncrementDecrement />
-                                </div>
-                              </td>
-                              <td></td>
+                              <td>{product.quantity}</td>
+                              <td>{product.amount}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -275,8 +286,8 @@ export const AddtoCart = () => {
                         }}
                       /> */}
                   <p className="mb-0 me-5 d-flex align-items-center">
-                    <span className="small text-muted me-2">Order total:</span>
-                    <span className="lead fw-normal">0.00</span>
+                    Order total:
+                    {total}
                   </p>
                   {/* </div> */}
                   {/* </div> */}
