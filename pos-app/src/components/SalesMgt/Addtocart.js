@@ -10,11 +10,10 @@ import {
   MDBRow,
 } from "mdb-react-ui-kit";
 import "./Checkout.css";
+import "./Addtocart.css";
 import { MDBIcon } from "mdbreact";
 import KeyBoard from "./KeyBoard";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
-
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -30,9 +29,9 @@ export const AddtoCart = () => {
   const [selectCode, setSelectCode] = useState();
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
-  const [selectQuantity,setSelectQuantity] =useState()
+  const [selectQuantity, setSelectQuantity] = useState();
   const [invoiceList, setInvoiceList] = useState([]);
-  const [total,setTotal] =useState()
+  const [total, setTotal] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getProduct").then((response) => {
@@ -49,19 +48,19 @@ export const AddtoCart = () => {
       setTotal(response.amount);
     });
   });
-  const selectProduct = (pid, pname, price,) => {
+  const selectProduct = (pid, pname, price) => {
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
-    setSelectQuantity(1)
+    setSelectQuantity(1);
   };
- 
+
   const addToInvoice = () => {
     Axios.post(`http://localhost:3001/api/addToInvoice/`, {
       pid: selectCode,
       pname: selectName,
       price: selectPrice,
-      quantity : selectQuantity
+      quantity: selectQuantity,
     });
   };
 
@@ -74,17 +73,9 @@ export const AddtoCart = () => {
     <>
       <section className="section ">
         {/* Left cart */}
-        <div className=" container-l ">
+        <div>
           <MDBRow className="m-0 ">
-            <div
-              className="addContainer m-0 p-2 my-2"
-              style={{
-                background: "rgba(128,128,128,0.7)",
-                height: "100%",
-                width: "50%",
-                border: "solid gray",
-              }}
-            >
+            <div className="addContainer m-0 p-2 my-2" class="select">
               <MDBRow style={{ width: "100%" }}>
                 <MDBCol className="flex col-md-2">
                   <MDBInput
@@ -106,7 +97,7 @@ export const AddtoCart = () => {
                   <MDBInput
                     className="mb-2 mt-4 ml-3"
                     placeholder="Price"
-                    type="text"
+                    type="number"
                     value={selectPrice}
                     onChange={(e) => setSelectPrice(e.target.value)}
                   />
@@ -130,14 +121,7 @@ export const AddtoCart = () => {
                 </MDBCol>
               </MDBRow>
 
-              <div
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  display: "flex",
-                  color: "white",
-                }}
-              >
+              <div class="search">
                 <Container>
                   <Form style={{ paddingBottom: "10px" }}>
                     <InputGroup>
@@ -156,8 +140,8 @@ export const AddtoCart = () => {
                       className="my-custom-scrollbar"
                       style={{ width: "100%", color: "white" }}
                     >
-                      <thead style={{ position: "sticky" }}>
-                        <tr style={{ lineHeight: "0.5" }}>
+                      <thead>
+                        <tr>
                           <th>Product Code</th>
                           <th>Name</th>
                           <th>Price</th>
@@ -174,7 +158,7 @@ export const AddtoCart = () => {
                                   .includes(search.toLocaleLowerCase());
                           })
                           .map((product) => (
-                            <tr key={product.pid} style={{ lineHeight: "0.5" }}>
+                            <tr key={product.pid}>
                               <td>{product.pid}</td>
                               <td>{product.pname}</td>
                               <td>{product.price}</td>
@@ -185,18 +169,8 @@ export const AddtoCart = () => {
                                     selectProduct(
                                       product.pid,
                                       product.pname,
-                                      product.price,
-                                      
+                                      product.price
                                     );
-                                  }}
-                                  style={{
-                                    height: "15px",
-                                    fontSize: "10px",
-                                    backgroundColor: "#4483ad",
-                                    color: "white",
-                                    border: "none",
-                                    boxShadow: "1px 2px rgba(0,0,0,0.5)",
-                                    borderRadius: "2px",
                                   }}
                                 >
                                   ADD
@@ -212,113 +186,86 @@ export const AddtoCart = () => {
 
               <MDBRow>
                 <MDBCol className="mt-3 ">
-                  <KeyBoard className="row"  />
+                  <KeyBoard className="row" />
                 </MDBCol>
               </MDBRow>
             </div>
 
             {/* Right Cart */}
-            <div
-              xl="5"
-              className="flex mx-0 my-2 p-0 "
-              style={{ width: "50%" }}
-            >
-              <MDBRow
-                md="6"
-                lg="5"
-                className="p-2  justify-content-center  "
-                style={{
-                  marginLeft: "10px",
-                  background: "rgba(128,128,128,0.7)",
-                  height: "100%",
-                  width: "100%",
-                  border: "solid gray",
-                }}
-              >
-                <MDBCol className="p-0 m-0">
-                  <MDBCard>
-                    <div
-                      className="table-wrapper-scroll-y border"
-                      style={{ width: "100%", minHeight: "300px" }}
+            <div class="rightside">
+              <div class="rightcontainer">
+                <div>
+                  <div
+                    className="table-wrapper-scroll-y border"
+                    style={{ minHeight: "300px", background: "white" }}
+                  >
+                    <Table
+                      hover
+                      className="my-custom-scrollbar"
                     >
-                      <Table
-                        hover
-                        className="my-custom-scrollbar"
-                        style={{ width: "100%", color: "black" }}
-                      >
-                        <thead>
+                      <thead>
+                        <tr >
+                          <th style={{ width: "10px" }}>Code</th>
+                          <th>Name</th>
+                          <th>Discount</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {invoiceList.map((product) => (
                           <tr style={{ lineHeight: "0.5" }}>
-                            <th style={{ width: "10px" }}>Code</th>
-                            <th>Name</th>
-                            <th>Discount</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
+                            <td>{product.product_id}</td>
+                            <td>{product.name}</td>
+                            <td>0.00</td>
+                            <td>{product.price}</td>
+                            <td>{product.quantity}</td>
+                            <td>{product.amount}</td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {invoiceList.map((product) => (
-                            <tr style={{ lineHeight: "0.5" }}>
-                              <td>{product.product_id}</td>
-                              <td>{product.name}</td>
-                              <td>0.00</td>
-                              <td>{product.price}</td>
-                              <td>{product.quantity}</td>
-                              <td>{product.amount}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
-                    </div>
-                  </MDBCard>
-                  <div style={{ height: "100%" }}></div>
-                </MDBCol>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
 
-                <MDBCard className=" flex-end my-2 ">
-                  {/* <div className="py-3">
-                    <div className="float-end">
-                      <label>Order Total</label>
-                      <input
-                        type="text"
-                        name="amount"
-                        onChange={(e) => {
-                          setAmount(e.target.value);
-                        }}
-                      /> */}
-                  <p className="mb-0 me-5 d-flex align-items-center">
-                    Order total:
-                    {total}
-                  </p>
-                  {/* </div> */}
-                  {/* </div> */}
-                </MDBCard>
-                <MDBRow style={{ width: "80%" }}>
-                  <MDBCol className="mb-2 mt-3 ">
-                    <div
-                      className="button mt-2 pb-2 pt-2"
-                      onClick={() => navigate("/")}
-                    >
-                      Cancel
-                    </div>
-                  </MDBCol>
-                  <MDBCol className="mb-2 mt-3 ">
-                    <div
-                      className="button mt-2 pb-2 pt-2"
-                      onClick={submitAmount}
-                    >
-                      Cash
-                    </div>
-                  </MDBCol>
-                  <MDBCol className="mb-2 mt-3 ">
-                    <div
-                      className="button mt-2 pb-2 pt-2"
-                      // onClick={() => navigate("/")}
-                    >
-                      Card
-                    </div>
-                  </MDBCol>
-                </MDBRow>
-              </MDBRow>
+                  
+
+                  <MDBCard className=" flex-end my-3 p-3 ">
+                    <b>
+                     <div>Total amount:</div> 
+                     <div>Discount:</div> 
+                     <div>Net amount: </div> 
+                    </b>
+                    
+                  </MDBCard>
+                  <MDBRow style={{ width: "80%" }}>
+                    <MDBCol className="mb-2 mt-3 ">
+                      <div
+                        className="button mt-2 pb-2 pt-2"
+                        onClick={() => navigate("/")}
+                      >
+                        Cancel
+                      </div>
+                    </MDBCol>
+                    <MDBCol className="mb-2 mt-3 ">
+                      <div
+                        className="button mt-2 pb-2 pt-2"
+                        onClick={submitAmount}
+                      >
+                        Cash
+                      </div>
+                    </MDBCol>
+                    <MDBCol className="mb-2 mt-3 ">
+                      <div
+                        className="button mt-2 pb-2 pt-2"
+                        // onClick={() => navigate("/")}
+                      >
+                        Card
+                      </div>
+                    </MDBCol>
+                  </MDBRow>
+                </div>
+              </div>
             </div>
           </MDBRow>
         </div>
