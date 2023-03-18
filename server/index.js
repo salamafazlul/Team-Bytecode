@@ -33,23 +33,18 @@ app.get("/api/getTotal", (req, res) => {
     res.send(result);
   });
 });
-app.post("/api/insert", (req, res) => {
-  const amount = req.body.amount;
-  const sqlInsert = "insert into sale_amount (amount) values (?)";
-  db.query(sqlInsert, [amount], (err, result) => {
-    console.log("successful insert");
-  });
-});
-
+app.post("/api/setTotalDiscount/", (req,res)=>{
+  const discount = req.body.discount;
+})
 app.post("/api/addToInvoice/", (req, res) => {
   const pid = req.body.pid;
   const pname = req.body.pname;
   const price = req.body.price;
-  const quantity = req.body.quantity
+  const quantity = req.body.quantity;
   const amount = price * quantity;
   const sqlInsert =
     "Insert into invoice_items (product_id,name,price,quantity,amount) values(?,?,?,?,?)";
-  db.query(sqlInsert, [pid, pname, price,quantity,amount], (err, result) => {
+  db.query(sqlInsert, [pid, pname, price, quantity, amount], (err, result) => {
     if (err) console.log(err);
   });
 });

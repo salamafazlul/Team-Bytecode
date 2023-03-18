@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from "react";
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCol,
-  MDBContainer,
-  MDBInput,
-  MDBRow,
-} from "mdb-react-ui-kit";
+import { MDBCard, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import "./Checkout.css";
 import "./Addtocart.css";
-import { MDBIcon } from "mdbreact";
-import KeyBoard from "./KeyBoard";
+import "./KeyBoard.css";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-import Overlay from "react-bootstrap/esm/Overlay";
 import Axios from "axios";
+import Keyboard from "react-simple-keyboard";
 
-export const AddtoCart = () => {
+export const AddtoCart = (props) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [amount, setAmount] = useState();
   const [productList, setProductList] = useState([]);
   const [selectCode, setSelectCode] = useState();
   const [selectName, setSelectName] = useState("Name");
@@ -32,7 +21,8 @@ export const AddtoCart = () => {
   const [selectQuantity, setSelectQuantity] = useState();
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
-
+  const [keyPressed, setKeyPressed] = useState("");
+  const [discount, setDiscount] = useState();
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getProduct").then((response) => {
       setProductList(response.data);
@@ -45,7 +35,7 @@ export const AddtoCart = () => {
   });
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getTotal").then((response) => {
-      setTotal(response.amount);
+      setTotal(response.data[0].amount);
     });
   });
   const selectProduct = (pid, pname, price) => {
@@ -53,10 +43,15 @@ export const AddtoCart = () => {
     setSelectName(pname);
     setSelectPrice(price);
     setSelectQuantity(1);
+    setSearchKey("");
+  };
+  const setSearchKey = (input) => {
+    setSearch(input);
+    setKeyPressed(input);
   };
 
   const addToInvoice = () => {
-    Axios.post(`http://localhost:3001/api/addToInvoice/`, {
+    Axios.post("http://localhost:3001/api/addToInvoice/", {
       pid: selectCode,
       pname: selectName,
       price: selectPrice,
@@ -64,22 +59,24 @@ export const AddtoCart = () => {
     });
   };
 
-  const submitAmount = () => {
-    Axios.post("http://localhost:3001/api/insert", {
-      amount: amount,
+  const netAmount = (discount) => {
+    setDiscount(discount);
+    console.log(discount)
+    Axios.post("http://localhost:3001/api/setTotalDiscount/", {
+      discount: discount,
     });
   };
   return (
     <>
-      <section className="section ">
-        {/* Left cart */}
-        <div>
-          <MDBRow className="m-0 ">
-            <div className="addContainer m-0 p-2 my-2" class="select">
+      <section className="section">
+        <div class="addtocart">
+          <MDBRow className="m-0">
+            <div className="addContainer" class="leftcontainer">
+              {/* selected product area */}
               <MDBRow style={{ width: "100%" }}>
                 <MDBCol className="flex col-md-2">
                   <MDBInput
-                    className="mb-2 mt-4 ml-3 "
+                    className="mt-4 ml-3"
                     placeholder="Code"
                     value={selectCode}
                   />
@@ -87,7 +84,7 @@ export const AddtoCart = () => {
 
                 <MDBCol className="col-md-3">
                   <MDBInput
-                    className="mb-2 mt-4 ml-3 "
+                    className="mb-2 mt-4 ml-3"
                     placeholder="Name"
                     value={selectName}
                   />
@@ -114,10 +111,10 @@ export const AddtoCart = () => {
                   />
                 </MDBCol>
 
-                <MDBCol className="mb-2 mt-3 ">
-                  <div className="button mt-2 pb-2 pt-2" onClick={addToInvoice}>
-                    ADD ITEM
-                  </div>
+                <MDBCol>
+                  <button class="select_btn" onClick={addToInvoice}>
+                    Add Item
+                  </button>
                 </MDBCol>
               </MDBRow>
 
@@ -126,7 +123,8 @@ export const AddtoCart = () => {
                   <Form style={{ paddingBottom: "10px" }}>
                     <InputGroup>
                       <Form.Control
-                        onChange={(e) => setSearch(e.target.value)}
+                        value={search}
+                        onChange={(e) => setSearchKey(e.target.value)}
                         placeholder="Search"
                       />
                     </InputGroup>
@@ -135,14 +133,10 @@ export const AddtoCart = () => {
                     className="table-wrapper-scroll-y border"
                     style={{ width: "100%", height: "500px" }}
                   >
-                    <Table
-                      hover
-                      className="my-custom-scrollbar"
-                      style={{ width: "100%", color: "white" }}
-                    >
+                    <Table hover style={{ color: "white" }}>
                       <thead>
                         <tr>
-                          <th>Product Code</th>
+                          <th>Code</th>
                           <th>Name</th>
                           <th>Price</th>
                           <th>Stock</th>
@@ -165,6 +159,7 @@ export const AddtoCart = () => {
                               <td>{product.stock}</td>
                               <td>
                                 <button
+                                  class="atc_btn"
                                   onClick={() => {
                                     selectProduct(
                                       product.pid,
@@ -185,8 +180,12 @@ export const AddtoCart = () => {
               </div>
 
               <MDBRow>
-                <MDBCol className="mt-3 ">
-                  <KeyBoard className="row" />
+                <MDBCol className="mt-3 p-3">
+                  <Keyboard
+                    className="row"
+                    onChange={(input) => setSearchKey(input)}
+                    // onKeyPress={(button) => onKeyPress(button)}
+                  />{" "}
                 </MDBCol>
               </MDBRow>
             </div>
@@ -194,77 +193,80 @@ export const AddtoCart = () => {
             {/* Right Cart */}
             <div class="rightside">
               <div class="rightcontainer">
-                <div>
-                  <div
-                    className="table-wrapper-scroll-y border"
-                    style={{ minHeight: "300px", background: "white" }}
-                  >
-                    <Table
-                      hover
-                      className="my-custom-scrollbar"
-                    >
-                      <thead>
-                        <tr >
-                          <th style={{ width: "10px" }}>Code</th>
-                          <th>Name</th>
-                          <th>Discount</th>
-                          <th>Price</th>
-                          <th>Quantity</th>
-                          <th>Amount</th>
+                <div
+                  className="table-wrapper-scroll-y my-custom-scrollbar border"
+                  style={{ minHeight: "350px", background: "white" }}
+                >
+                  <Table hover>
+                    <thead>
+                      <tr>
+                        <th style={{ width: "10px" }}>Code</th>
+                        <th>Name</th>
+                        <th>Discount</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invoiceList.map((product) => (
+                        <tr style={{ lineHeight: "0.5" }}>
+                          <td>{product.product_id}</td>
+                          <td>{product.name}</td>
+                          <td>0.00</td>
+                          <td>{product.price}</td>
+                          <td>{product.quantity}</td>
+                          <td>{product.amount}</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {invoiceList.map((product) => (
-                          <tr style={{ lineHeight: "0.5" }}>
-                            <td>{product.product_id}</td>
-                            <td>{product.name}</td>
-                            <td>0.00</td>
-                            <td>{product.price}</td>
-                            <td>{product.quantity}</td>
-                            <td>{product.amount}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-
-                  
-
-                  <MDBCard className=" flex-end my-3 p-3 ">
-                    <b>
-                     <div>Total amount:</div> 
-                     <div>Discount:</div> 
-                     <div>Net amount: </div> 
-                    </b>
-                    
-                  </MDBCard>
-                  <MDBRow style={{ width: "80%" }}>
-                    <MDBCol className="mb-2 mt-3 ">
-                      <div
-                        className="button mt-2 pb-2 pt-2"
-                        onClick={() => navigate("/")}
-                      >
-                        Cancel
-                      </div>
-                    </MDBCol>
-                    <MDBCol className="mb-2 mt-3 ">
-                      <div
-                        className="button mt-2 pb-2 pt-2"
-                        onClick={submitAmount}
-                      >
-                        Cash
-                      </div>
-                    </MDBCol>
-                    <MDBCol className="mb-2 mt-3 ">
-                      <div
-                        className="button mt-2 pb-2 pt-2"
-                        // onClick={() => navigate("/")}
-                      >
-                        Card
-                      </div>
-                    </MDBCol>
-                  </MDBRow>
+                      ))}
+                    </tbody>
+                  </Table>
                 </div>
+
+                <MDBCard className=" flex-end my-3 p-3  ">
+                  <div class="net_amount">
+                    <div>
+                      Total (Rs):<span>{total} </span>{" "}
+                    </div>
+                    <div
+                      className=" d-flex justify-content-between col-sm-5"
+                      style={{ marginLeft: "-15px" }}
+                    >
+                      Discount(%):
+                      <MDBInput
+                        style={{
+                          height: "25px",
+                          width: "65px",
+                          marginLeft: "10px",
+                        }}
+                        type="number"
+                        min={0}
+                        max={100}
+                        defaultValue="0"
+                        onChange={(e) => {
+                          netAmount(e.target.value);
+                          // setDiscount(e.target.value);
+                        }}
+                      />
+                      <span>{total} </span>
+                    </div>
+                    <div>
+                      Net amount: <span>{total} </span>{" "}
+                    </div>
+                  </div>
+                </MDBCard>
+
+                <MDBRow>
+                  <MDBCol>
+                    <button class="end_btn">Cash</button>
+                  </MDBCol>
+                  <MDBCol>
+                    <button class="end_btn">Card</button>
+                  </MDBCol>
+                  <MDBCol>
+                    <button class="end_btn">Cancel</button>
+                  </MDBCol>
+                </MDBRow>
               </div>
             </div>
           </MDBRow>

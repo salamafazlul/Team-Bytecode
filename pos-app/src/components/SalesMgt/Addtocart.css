@@ -1,19 +1,30 @@
-.select {
+
+.leftcontainer {
   background: rgba(128, 128, 128, 0.7);
   height: 100%;
   width: 50%;
   border: solid gray;
 }
 
-button {
+.atc_btn {
   font-size: 10px;
   background-color: #4483ad;
   color: white;
   border: none;
   box-shadow: 1px 2px rgba(0, 0, 0, 0.5);
-  border-radius: 2px;
+  border-radius: 3px;
   height: 15px;
   margin: -10px 1px;
+}
+.select_btn{
+  border: none;
+  background-color: #4483ad;
+  color: white;
+  box-shadow: 1px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  width:100px;
+  height:35px;
+  margin:25px -15px 20px 15px;
 }
 
 .search {
@@ -30,6 +41,7 @@ tr {
 .rightside {
   width: 50%;
   display: flex;
+
 }
 .rightcontainer {
   background: rgba(128, 128, 128, 0.7);
@@ -38,3 +50,41 @@ tr {
   border: solid gray;
   padding: 20px;
 }
+.lc{
+ display:flex;
+ margin: 10px;
+ padding: 10px;
+}
+.addtocart{
+  margin-top:-10px;
+}
+
+.end_btn{
+  border: none;
+  background-color: #4483ad;
+  color: white;
+  box-shadow: 1px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  width:80px;
+  height:35px;
+  margin:20px 0px 10px 30px;
+}
+.net_amount{
+  font-weight: bold;
+  
+}
+.net_amount span{
+  font-weight:lighter ;
+  margin-left:8px ;
+  float: right;
+  text-align: right;
+}
+
+/* adjust width on smaller screens */
+@media screen and (max-width: 1100px) {
+  .end_btn {
+    width: 95%;
+    margin-left:0px;
+  }
+
+} 

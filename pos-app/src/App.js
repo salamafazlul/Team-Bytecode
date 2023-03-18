@@ -5,7 +5,7 @@ import { ReactDOM } from "react-dom";
 import { Log } from './components/UserMgt/Log';
 import Checkout from "./components/SalesMgt/Checkout";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
-import KeyBoard from "./components/SalesMgt/KeyBoard";
+
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/KeyBoard" element={<KeyBoard/>} />
+
         <Route path="/Checkout" element={<Checkout/>} />
       </Routes>
     
