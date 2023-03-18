@@ -2,7 +2,7 @@
 import React,{ useState,state, Component,props } from "react";
 import { ReactDOM } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import '../../App.css';
+import "./Login.css";
 
 
 
@@ -66,7 +66,6 @@ this.state = {
 
 
     return (
-
         <>
             <div className="split logo">
                 <div className="centered">
