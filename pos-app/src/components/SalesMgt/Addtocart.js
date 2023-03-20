@@ -19,23 +19,31 @@ export const AddtoCart = (props) => {
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
+  const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
-  const [keyPressed, setKeyPressed] = useState("");
   const [discount, setDiscount] = useState();
+  const [currentInvoice, setCurrentInvoice] = useState();
+
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getProduct").then((response) => {
       setProductList(response.data);
     });
   });
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/getInvoiceList").then((response) => {
+    const invoice_id = currentInvoice;
+    Axios.get(
+      `http://localhost:3001/api/getInvoiceList?invoice_id=${invoice_id}`
+    ).then((response) => {
       setInvoiceList(response.data);
     });
   });
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/getTotal").then((response) => {
-      setTotal(response.data[0].amount);
+    const invoice_id = currentInvoice;
+    Axios.get(
+      `http://localhost:3001/api/getTotal?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setTotal(response.data[0].total);
     });
   });
   const selectProduct = (pid, pname, price) => {
@@ -47,29 +55,43 @@ export const AddtoCart = (props) => {
   };
   const setSearchKey = (input) => {
     setSearch(input);
-    setKeyPressed(input);
   };
 
   const addToInvoice = () => {
     Axios.post("http://localhost:3001/api/addToInvoice/", {
+      iid: currentInvoice,
       pid: selectCode,
-      pname: selectName,
       price: selectPrice,
       quantity: selectQuantity,
+      discount: selectDiscount,
     });
   };
 
   const netAmount = (discount) => {
     setDiscount(discount);
-    console.log(discount)
     Axios.post("http://localhost:3001/api/setTotalDiscount/", {
       discount: discount,
     });
   };
+  const createInvoice = () => {
+    Axios.post("http://localhost:3001/api/createInvoice/", {})
+      .then((response) => {
+        setCurrentInvoice(response.data.invoice_id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <section className="section">
         <div class="addtocart">
+          <MDBCol>
+            <button class="select_btn" onClick={createInvoice}>
+              Start
+            </button>
+          </MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
               {/* selected product area */}
@@ -147,24 +169,24 @@ export const AddtoCart = (props) => {
                           .filter((product) => {
                             return search.toLowerCase() === ""
                               ? product
-                              : product.pname
+                              : product.product_name
                                   .toLowerCase()
                                   .includes(search.toLocaleLowerCase());
                           })
                           .map((product) => (
-                            <tr key={product.pid}>
-                              <td>{product.pid}</td>
-                              <td>{product.pname}</td>
-                              <td>{product.price}</td>
+                            <tr key={product.product_id}>
+                              <td>{product.product_id}</td>
+                              <td>{product.product_name}</td>
+                              <td>{product.selling_price}</td>
                               <td>{product.stock}</td>
                               <td>
                                 <button
                                   class="atc_btn"
                                   onClick={() => {
                                     selectProduct(
-                                      product.pid,
-                                      product.pname,
-                                      product.price
+                                      product.product_id,
+                                      product.product_name,
+                                      product.selling_price
                                     );
                                   }}
                                 >
@@ -212,11 +234,11 @@ export const AddtoCart = (props) => {
                       {invoiceList.map((product) => (
                         <tr style={{ lineHeight: "0.5" }}>
                           <td>{product.product_id}</td>
-                          <td>{product.name}</td>
+                          <td>{product.product_name}</td>
                           <td>0.00</td>
-                          <td>{product.price}</td>
+                          <td>{product.selling_price}</td>
                           <td>{product.quantity}</td>
-                          <td>{product.amount}</td>
+                          <td>{product.price}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -245,7 +267,6 @@ export const AddtoCart = (props) => {
                         defaultValue="0"
                         onChange={(e) => {
                           netAmount(e.target.value);
-                          // setDiscount(e.target.value);
                         }}
                       />
                       <span>{total} </span>
