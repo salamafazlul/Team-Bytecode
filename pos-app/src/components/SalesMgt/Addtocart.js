@@ -21,31 +21,31 @@ export const AddtoCart = (props) => {
   const [selectQuantity, setSelectQuantity] = useState();
   const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState();
   const [currentInvoice, setCurrentInvoice] = useState();
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/getProduct").then((response) => {
+    Axios.get("http://localhost:3001/product/api/getProduct").then((response) => {
       setProductList(response.data);
     });
   });
   useEffect(() => {
     const invoice_id = currentInvoice;
     Axios.get(
-      `http://localhost:3001/api/getInvoiceList?invoice_id=${invoice_id}`
+      `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
     ).then((response) => {
       setInvoiceList(response.data);
     });
   });
-  useEffect(() => {
-    const invoice_id = currentInvoice;
-    Axios.get(
-      `http://localhost:3001/api/getTotal?invoice_id=${invoice_id}`
-    ).then((response) => {
-      setTotal(response.data[0].total);
-    });
-  });
+  // useEffect(() => {
+  //   const invoice_id = currentInvoice;
+  //   Axios.get(
+  //     `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
+  //   ).then((response) => {
+  //     setTotal(response.data[0].total);
+  //   });
+  // });
   const selectProduct = (pid, pname, price) => {
     setSelectCode(pid);
     setSelectName(pname);
@@ -58,7 +58,7 @@ export const AddtoCart = (props) => {
   };
 
   const addToInvoice = () => {
-    Axios.post("http://localhost:3001/api/addToInvoice/", {
+    Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
       iid: currentInvoice,
       pid: selectCode,
       price: selectPrice,
@@ -69,12 +69,13 @@ export const AddtoCart = (props) => {
 
   const netAmount = (discount) => {
     setDiscount(discount);
-    Axios.post("http://localhost:3001/api/setTotalDiscount/", {
+    Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
       discount: discount,
+      invoice_id : currentInvoice
     });
   };
   const createInvoice = () => {
-    Axios.post("http://localhost:3001/api/createInvoice/", {})
+    Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
         setCurrentInvoice(response.data.invoice_id);
       })
@@ -88,7 +89,7 @@ export const AddtoCart = (props) => {
       <section className="section">
         <div class="addtocart">
           <MDBCol>
-            <button class="select_btn" onClick={createInvoice}>
+            <button class="select_btn" onClick={createInvoice} style={{ marginLeft: "-15px" }}>
               Start
             </button>
           </MDBCol>
@@ -156,12 +157,13 @@ export const AddtoCart = (props) => {
                     style={{ width: "100%", height: "500px" }}
                   >
                     <Table hover style={{ color: "white" }}>
-                      <thead>
+                      <thead style={{ position: "sticky", top: 0, backgroundColor: "white",  color: "black"  }}>
                         <tr>
                           <th>Code</th>
                           <th>Name</th>
                           <th>Price</th>
                           <th>Stock</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -220,7 +222,7 @@ export const AddtoCart = (props) => {
                   style={{ minHeight: "350px", background: "white" }}
                 >
                   <Table hover>
-                    <thead>
+                    <thead style={{ position: "sticky", top: 0, backgroundColor: "white",  color: "black"  }}>
                       <tr>
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
