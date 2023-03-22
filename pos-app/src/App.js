@@ -8,8 +8,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import KeyBoard from "./components/SalesMgt/KeyBoard";
 import Purchasing from "./components/ProductMgt/Pages/Purchasing";
 import AddRemove from "./components/ProductMgt/Pages/ProducrCreateRemove";
+import axios from "axios";
+import { useEffect } from "react";
+import Category from "./components/ProductMgt/Pages/Category";
 
 function App() {
+  useEffect(() => {
+    axios.get("http://localhost:3001/category").then((response) => {
+      console.log(response.data);
+    }); 
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -18,7 +27,8 @@ function App() {
           <Route path="/KeyBoard" element={<KeyBoard />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="Purchasing" element={<Purchasing />} />
-          <Route path="AddRemove" element={<AddRemove />}/>
+          <Route path="AddRemove" element={<AddRemove />} />
+          <Route path="Category" element={<Category/>} />
         </Routes>
       </BrowserRouter>
     </div>
