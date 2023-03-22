@@ -11,7 +11,7 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 
-export const AddtoCart = (props) => {
+export const AddtoCart = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
@@ -21,14 +21,16 @@ export const AddtoCart = (props) => {
   const [selectQuantity, setSelectQuantity] = useState();
   const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [discount, setDiscount] = useState();
+  const [total, setTotal] = useState();
+  const [discount, setDiscount] = useState(0);
   const [currentInvoice, setCurrentInvoice] = useState();
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/product/api/getProduct").then((response) => {
-      setProductList(response.data);
-    });
+    Axios.get("http://localhost:3001/product/api/getProduct").then(
+      (response) => {
+        setProductList(response.data);
+      }
+    );
   });
   useEffect(() => {
     const invoice_id = currentInvoice;
@@ -38,14 +40,14 @@ export const AddtoCart = (props) => {
       setInvoiceList(response.data);
     });
   });
-  // useEffect(() => {
-  //   const invoice_id = currentInvoice;
-  //   Axios.get(
-  //     `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
-  //   ).then((response) => {
-  //     setTotal(response.data[0].total);
-  //   });
-  // });
+  useEffect(() => {
+    const invoice_id = currentInvoice;
+    Axios.get(
+      `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setTotal(response.data.total);
+    });
+  });
   const selectProduct = (pid, pname, price) => {
     setSelectCode(pid);
     setSelectName(pname);
@@ -67,13 +69,19 @@ export const AddtoCart = (props) => {
     });
   };
 
-  const netAmount = (discount) => {
-    setDiscount(discount);
+  const getNetAmount = (discount) => {
     Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
       discount: discount,
-      invoice_id : currentInvoice
-    });
+      invoice_id: currentInvoice,
+    })
+      .then((response) => {
+        setDiscount(response.data.totalDiscountValue);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+
   const createInvoice = () => {
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
@@ -89,7 +97,11 @@ export const AddtoCart = (props) => {
       <section className="section">
         <div class="addtocart">
           <MDBCol>
-            <button class="select_btn" onClick={createInvoice} style={{ marginLeft: "-15px" }}>
+            <button
+              class="select_btn"
+              onClick={createInvoice}
+              style={{ marginLeft: "-15px" }}
+            >
               Start
             </button>
           </MDBCol>
@@ -157,7 +169,14 @@ export const AddtoCart = (props) => {
                     style={{ width: "100%", height: "500px" }}
                   >
                     <Table hover style={{ color: "white" }}>
-                      <thead style={{ position: "sticky", top: 0, backgroundColor: "white",  color: "black"  }}>
+                      <thead
+                        style={{
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "white",
+                          color: "black",
+                        }}
+                      >
                         <tr>
                           <th>Code</th>
                           <th>Name</th>
@@ -222,7 +241,14 @@ export const AddtoCart = (props) => {
                   style={{ minHeight: "350px", background: "white" }}
                 >
                   <Table hover>
-                    <thead style={{ position: "sticky", top: 0, backgroundColor: "white",  color: "black"  }}>
+                    <thead
+                      style={{
+                        position: "sticky",
+                        top: 0,
+                        backgroundColor: "white",
+                        color: "black",
+                      }}
+                    >
                       <tr>
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
@@ -268,13 +294,13 @@ export const AddtoCart = (props) => {
                         max={100}
                         defaultValue="0"
                         onChange={(e) => {
-                          netAmount(e.target.value);
+                          getNetAmount(e.target.value);
                         }}
                       />
-                      <span>{total} </span>
+                      <span>{discount} </span>
                     </div>
                     <div>
-                      Net amount: <span>{total} </span>{" "}
+                      Net amount: <span>{total - discount} </span>{" "}
                     </div>
                   </div>
                 </MDBCard>
