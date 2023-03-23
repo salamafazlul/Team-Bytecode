@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(5, 3),
         allowNull: true,
       },
+      amount: {
+        type: DataTypes.DECIMAL(18, 2),
+        allowNull: true,
+      },
     }, 
     {
       tableName: "Invoice_Product",

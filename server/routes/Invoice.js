@@ -24,7 +24,6 @@ router.post("/api/createInvoice/", async (req, res) => {
 router.post("/api/setTotalDiscount/", async (req, res) => {
   const { discount } = req.body;
   const { invoice_id } = req.body;
-
   try {
     const invoice = await Invoice.findByPk(invoice_id);
 
@@ -35,9 +34,10 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
 
     await invoice.update({ discount: discount / 100 });
     const totalDiscountValue = invoice.total * (discount / 100);
+    const formattedTotalDiscountValue = Number(totalDiscountValue.toFixed(3));
     res.send({
       message: "Discount has been updated successfully.",
-      totalDiscountValue: totalDiscountValue,
+      totalDiscountValue: formattedTotalDiscountValue,
     });
   } catch (err) {
     console.error(err);

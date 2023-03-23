@@ -23,6 +23,7 @@ router.get("/api/getInvoiceList", async (req, res) => {
         quantity: invoiceProduct.quantity,
         price: invoiceProduct.price,
         discount: invoiceProduct.discount,
+        amount: invoiceProduct.amount,
         product_name,
         selling_price,
       };
@@ -39,7 +40,7 @@ router.get("/api/getTotal", async (req, res) => {
   const invoice_id = req.query.invoice_id;
   try {
     const result = await Invoice_Product.findOne({
-      attributes: [[sequelize.fn("sum", sequelize.col("price")), "total"]],
+      attributes: [[sequelize.fn("sum", sequelize.col("amount")), "total"]],
       where: {
         invoice_id: {
           [Op.eq]: invoice_id,
@@ -74,7 +75,8 @@ router.post("/api/addToInvoice/", async (req, res) => {
       invoice_id,
       product_id,
       quantity,
-      price: price * quantity,
+      price: price,
+      amount: price * quantity,
       discount: discount * price,
     });
 

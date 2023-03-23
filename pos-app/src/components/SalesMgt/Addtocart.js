@@ -75,7 +75,8 @@ export const AddtoCart = () => {
       invoice_id: currentInvoice,
     })
       .then((response) => {
-        setDiscount(response.data.totalDiscountValue);
+        const totalDiscountValue = parseFloat(response.data.totalDiscountValue);
+        setDiscount(totalDiscountValue);
       })
       .catch((error) => {
         console.error(error);
@@ -83,6 +84,7 @@ export const AddtoCart = () => {
   };
 
   const createInvoice = () => {
+    setDiscount(0);
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
         setCurrentInvoice(response.data.invoice_id);
@@ -264,9 +266,9 @@ export const AddtoCart = () => {
                           <td>{product.product_id}</td>
                           <td>{product.product_name}</td>
                           <td>0.00</td>
-                          <td>{product.selling_price}</td>
-                          <td>{product.quantity}</td>
                           <td>{product.price}</td>
+                          <td>{product.quantity}</td>
+                          <td>{product.amount}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -275,19 +277,28 @@ export const AddtoCart = () => {
 
                 <MDBCard className=" flex-end my-3 p-3  ">
                   <div class="net_amount">
-                    <div>
-                      Total (Rs):<span>{total} </span>{" "}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Total (Rs):</span>
+                      <span>{total}</span>
                     </div>
                     <div
-                      className=" d-flex justify-content-between col-sm-5"
-                      style={{ marginLeft: "-15px" }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between"
+                        
+                      }}
                     >
-                      Discount(%):
+                      <span style={{ marginRight: "5px" }}>Discount(%):</span>
                       <MDBInput
                         style={{
                           height: "25px",
                           width: "65px",
-                          marginLeft: "10px",
+                          marginLeft: "-240px",
                         }}
                         type="number"
                         min={0}
@@ -297,10 +308,16 @@ export const AddtoCart = () => {
                           getNetAmount(e.target.value);
                         }}
                       />
-                      <span>{discount} </span>
+                      <span style={{ textAlign: "right" }}>{discount}</span>
                     </div>
-                    <div>
-                      Net amount: <span>{total - discount} </span>{" "}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Net amount:</span>
+                      <span>{parseFloat((total - discount).toFixed(2))}</span>
                     </div>
                   </div>
                 </MDBCard>
