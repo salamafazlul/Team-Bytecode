@@ -168,7 +168,7 @@ export const AddtoCart = () => {
                   </Form>
                   <div
                     className="table-wrapper-scroll-y border"
-                    style={{ width: "100%", height: "500px" }}
+                    style={{ width: "100%",  minHeight: "250px"  }}
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
@@ -187,7 +187,7 @@ export const AddtoCart = () => {
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody >
                         {productList
                           .filter((product) => {
                             return search.toLowerCase() === ""
