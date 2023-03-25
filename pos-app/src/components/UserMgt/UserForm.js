@@ -90,7 +90,7 @@ function UserForm() {
           <button className="button" type="submit">
             Add
           </button>
-          <button className="button" type="submit">
+          <button className="button" type="edit">
             Clear
           </button>
         </Form>

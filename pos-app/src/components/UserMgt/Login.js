@@ -80,10 +80,10 @@ this.state = {
             {/*onSubmit={this.handleSubmit} */}
             <label htmlfor="email">Username</label>
             <input
-              type="email"
+              type="text"
               placeholder="Enter your username"
-              id="email"
-              name="email"
+              id="user_name"
+              name="user_name"
               required
             ></input>
             <label htmlfor="password">password</label>
