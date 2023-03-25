@@ -102,9 +102,9 @@ export const AddtoCart = () => {
             <button
               class="select_btn"
               onClick={createInvoice}
-              style={{ marginLeft: "-15px" }}
+              style={{ marginLeft: "-15px", width:"130px" }}
             >
-              Start
+              Start Checkout
             </button>
           </MDBCol>
           <MDBRow className="m-0">
@@ -324,10 +324,10 @@ export const AddtoCart = () => {
 
                 <MDBRow>
                   <MDBCol>
-                    <button class="end_btn">Cash</button>
+                    <button class="end_btn">CASH</button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn">Card</button>
+                    <button class="end_btn">CARD</button>
                   </MDBCol>
                   <MDBCol>
                     <button class="end_btn">Cancel</button>
