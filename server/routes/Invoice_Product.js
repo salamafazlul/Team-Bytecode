@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Invoice_Product, Product, Invoice, sequelize } = require("../models");
+const { Invoice_Product, Product, Invoice, Discount, sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 router.get("/api/getInvoiceList", async (req, res) => {
@@ -61,23 +61,33 @@ router.post("/api/addToInvoice/", async (req, res) => {
     pid: product_id,
     quantity,
     price,
-    discount,
   } = req.body;
 
   try {
+     // Find the invoice for the given invoice ID
     const invoice = await Invoice.findByPk(invoice_id);
-    const newTotal =
-      parseFloat(invoice.total) +
-      parseFloat(price * quantity) -
-      parseFloat(discount * price);
+
+    if (!invoice) {
+      return res.status(404).send('Invoice not found');
+    }
+     // Find the discount for the given product ID
+     const discount = await Discount.findOne({ where: { product_id } });
+   
+ // Calculate the discount amount
+ const discountAmount = discount ? discount.rate * (price * quantity) : 0;
+
+  
+    // Calculate the new total amount
+    const newTotal = parseFloat(invoice.total) + price * quantity - discountAmount;
+
 
     await Invoice_Product.create({
       invoice_id,
       product_id,
       quantity,
       price: price,
-      amount: price * quantity,
-      discount: discount * price,
+      amount: price * quantity - discountAmount,
+      discount:discountAmount,
     });
 
     await invoice.update({ total: newTotal });

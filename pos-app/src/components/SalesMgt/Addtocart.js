@@ -84,6 +84,9 @@ export const AddtoCart = () => {
   };
 
   const createInvoice = () => {
+    setSelectCode("")
+    setSelectName("")
+    setSelectPrice("")
     setDiscount(0);
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
@@ -254,7 +257,7 @@ export const AddtoCart = () => {
                       <tr>
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
-                        <th>Discount</th>
+                        <th style={{ width: "15px" }}>Discount(Rs)</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Amount</th>
@@ -265,7 +268,7 @@ export const AddtoCart = () => {
                         <tr style={{ lineHeight: "0.5" }}>
                           <td>{product.product_id}</td>
                           <td>{product.product_name}</td>
-                          <td>0.00</td>
+                          <td>{product.discount}</td>
                           <td>{product.price}</td>
                           <td>{product.quantity}</td>
                           <td>{product.amount}</td>
@@ -330,7 +333,7 @@ export const AddtoCart = () => {
                     <button class="end_btn">CARD</button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn">Cancel</button>
+                    <button class="end_btn" >Cancel</button>
                   </MDBCol>
                 </MDBRow>
               </div>

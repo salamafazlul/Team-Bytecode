@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       invoice_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        primaryKey: true,
         references: {
           model: "invoice",
           key: "invoice_id",
@@ -13,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        
+        primaryKey: true,
         references: {
           model: "product",
           key: "product_id",
@@ -28,18 +29,18 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       discount: {
-        type: DataTypes.DECIMAL(5, 3),
+        type: DataTypes.DECIMAL(5, 2),
         allowNull: true,
       },
       amount: {
         type: DataTypes.DECIMAL(18, 2),
         allowNull: true,
       },
-    }, 
+    },
     {
       tableName: "Invoice_Product",
       timestamps: false,
-    },
+    }
   );
   Invoice_Product.associate = (models) => {
     Invoice_Product.belongsTo(models.Invoice, {
