@@ -10,6 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
+import CardPayment from "./CardPayment";
 
 export const AddtoCart = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const AddtoCart = () => {
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [currentInvoice, setCurrentInvoice] = useState();
+  const [cardModal, setCardModal] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/product/api/getProduct").then(
@@ -330,7 +332,7 @@ export const AddtoCart = () => {
                     <button class="end_btn">CASH</button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn">CARD</button>
+                    <button class="end_btn" onClick={()=>setCardModal(true)}>CARD</button>
                   </MDBCol>
                   <MDBCol>
                     <button class="end_btn" >Cancel</button>
@@ -341,6 +343,7 @@ export const AddtoCart = () => {
           </MDBRow>
         </div>
       </section>
+      <CardPayment show = {cardModal} onHide= {()=> setCardModal(false)} />
     </>
   );
 };
