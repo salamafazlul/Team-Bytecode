@@ -71,7 +71,7 @@ this.state = {
             <div className="split logo">
                 <div className="centered">
                     <img src={require('../images/logo.png')} />
-                    <p className="p1"><b> WELCOME !</b></p>
+                    <p className="p1"><b> WELCOME!</b></p>
                     <p className="p2"> BY TECH POS SOLUTION </p>
                     <p className="p3"> Our technology creates your excellence </p>
                 </div>
@@ -89,7 +89,7 @@ this.state = {
                 <input type="password" placeholder="****" id="password" name="password" required></input>
                 
                 
-                <button className="sign" type="submit" onClick={()=> navigate('/Checkout') }>Login</button>
+                <button className="sign" type="submit" onClick={()=> navigate('/Dashboard') }>Login</button>
                 
         </form>
         </div>

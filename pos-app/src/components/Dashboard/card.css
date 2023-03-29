@@ -1,0 +1,33 @@
+.cardBody{
+    background-color: #5d9fe0;
+    background-size: auto;
+    width: 20px;
+    height: 140px;
+    padding: 1px;
+    margin: 10px;
+    border-radius: 15px;
+    
+}
+.image{
+    width: 15%;
+}
+.image1{
+    width: 50%;
+}
+.cardBody2{
+    background-color: #a8ccdc;
+    background-size: auto;
+    width: 20%;
+    height: 200px;
+    padding: 1px;
+    margin: 10px; 
+}
+.text{
+    font-size: large;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: right;
+}
+.amount{
+    text-align: center;
+}
+
