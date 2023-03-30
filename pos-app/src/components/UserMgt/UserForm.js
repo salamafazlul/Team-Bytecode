@@ -23,19 +23,13 @@ function UserForm() {
     mobile_no: Yup.number().required(),
     user_group: Yup.string().required(),
     user_status: Yup.string().required(),
-    user_name: Yup.string().required(),
-    user_password: Yup.string()
-      .min(8)
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
-        "Password must include at least one uppercase letter, one lowercase letter, one number, and one symbol"
-      )
-      .required(),
+    user_password: Yup.string().min(4).required(),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, { resetForm }) => {
     axios.post("http://localhost:3001/Users", data).then((response) => {
       console.log("It works");
+      resetForm();
     });
   };
 
@@ -68,16 +62,20 @@ function UserForm() {
           <Field className="input02" id="inputCreateUsers" name="mobile_no" />
 
           <label>User Group</label>
-          <ErrorMessage name="user_group" component="span" />
-          <Field className="input02" id="inputCreateUsers" name="user_group" />
+          <Field
+            as="select"
+            className="input02"
+            id="inputCreateUsers"
+            name="user_group"
+          >
+            <option value="">Select a group</option>
+            <option value="storekeeper">Storekeeper</option>
+            <option value="cashier">Cashier</option>
+          </Field>
 
           <label>Status</label>
           <ErrorMessage name="user_status" component="span" />
           <Field className="input02" id="inputCreateUsers" name="user_status" />
-
-          <label>User Name</label>
-          <ErrorMessage name="user_name" component="span" />
-          <Field className="input02" id="inputCreateUsers" name="user_name" />
 
           <label>Password</label>
           <ErrorMessage name="user_password" component="span" />
@@ -85,12 +83,13 @@ function UserForm() {
             className="input02"
             id="inputCreateUsers"
             name="user_password"
+            type="password"
           />
 
           <button className="button" type="submit">
             Add
           </button>
-          <button className="button" type="edit">
+          <button className="button" type="reset">
             Clear
           </button>
         </Form>

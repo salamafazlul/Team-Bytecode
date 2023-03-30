@@ -25,16 +25,6 @@ module.exports = (Sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    user_status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    user_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
     user_password: {
       type: DataTypes.STRING,
       allowNull: false,
