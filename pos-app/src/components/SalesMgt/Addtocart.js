@@ -334,7 +334,9 @@ export const AddtoCart = () => {
 
                 <MDBRow>
                   <MDBCol>
-                    <button class="end_btn" onClick={() => setCashModal(true)}>CASH</button>
+                    <button class="end_btn" onClick={() => setCashModal(true)}>
+                      CASH
+                    </button>
                   </MDBCol>
                   <MDBCol>
                     <button class="end_btn" onClick={() => setCardModal(true)}>
@@ -350,9 +352,12 @@ export const AddtoCart = () => {
           </MDBRow>
         </div>
       </section>
-      <CashPayment show={cashModal} amount={parseFloat((total - discount).toFixed(2))} onHide={() => setCashModal(false)} />
+      <CashPayment
+        show={cashModal}
+        amount={parseFloat((total - discount).toFixed(2))}
+        onHide={() => setCashModal(false)}
+      />
       <CardPayment show={cardModal} onHide={() => setCardModal(false)} />
-      
     </>
   );
 };
