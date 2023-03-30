@@ -6,36 +6,56 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const AddproductForm = () => {
+  const [name, setName] = useState([]);
   const initialValues = {
-    name: "",
-    id: "",
-    quntity: "",
-    byingprice: "",
-    sellingprice: "",
-    category: "",
-    min_stock_level: "",
-    description: "",
+    Product_name: "",
+    Product_id: "",
+    Quantity: "",
+    Buying_price: "",
+    Selling_price: "",
+    CategoryId: "",
+    Min_stock_level: "",
+    Description: "",
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required(" requird"),
-    id: Yup.string()
+    Product_name: Yup.string().required(" requird"),
+    Product_id: Yup.string()
       .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
       .required(" requird"),
-    quntity: Yup.number().required(" requird"),
-    byingprice: Yup.number().required(" requird"),
-    sellingprice: Yup.number().required(" requird"),
-    category: Yup.string().required(" requrid"),
-    min_stock_level: Yup.number().required(" requird"),
-    description: Yup.string().required(" requird"),
+    Quantity: Yup.number().required(" requird"),
+    Buying_price: Yup.number().required(" requird"),
+    Selling_price: Yup.number().required(" requird"),
+    CategoryId: Yup.string().required(" requrid"),
+    Min_stock_level: Yup.number().required(" requird"),
+    Description: Yup.string().required(" requird"),
   });
 
-  const onSubmit = (data) => {
-    axios.post(`http://localhost:8801/product`, data).then((res) => {
-      console.log(res);
-    });
-    console.log(data);
+  // const onSubmit = async (values) => {
+  //   const response = await axios
+  //     .post("http://localhost:3001/Product", values)
+  //     .then(() => {
+  //       axios.get("http://localhost:3001/Product").then((response) => {
+  //         setName(response.data);
+  //       });
+  //     });
+  // };
+
+  const onSubmit = async (values) => {
+    console.log(values);
+    const response = await axios
+      .post("http://localhost:3001/Product", values)
+      .then((res) => {
+        console.log(res);
+      });
   };
+
+  // const onSubmit = (data) => {
+  //   axios.post(`http://localhost:3001/product`, data).then((res) => {
+  //     console.log(res);
+  //   });
+  //   console.log(data);
+  // };
 
   // const navigate = useNavigate();
 
@@ -55,13 +75,13 @@ const AddproductForm = () => {
                 <tr>
                   <td>
                     <label>Product name</label>
-                    <ErrorMessage name="name" component="span" />
+                    <ErrorMessage name="Product_name" component="span" />
                   </td>
                   <td colSpan="3">
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="name"
+                      name="Product_name"
                       size={50}
                       placeholder="Enter Product Name"
                       className="input"
@@ -71,27 +91,27 @@ const AddproductForm = () => {
                 <tr>
                   <td>
                     <label>Product ID</label>
-                    <ErrorMessage name="id" component="span" />
+                    <ErrorMessage name="Product_id" component="span" />
                   </td>
                   <td>
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="id"
+                      name="Product_id"
                       placeholder="Produt Id"
                       className="inputshort"
                     />
                   </td>
                   <td>
                     <label> Quantity </label>
-                    <ErrorMessage name="quntity" component="span" />
+                    <ErrorMessage name="Quantity" component="span" />
                   </td>
 
                   <td>
                     <Field
                       type="number"
                       // onChange={handleChange}
-                      name="quntity"
+                      name="Quantity"
                       placeholder="Quntity"
                       className="inputshort"
                     />
@@ -100,27 +120,27 @@ const AddproductForm = () => {
                 <tr>
                   <td>
                     <label>Buying Price</label>
-                    <ErrorMessage name="byingprice" component="span" />
+                    <ErrorMessage name="Buying_price" component="span" />
                   </td>
                   <td>
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="byingprice"
+                      name="Buying_price"
                       placeholder="Price"
                       className="inputshort"
                     />
                   </td>
                   <td>
                     <label>Selling price</label>
-                    <ErrorMessage name="sellingprice" component="span" />
+                    <ErrorMessage name="Selling_price" component="span" />
                   </td>
 
                   <td>
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="sellingprice"
+                      name="Selling_price"
                       placeholder="Price"
                       className="inputshort"
                     />
@@ -129,27 +149,27 @@ const AddproductForm = () => {
                 <tr>
                   <td>
                     <label>Category</label>
-                    <ErrorMessage name="category" component="span" />
+                    <ErrorMessage name="CategoryId" component="span" />
                   </td>
 
                   <td>
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="category"
+                      name="CategoryId"
                       placeholder="Select category"
                       className="inputshort"
                     />
                   </td>
                   <td>
                     <label>Min.stock level</label>
-                    <ErrorMessage name="min_stock_level" component="span" />
+                    <ErrorMessage name="Min_stock_level" component="span" />
                   </td>
                   <th>
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="min_stock_level"
+                      name="Min_stock_level"
                       placeholder="Enter min stock level"
                       className="inputshort"
                     />
@@ -161,7 +181,7 @@ const AddproductForm = () => {
                     <Field
                       type="text"
                       // onChange={handleChange}
-                      name="description"
+                      name="Description"
                       placeholder="Enter produt Description"
                       className="input"
                     />
@@ -169,7 +189,9 @@ const AddproductForm = () => {
                 </tr>
               </tbody>
             </table>
-            <button className="b1">Add</button>
+            <button className="b1" type="onsubmit">
+              Add
+            </button>
             {/* <div className="button">
               <button className="b1" type="submit">
                 Add
