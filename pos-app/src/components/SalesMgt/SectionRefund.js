@@ -25,74 +25,74 @@ export const SectionRefund = () => {
   const [discount, setDiscount] = useState(0);
   const [currentInvoice, setCurrentInvoice] = useState();
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/product/api/getProduct").then(
-      (response) => {
-        setProductList(response.data);
-      }
-    );
-  });
-  useEffect(() => {
-    const invoice_id = currentInvoice;
-    Axios.get(
-      `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
-    ).then((response) => {
-      setInvoiceList(response.data);
-    });
-  });
-  useEffect(() => {
-    const invoice_id = currentInvoice;
-    Axios.get(
-      `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
-    ).then((response) => {
-      setTotal(response.data.total);
-    });
-  });
-  const selectProduct = (pid, pname, price) => {
-    setSelectCode(pid);
-    setSelectName(pname);
-    setSelectPrice(price);
-    setSelectQuantity(1);
-    setSearchKey("");
-  };
-  const setSearchKey = (input) => {
-    setSearch(input);
-  };
+  // useEffect(() => {
+  //   Axios.get("http://localhost:3001/product/api/getProduct").then(
+  //     (response) => {
+  //       setProductList(response.data);
+  //     }
+  //   );
+  // });
+  // useEffect(() => {
+  //   const invoice_id = currentInvoice;
+  //   Axios.get(
+  //     `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
+  //   ).then((response) => {
+  //     setInvoiceList(response.data);
+  //   });
+  // });
+  // useEffect(() => {
+  //   const invoice_id = currentInvoice;
+  //   Axios.get(
+  //     `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
+  //   ).then((response) => {
+  //     setTotal(response.data.total);
+  //   });
+  // });
+  // const selectProduct = (pid, pname, price) => {
+  //   setSelectCode(pid);
+  //   setSelectName(pname);
+  //   setSelectPrice(price);
+  //   setSelectQuantity(1);
+  //   setSearchKey("");
+  // };
+  // const setSearchKey = (input) => {
+  //   setSearch(input);
+  // };
 
-  const addToInvoice = () => {
-    Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
-      iid: currentInvoice,
-      pid: selectCode,
-      price: selectPrice,
-      quantity: selectQuantity,
-      discount: selectDiscount,
-    });
-  };
+  // const addToInvoice = () => {
+  //   Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
+  //     iid: currentInvoice,
+  //     pid: selectCode,
+  //     price: selectPrice,
+  //     quantity: selectQuantity,
+  //     discount: selectDiscount,
+  //   });
+  // };
 
-  const getNetAmount = (discount) => {
-    Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
-      discount: discount,
-      invoice_id: currentInvoice,
-    })
-      .then((response) => {
-        const totalDiscountValue = parseFloat(response.data.totalDiscountValue);
-        setDiscount(totalDiscountValue);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  // const getNetAmount = (discount) => {
+  //   Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
+  //     discount: discount,
+  //     invoice_id: currentInvoice,
+  //   })
+  //     .then((response) => {
+  //       const totalDiscountValue = parseFloat(response.data.totalDiscountValue);
+  //       setDiscount(totalDiscountValue);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
-  const createInvoice = () => {
-    setDiscount(0);
-    Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
-      .then((response) => {
-        setCurrentInvoice(response.data.invoice_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const createInvoice = () => {
+  //   setDiscount(0);
+  //   Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
+  //     .then((response) => {
+  //       setCurrentInvoice(response.data.invoice_id);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <>
@@ -101,7 +101,7 @@ export const SectionRefund = () => {
           <MDBCol>
             <button
               class="select_btn"
-              onClick={createInvoice}
+              
               style={{ marginLeft: "-15px", width: "130px" }}
             >
               Start Refund
@@ -149,7 +149,7 @@ export const SectionRefund = () => {
                 </MDBCol>
 
                 <MDBCol>
-                  <button class="select_btn" onClick={addToInvoice}>
+                  <button class="select_btn" >
                     Add Item
                   </button>
                 </MDBCol>
@@ -161,7 +161,7 @@ export const SectionRefund = () => {
                     <InputGroup>
                       <Form.Control
                         value={search}
-                        onChange={(e) => setSearchKey(e.target.value)}
+                        // onChange={(e) => setSearchKey(e.target.value)}
                         placeholder="Search"
                       />
                     </InputGroup>
@@ -205,13 +205,13 @@ export const SectionRefund = () => {
                               <td>
                                 <button
                                   class="atc_btn"
-                                  onClick={() => {
-                                    selectProduct(
-                                      product.product_id,
-                                      product.product_name,
-                                      product.selling_price
-                                    );
-                                  }}
+                                  // onClick={() => {
+                                  //   selectProduct(
+                                  //     product.product_id,
+                                  //     product.product_name,
+                                  //     product.selling_price
+                                  //   );
+                                  // }}
                                 >
                                   ADD
                                 </button>
@@ -246,7 +246,7 @@ export const SectionRefund = () => {
                 <MDBCol className="mt-3 p-3">
                   <Keyboard
                     className="row"
-                    onChange={(input) => setSearchKey(input)}
+                    // onChange={(input) => setSearchKey(input)}
                     // onKeyPress={(button) => onKeyPress(button)}
                   />{" "}
                 </MDBCol>
@@ -321,9 +321,9 @@ export const SectionRefund = () => {
                         min={0}
                         max={100}
                         defaultValue="0"
-                        onChange={(e) => {
-                          getNetAmount(e.target.value);
-                        }}
+                        // onChange={(e) => {
+                        //   getNetAmount(e.target.value);
+                        // }}
                       />
                       <span style={{ textAlign: "right" }}>{discount}</span>
                     </div>

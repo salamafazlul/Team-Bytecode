@@ -11,6 +11,7 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import CardPayment from "./CardPayment";
+import CashPayment from "./CashPayment";
 
 export const AddtoCart = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const AddtoCart = () => {
   const [discount, setDiscount] = useState(0);
   const [currentInvoice, setCurrentInvoice] = useState();
   const [cardModal, setCardModal] = useState();
+  const [cashModal, setCashModal] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/product/api/getProduct").then(
@@ -34,6 +36,7 @@ export const AddtoCart = () => {
       }
     );
   });
+
   useEffect(() => {
     const invoice_id = currentInvoice;
     Axios.get(
@@ -42,6 +45,7 @@ export const AddtoCart = () => {
       setInvoiceList(response.data);
     });
   });
+
   useEffect(() => {
     const invoice_id = currentInvoice;
     Axios.get(
@@ -50,16 +54,6 @@ export const AddtoCart = () => {
       setTotal(response.data.total);
     });
   });
-  const selectProduct = (pid, pname, price) => {
-    setSelectCode(pid);
-    setSelectName(pname);
-    setSelectPrice(price);
-    setSelectQuantity(1);
-    setSearchKey("");
-  };
-  const setSearchKey = (input) => {
-    setSearch(input);
-  };
 
   const addToInvoice = () => {
     Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
@@ -71,7 +65,7 @@ export const AddtoCart = () => {
     });
   };
 
-  const getNetAmount = (discount) => {
+  const getDiscount = (discount) => {
     Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
       discount: discount,
       invoice_id: currentInvoice,
@@ -86,9 +80,9 @@ export const AddtoCart = () => {
   };
 
   const createInvoice = () => {
-    setSelectCode("")
-    setSelectName("")
-    setSelectPrice("")
+    setSelectCode("");
+    setSelectName("");
+    setSelectPrice("");
     setDiscount(0);
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
@@ -99,6 +93,18 @@ export const AddtoCart = () => {
       });
   };
 
+  const selectProduct = (pid, pname, price) => {
+    setSelectCode(pid);
+    setSelectName(pname);
+    setSelectPrice(price);
+    setSelectQuantity(1);
+    setSearchKey("");
+  };
+
+  const setSearchKey = (input) => {
+    setSearch(input);
+  };
+
   return (
     <>
       <section className="section">
@@ -107,7 +113,7 @@ export const AddtoCart = () => {
             <button
               class="select_btn"
               onClick={createInvoice}
-              style={{ marginLeft: "-15px", width:"130px" }}
+              style={{ marginLeft: "-15px", width: "130px" }}
             >
               Start Checkout
             </button>
@@ -173,7 +179,7 @@ export const AddtoCart = () => {
                   </Form>
                   <div
                     className="table-wrapper-scroll-y border"
-                    style={{ width: "100%",  minHeight: "250px"  }}
+                    style={{ width: "100%", minHeight: "250px" }}
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
@@ -192,7 +198,7 @@ export const AddtoCart = () => {
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody >
+                      <tbody>
                         {productList
                           .filter((product) => {
                             return search.toLowerCase() === ""
@@ -294,8 +300,7 @@ export const AddtoCart = () => {
                     <div
                       style={{
                         display: "flex",
-                        justifyContent: "space-between"
-                        
+                        justifyContent: "space-between",
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>Discount(%):</span>
@@ -303,14 +308,14 @@ export const AddtoCart = () => {
                         style={{
                           height: "25px",
                           width: "65px",
-                          marginLeft: "-240px",
+                          marginLeft: "-220px",
                         }}
                         type="number"
                         min={0}
                         max={100}
                         defaultValue="0"
                         onChange={(e) => {
-                          getNetAmount(e.target.value);
+                          getDiscount(e.target.value);
                         }}
                       />
                       <span style={{ textAlign: "right" }}>{discount}</span>
@@ -329,13 +334,15 @@ export const AddtoCart = () => {
 
                 <MDBRow>
                   <MDBCol>
-                    <button class="end_btn">CASH</button>
+                    <button class="end_btn" onClick={() => setCashModal(true)}>CASH</button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn" onClick={()=>setCardModal(true)}>CARD</button>
+                    <button class="end_btn" onClick={() => setCardModal(true)}>
+                      CARD
+                    </button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn" >Cancel</button>
+                    <button class="end_btn">Cancel</button>
                   </MDBCol>
                 </MDBRow>
               </div>
@@ -343,7 +350,9 @@ export const AddtoCart = () => {
           </MDBRow>
         </div>
       </section>
-      <CardPayment show = {cardModal} onHide= {()=> setCardModal(false)} />
+      <CashPayment show={cashModal} amount={parseFloat((total - discount).toFixed(2))} onHide={() => setCashModal(false)} />
+      <CardPayment show={cardModal} onHide={() => setCardModal(false)} />
+      
     </>
   );
 };
