@@ -1,0 +1,46 @@
+form{
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+input[type=text] {
+    width: 100%;
+    padding: 12px 100px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 0px;
+}
+input[type=date] {
+    width: 100%;
+    padding: 12px 130px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 0px;
+}
+button{
+    width: 15%;
+    padding: 10px 10px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 0px;
+    background-color: rgb(117, 154, 224);
+    color: white;
+}
+table{
+    width: 75%;
+    position: relative;
+    padding: 10px 10px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 10px;
+    border-color: black;
+}
+table th{
+    background-color: rgb(117, 154, 224);
+    color: white;
+    text-align: center;
+}

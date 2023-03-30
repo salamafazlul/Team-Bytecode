@@ -7,6 +7,7 @@ import Checkout from "./components/SalesMgt/Checkout";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
 import KeyBoard from "./components/SalesMgt/KeyBoard";
 import Dashboard from "./components/Dashboard/Dashboard";
+import SalesReport from "./components/ReportMgt/SalesReport";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/KeyBoard" element={<KeyBoard/>} />
-        <Route path="/Dashboard" element={<Dashboard/>} />
+        <Route path="/SalesReport" element={<SalesReport/>} />
       </Routes>
     
     </BrowserRouter>

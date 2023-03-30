@@ -1,7 +1,7 @@
 import React from 'react'
 import './Form.css';
 
-export default function Form() {
+export default function SalesReport() {
   return (
     <div>
       <form>

@@ -11,6 +11,10 @@ const db = mysql.createPool({
   database: "bypos_db",
 });
 
+const db = require('./models')
+
+db.Sequelize.sync().then
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));

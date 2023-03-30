@@ -89,7 +89,7 @@ this.state = {
                 <input type="password" placeholder="****" id="password" name="password" required></input>
                 
                 
-                <button className="sign" type="submit" onClick={()=> navigate('/Dashboard') }>Login</button>
+                <button className="sign" type="submit" onClick={()=> navigate('/SalesReport') }>Login</button>
                 
         </form>
         </div>
