@@ -5,7 +5,7 @@ function CashPayment(props) {
   const [amountReceived, setAmountReceived] = useState();
   const [balance, setBalance] = useState(-props.amount);
   const [showAlert, setShowAlert] = useState(false);
-  // const [paid, setPaid] = useState(false);
+  const [paid, setPaid] = useState(false);
 
   const handleAmountReceivedChange = (e) => {
     const receivedAmount = e.target.value;
