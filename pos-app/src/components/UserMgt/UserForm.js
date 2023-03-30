@@ -6,30 +6,27 @@ import axios from "axios";
 
 function UserForm() {
   const initialValues = {
-    employee_name: "",
+    full_name: "",
     address: "",
     email: "",
     mobile_no: "",
-    user_group: "",
-    user_status: "",
-    user_name: "",
+    user_role: "",
     user_password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    employee_name: Yup.string().required(),
-    email: Yup.string().email().required(),
-    address: Yup.string().required(),
-    mobile_no: Yup.number().required(),
-    user_group: Yup.string().required(),
-    user_status: Yup.string().required(),
-    user_password: Yup.string().min(4).required(),
+    // full_name: Yup.string().required(),
+    // email: Yup.string().email().required(),
+    // address: Yup.string().required(),
+    // mobile_no: Yup.number().required(),
+    // user_role: Yup.string().required(),
+    // user_password: Yup.string().min(4).required(),
   });
 
-  const onSubmit = (data, { resetForm }) => {
+  const onSubmit = (data) => {
     axios.post("http://localhost:3001/Users", data).then((response) => {
       console.log("It works");
-      resetForm();
+      window.alert("Details saved");
     });
   };
 
@@ -42,12 +39,8 @@ function UserForm() {
       >
         <Form className="container02">
           <label>Employee Name</label>
-          <ErrorMessage name="employee_name" component="span" />
-          <Field
-            className="input01"
-            id="inputCreateUsers"
-            name="employee_name"
-          />
+          <ErrorMessage name="full_name" component="span" />
+          <Field className="input01" id="inputCreateUsers" name="full_name" />
 
           <label>Address</label>
           <ErrorMessage name="address" component="span" />
@@ -61,21 +54,17 @@ function UserForm() {
           <ErrorMessage name="mobile_no" component="span" />
           <Field className="input02" id="inputCreateUsers" name="mobile_no" />
 
-          <label>User Group</label>
+          <label>User Role</label>
           <Field
             as="select"
             className="input02"
             id="inputCreateUsers"
-            name="user_group"
+            name="user_role"
           >
-            <option value="">Select a group</option>
+            <option value="">Select a User Role</option>
             <option value="storekeeper">Storekeeper</option>
             <option value="cashier">Cashier</option>
           </Field>
-
-          <label>Status</label>
-          <ErrorMessage name="user_status" component="span" />
-          <Field className="input02" id="inputCreateUsers" name="user_status" />
 
           <label>Password</label>
           <ErrorMessage name="user_password" component="span" />
