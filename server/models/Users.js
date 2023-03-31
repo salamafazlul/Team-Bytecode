@@ -13,6 +13,7 @@ module.exports = (Sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
 
     mobile_no: {
@@ -28,6 +29,7 @@ module.exports = (Sequelize, DataTypes) => {
     user_password: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
   });
 

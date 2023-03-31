@@ -15,13 +15,13 @@ function UserTable() {
   };
   return (
     <div className="table">
-      <div className="Users">
+      <div className="container04">
         <div className="UserTable">
           <Table responsive>
             <thead>
               <tr>
                 <th className="tableHead">#</th>
-                <th className="full_name">Name</th>
+                <th className="tableHead">Name</th>
                 <th className="tableHead">UserRole</th>
                 <th className="tableHead">EmailAddress</th>
               </tr>
@@ -36,7 +36,7 @@ function UserTable() {
                     <td>{value.email}</td>
                     <td>
                       <button
-                        className="editButton"
+                        className="TableButton"
                         onClick={() => {
                           editUser(value.id);
                         }}
@@ -45,7 +45,7 @@ function UserTable() {
                       </button>
                     </td>
                     <td>
-                      <button className="deleteButton">Delete</button>
+                      <button className="TableButton">Delete</button>
                     </td>
                   </tr>
                 );

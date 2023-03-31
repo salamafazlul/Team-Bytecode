@@ -31,7 +31,8 @@ function UserForm() {
   };
 
   return (
-    <div className="container01">
+    <div className="container02">
+      <div className="formTopic">Add user</div>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -57,7 +58,7 @@ function UserForm() {
           <label>User Role</label>
           <Field
             as="select"
-            className="input02"
+            className="dropDown01"
             id="inputCreateUsers"
             name="user_role"
           >
@@ -75,10 +76,10 @@ function UserForm() {
             type="password"
           />
 
-          <button className="button" type="submit">
+          <button className="Clearbutton" type="submit">
             Add
           </button>
-          <button className="button" type="reset">
+          <button className="Addbutton" type="reset">
             Clear
           </button>
         </Form>

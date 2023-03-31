@@ -1,0 +1,27 @@
+.Hedsec {
+  opacity: 75%;
+  display: flex;
+  flex-direction: column;
+  margin: 5vh 0vw 0vh 2vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.interfacename {
+  margin-left: 1vw;
+  color: aliceblue;
+  margin-top: 3.1vh;
+  margin-bottom: 1vh;
+}
+.syname {
+  font-family: "IBM Plex Sans", sans-serif;
+  margin-left: 1vw;
+  color: aliceblue;
+}
+.notification {
+  display: flex;
+  margin-left: 23vw;
+}
+
+.ntf {
+  margin-left: 2vw;
+}
