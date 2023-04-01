@@ -31,14 +31,14 @@ function UserForm() {
   };
 
   return (
-    <div className="container02">
-      <div className="formTopic">Add user</div>
+    <div className="container01">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form className="container02">
+        <Form className="form">
+          <div className="formTopic">Add user</div>
           <label>Employee Name</label>
           <ErrorMessage name="full_name" component="span" />
           <Field className="input01" id="inputCreateUsers" name="full_name" />

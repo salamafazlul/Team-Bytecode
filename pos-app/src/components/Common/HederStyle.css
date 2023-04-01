@@ -1,3 +1,8 @@
+.Topbar {
+  background-color: #02486c;
+  width: 206vh;
+}
+
 .Hedsec {
   opacity: 75%;
   display: flex;
@@ -24,4 +29,12 @@
 
 .ntf {
   margin-left: 2vw;
+}
+.notification {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 0;
+  padding-left: 4px;
 }

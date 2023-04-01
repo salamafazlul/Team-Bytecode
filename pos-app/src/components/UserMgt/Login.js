@@ -60,9 +60,9 @@ this.state = {
 
   return (
     <>
-      <div className="split logo">
+      <div className="split logo1">
         <div className="centered">
-          <img src={require("../images/logo.png")} />
+          <img src={require("../images/logo1.png")} />
           <p className="p1">
             <b> WELCOME !</b>
           </p>
