@@ -14,13 +14,13 @@ export const Navideta = [
   {
     title: "Users",
     icon: <BsFillPeopleFill />,
-    link: "./category",
+    link: "./AddUsers.js",
   },
 
   {
     title: "Product Hand.",
     icon: <BsFillCalendarDateFill />,
-    link: "./addorremove",
+    link: "",
   },
 
   {

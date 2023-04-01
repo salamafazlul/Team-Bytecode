@@ -2,13 +2,16 @@
   background-color: rgba(255, 255, 255, 0.818);
   align-items: left;
   opacity: 75%;
-  width: 60vw;
+  width: 75vw;
+  height: 30vw;
   padding: 1vw;
   background-size: auto;
   display: flex;
   display: grid;
   grid-template-columns: 2.5fr 1fr;
-  float: left;
+  position: relative;
+  left: 40vh;
+  bottom: 145vh;
   margin-right: 4vw;
 }
 

@@ -8,3 +8,8 @@ body {
   position: relative;
   top: 100%;
 }
+
+.UserForm {
+  float: left;
+  color: brown;
+}
