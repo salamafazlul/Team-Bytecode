@@ -81,7 +81,7 @@ function CardPayment(props) {
           <div className="d-flex bg-gray-100 w-1 rounded "></div>
           <div className="d-flex align-items-start flex-column  justify-content-center w-[45%] mx-1">
           <div className="flex align-items-center mx-auto ">
-              <b className="fs-5" style={{color:"#26eb0c", fontWeight:"bold"}}>Paid!</b>
+              <b className="fs-5" style={{color:"#26eb0c", fontWeight:"bold"}}></b>
             </div>
             <div className="flex align-items-center mx-auto ">
               <b className="text-white fs-5 ">Card Payment </b>

@@ -16,15 +16,14 @@ function CashPayment(props) {
     setBalance(-props.amount);
     setAmountReceived("");
     setShowAlert(false);
+    setPaid(false)
     props.onHide();
   };
   const handlePay = (e) => {
     e.preventDefault(); // prevent default button click behavior
     if (amountReceived >= props.amount) {
-      setBalance(0);
       setShowAlert(false);
-      // perform payment processing
-      // setPaid(true); // set isPaid to true after successful payment
+      setPaid(true);
     } else {
       setShowAlert(true);
     }
@@ -93,14 +92,16 @@ function CashPayment(props) {
           </div>
           <div className="d-flex bg-gray-100 w-1 rounded "></div>
           <div className="d-flex align-items-start flex-column  justify-content-center w-[42%] mx-1">
-            <div className="flex align-items-center mx-auto ">
-              <b
-                className="fs-5"
-                style={{ color: "#26eb0c", fontWeight: "bold" }}
-              >
-                Paid!
-              </b>
-            </div>
+            {paid && (
+              <div className="flex align-items-center mx-auto ">
+                <b
+                  className="fs-5"
+                  style={{ color: "#26eb0c", fontWeight: "bold" }}
+                >
+                  Paid!
+                </b>
+              </div>
+            )}
             <div className="flex align-items-center mx-auto ">
               <b className="text-white fs-5 ">Cash Payment</b>
             </div>
