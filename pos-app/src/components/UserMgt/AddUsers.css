@@ -6,10 +6,4 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  top: 100%;
-}
-
-.UserForm {
-  float: left;
-  color: brown;
 }

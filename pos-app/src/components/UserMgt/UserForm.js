@@ -15,18 +15,19 @@ function UserForm() {
   };
 
   const validationSchema = Yup.object().shape({
-    // full_name: Yup.string().required(),
-    // email: Yup.string().email().required(),
-    // address: Yup.string().required(),
-    // mobile_no: Yup.number().required(),
-    // user_role: Yup.string().required(),
-    // user_password: Yup.string().min(4).required(),
+    full_name: Yup.string().required(),
+    email: Yup.string().email().required(),
+    address: Yup.string().required(),
+    mobile_no: Yup.number().typeError("Mobile No must be a number").required(),
+    user_role: Yup.string().required(),
+    user_password: Yup.string().max(6).min(4).required(),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, { resetForm }) => {
     axios.post("http://localhost:3001/Users", data).then((response) => {
       console.log("It works");
       window.alert("Details saved");
+      resetForm();
     });
   };
 
@@ -39,23 +40,43 @@ function UserForm() {
       >
         <Form className="form">
           <div className="formTopic">Add user</div>
-          <label>Employee Name</label>
-          <ErrorMessage name="full_name" component="span" />
+          <label className="lable">Employee Name</label>
           <Field className="input01" id="inputCreateUsers" name="full_name" />
+          <ErrorMessage
+            className="Error"
+            name="full_name"
+            component="span"
+            style={{ display: "block" }}
+          />
 
-          <label>Address</label>
-          <ErrorMessage name="address" component="span" />
+          <label className="lable">Address</label>
           <Field className="input01" id="inputCreateUsers" name="address" />
+          <ErrorMessage
+            className="Error"
+            name="address"
+            component="span"
+            style={{ display: "block" }}
+          />
 
-          <label>Email</label>
-          <ErrorMessage name="email" component="span" />
-          <Field className="input02" id="inputCreateUsers" name="email" />
+          <label className="lable">Email</label>
+          <Field className="input01" id="inputCreateUsers" name="email" />
+          <ErrorMessage
+            className="Error"
+            name="email"
+            component="span"
+            style={{ display: "block" }}
+          />
 
-          <label>Mobile No</label>
-          <ErrorMessage name="mobile_no" component="span" />
-          <Field className="input02" id="inputCreateUsers" name="mobile_no" />
+          <label className="lable">Mobile No</label>
+          <Field className="input01" id="inputCreateUsers" name="mobile_no" />
+          <ErrorMessage
+            className="Error"
+            name="mobile_no"
+            component="span"
+            style={{ display: "block" }}
+          />
 
-          <label>User Role</label>
+          <label className="lable">User Role</label>
           <Field
             as="select"
             className="dropDown01"
@@ -66,20 +87,30 @@ function UserForm() {
             <option value="storekeeper">Storekeeper</option>
             <option value="cashier">Cashier</option>
           </Field>
+          <ErrorMessage
+            className="Error"
+            name="user_role"
+            component="span"
+            style={{ display: "block" }}
+          />
 
-          <label>Password</label>
-          <ErrorMessage name="user_password" component="span" />
+          <label className="lable">Password</label>
           <Field
-            className="input02"
+            className="input01"
             id="inputCreateUsers"
             name="user_password"
             type="password"
           />
-
-          <button className="Clearbutton" type="submit">
+          <ErrorMessage
+            className="Error"
+            name="user_password"
+            component="span"
+            style={{ display: "block" }}
+          />
+          <button className="Addbutton" type="submit">
             Add
           </button>
-          <button className="Addbutton" type="reset">
+          <button className="Clearbutton" type="reset">
             Clear
           </button>
         </Form>

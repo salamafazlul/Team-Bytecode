@@ -2,8 +2,8 @@
   background-color: rgba(255, 255, 255, 0.818);
   align-items: left;
   opacity: 75%;
-  width: 75vw;
-  height: 30vw;
+  width: 76vw;
+  height: 42svw;
   padding: 1vw;
   background-size: auto;
   display: flex;
@@ -11,8 +11,9 @@
   grid-template-columns: 2.5fr 1fr;
   position: relative;
   left: 40vh;
-  bottom: 145vh;
+  bottom: 98vh;
   margin-right: 4vw;
+  border-radius: 10px;
 }
 
 .form {
@@ -31,65 +32,84 @@ label {
 }
 
 .input01 {
-  width: 44vw;
-  height: 10px;
-  padding: 10px;
+  font-size: 12px;
+  width: 70vw;
+  height: 16px;
+  padding: 12px;
   border-radius: 12px;
   border: 1.5px solid lightgrey;
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
-  margin: 1.5vh 2vw 0 1vw;
+  margin: 7px;
+  background-color: #eaecee;
 }
 
-.input02 {
-  width: 16vw;
-  margin: 1.5vh 2vw 0 1vw;
-  height: 10px;
-  padding: 10px;
+/* .input02 {
+  width: 30vw;
+  margin: 10px;
+  height: 16px;
+  padding: 14px;
   border-radius: 12px;
   border: 1.5px solid lightgrey;
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
-}
+} */
 
 .dropDown01 {
-  width: 16vw;
-  margin: 1.5vh 2vw 0 1vw;
-  height: 10px;
-  padding: 10px;
-  border-radius: 12px;
+  font-size: 12px;
+  width: 70vw;
+  height: 16px;
+  padding: 14px;
+  border-radius: 20px;
   border: 1.5px solid lightgrey;
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
+  margin: 10px;
+  background-color: #eaecee;
 }
 
 .Addbutton {
-  width: 9vw;
-  background-color: rgba(88, 154, 192, 1);
-  border-radius: 10px;
-  border-style: none;
-  box-shadow: #000205;
-  color: #fff;
-  cursor: pointer;
-  font-family: Inter, -apple-system, system-ui, sans-serif;
+  background-color: #599ac0;
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
   font-size: 14px;
-  font-weight: 500;
-  margin: 2vh 2vw 0 1vw;
+  margin: 6px 4px;
+  cursor: pointer;
+  border-radius: 10px 10px;
+  position: relative;
+  position: absolute;
+  top: 76vh;
+  left: 30vw;
 }
 
 .Clearbutton {
-  width: 9vw;
-  background-color: rgba(88, 154, 192, 1);
-  border-radius: 10px;
-  border-style: none;
-  box-shadow: #000205;
-  color: #fff;
-  cursor: pointer;
-  font-family: Inter, -apple-system, system-ui, sans-serif;
+  background-color: #599ac0;
+  border: none;
+  color: white;
+  padding: 10px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
   font-size: 14px;
-  font-weight: 500;
-  margin: 2vh 2vw 0 1vw;
+  cursor: pointer;
+  border-radius: 10px 10px;
+  position: absolute;
+  top: 77vh;
+  left: 38vw;
+}
+
+.lable {
+  font-size: 12px;
+}
+
+.Error {
+  color: red;
+  font-size: 10px;
 }
