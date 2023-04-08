@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       discount: {
-        type: DataTypes.DECIMAL(5, 2),
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       amount: {

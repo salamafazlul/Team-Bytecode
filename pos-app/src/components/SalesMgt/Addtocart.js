@@ -240,7 +240,6 @@ export const AddtoCart = () => {
                   <Keyboard
                     className="row"
                     onChange={(input) => setSearchKey(input)}
-                    // onKeyPress={(button) => onKeyPress(button)}
                   />{" "}
                 </MDBCol>
               </MDBRow>
@@ -265,7 +264,7 @@ export const AddtoCart = () => {
                       <tr>
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
-                        <th style={{ width: "15px" }}>Discount(Rs)</th>
+                        <th style={{ width: "15px" }}>Discount(%)</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Amount</th>

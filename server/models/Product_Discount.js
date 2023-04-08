@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       rate: {
-        type: DataTypes.DECIMAL(5, 2),
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
         defaultValue: 0,

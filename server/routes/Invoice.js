@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Invoice } = require("../models");
+const { Invoice, Invoice_Product, Product } = require("../models");
 
 //get invoice list /api/getInvoiceList
 router.get("/", async (req, res) => {
@@ -32,7 +32,7 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
       return;
     }
 
-    await invoice.update({ discount: discount / 100 });
+    await invoice.update({ discount: discount });
     const totalDiscountValue = invoice.total * (discount / 100);
     const formattedTotalDiscountValue = Number(totalDiscountValue.toFixed(3));
     res.send({
@@ -43,6 +43,27 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
     console.error(err);
     res.status(500).send("Server Error");
   }
+});
+router.get("/api/getInvoice", async (req, res) => {
+  const invoice_id = req.query.invoice_id;
+  Invoice_Product.findAll({
+    where: {
+      invoice_id: invoice_id,
+    },
+    include: [{
+      model: Product,
+      attributes: ['product_name']
+    }]
+  })
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      res
+        .status(500)
+        .send("An error occurred while retrieving invoice products.");
+    });
 });
 
 module.exports = router;

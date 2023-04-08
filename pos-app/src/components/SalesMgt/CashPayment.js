@@ -93,13 +93,14 @@ function CashPayment(props) {
           <div className="d-flex bg-gray-100 w-1 rounded "></div>
           <div className="d-flex align-items-start flex-column  justify-content-center w-[42%] mx-1">
             {paid && (
-              <div className="flex align-items-center mx-auto ">
+              <div className="flex align-items-center mx-auto flex-column mb-4">
                 <b
                   className="fs-5"
-                  style={{ color: "#26eb0c", fontWeight: "bold" }}
+                  style={{ color: "white", fontWeight: "bold" }}
                 >
                   Paid!
                 </b>
+                <button class="modalbtn" style={{ background: "#081933", color:"white" }} >Invoice</button>
               </div>
             )}
             <div className="flex align-items-center mx-auto ">
@@ -107,7 +108,7 @@ function CashPayment(props) {
             </div>
 
             <div className="d-flex mx-auto mt-2">
-              <button class="modalbtn">Checkout</button>
+             
               <button
                 class="modalbtn"
                 style={{ marginLeft: "10px" }}

@@ -74,7 +74,7 @@ router.post("/api/addToInvoice/", async (req, res) => {
      const discount = await Discount.findOne({ where: { product_id } });
    
  // Calculate the discount amount
- const discountAmount = discount ? discount.rate * (price * quantity) : 0;
+ const discountAmount = discount ? discount.rate/100 * (price * quantity) : 0;
 
   
     // Calculate the new total amount
@@ -87,7 +87,7 @@ router.post("/api/addToInvoice/", async (req, res) => {
       quantity,
       price: price,
       amount: price * quantity - discountAmount,
-      discount:discountAmount,
+      discount: discount ? discount.rate : 0,
     });
 
     await invoice.update({ total: newTotal });
@@ -99,4 +99,9 @@ router.post("/api/addToInvoice/", async (req, res) => {
   }
 });
 
+//refund section 
+router.get("/api/getInvoice", async (req, res) => {
+  
+});
+http://localhost:3001/invoice
 module.exports = router;

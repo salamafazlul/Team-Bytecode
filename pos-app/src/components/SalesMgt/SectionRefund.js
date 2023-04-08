@@ -3,7 +3,6 @@ import { MDBCard, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import "./Checkout.css";
 import "./Addtocart.css";
 import "./KeyBoard.css";
-import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -12,7 +11,6 @@ import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 
 export const SectionRefund = () => {
-  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
   const [selectCode, setSelectCode] = useState();
@@ -24,75 +22,17 @@ export const SectionRefund = () => {
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [currentInvoice, setCurrentInvoice] = useState();
+  const [invoiceKey, setInvoiceKey] = useState();
 
-  // useEffect(() => {
-  //   Axios.get("http://localhost:3001/product/api/getProduct").then(
-  //     (response) => {
-  //       setProductList(response.data);
-  //     }
-  //   );
-  // });
-  // useEffect(() => {
-  //   const invoice_id = currentInvoice;
-  //   Axios.get(
-  //     `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
-  //   ).then((response) => {
-  //     setInvoiceList(response.data);
-  //   });
-  // });
-  // useEffect(() => {
-  //   const invoice_id = currentInvoice;
-  //   Axios.get(
-  //     `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
-  //   ).then((response) => {
-  //     setTotal(response.data.total);
-  //   });
-  // });
-  // const selectProduct = (pid, pname, price) => {
-  //   setSelectCode(pid);
-  //   setSelectName(pname);
-  //   setSelectPrice(price);
-  //   setSelectQuantity(1);
-  //   setSearchKey("");
-  // };
-  // const setSearchKey = (input) => {
-  //   setSearch(input);
-  // };
 
-  // const addToInvoice = () => {
-  //   Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
-  //     iid: currentInvoice,
-  //     pid: selectCode,
-  //     price: selectPrice,
-  //     quantity: selectQuantity,
-  //     discount: selectDiscount,
-  //   });
-  // };
-
-  // const getNetAmount = (discount) => {
-  //   Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
-  //     discount: discount,
-  //     invoice_id: currentInvoice,
-  //   })
-  //     .then((response) => {
-  //       const totalDiscountValue = parseFloat(response.data.totalDiscountValue);
-  //       setDiscount(totalDiscountValue);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
-
-  // const createInvoice = () => {
-  //   setDiscount(0);
-  //   Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
-  //     .then((response) => {
-  //       setCurrentInvoice(response.data.invoice_id);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  useEffect(() => {
+    const invoice_id = invoiceKey;
+    Axios.get(
+      `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setInvoiceList(response.data);
+    });
+  }, [invoiceKey]);
 
   return (
     <>
@@ -160,9 +100,15 @@ export const SectionRefund = () => {
                   <Form style={{ paddingBottom: "10px" }}>
                     <InputGroup>
                       <Form.Control
+                        value={invoiceKey}
+                        onChange={(e) => setInvoiceKey(e.target.value)}
+                        placeholder="Enter Invoice ID"
+                        style={{ flex: '1', marginRight: '10px' }}
+                      />
+                      <Form.Control
                         value={search}
-                        // onChange={(e) => setSearchKey(e.target.value)}
-                        placeholder="Search"
+                        placeholder="Search Product"
+                        style={{ flex: '3' }}
                       />
                     </InputGroup>
                   </Form>
@@ -183,12 +129,14 @@ export const SectionRefund = () => {
                           <th>Code</th>
                           <th>Name</th>
                           <th>Price</th>
-                          <th>Stock</th>
-                          <th></th>
+                          <th>quantity</th>
+                          <th>discount</th>
+                          <th>amount</th>
+                        <th></th>
                         </tr>
                       </thead>
                       <tbody style={{height:"250px"}}>
-                        {productList
+                        {invoiceList
                           .filter((product) => {
                             return search.toLowerCase() === ""
                               ? product
@@ -199,19 +147,14 @@ export const SectionRefund = () => {
                           .map((product) => (
                             <tr key={product.product_id}>
                               <td>{product.product_id}</td>
-                              <td>{product.product_name}</td>
-                              <td>{product.selling_price}</td>
-                              <td>{product.stock}</td>
+                              <td>{product.Product.product_name}</td>
+                              <td>{product.price}</td>
+                              <td>{product.quantity}</td>
+                              <td>{product.discount}</td>
+                              <td>{product.amount}</td>
                               <td>
                                 <button
                                   class="atc_btn"
-                                  // onClick={() => {
-                                  //   selectProduct(
-                                  //     product.product_id,
-                                  //     product.product_name,
-                                  //     product.selling_price
-                                  //   );
-                                  // }}
                                 >
                                   ADD
                                 </button>
@@ -233,8 +176,7 @@ export const SectionRefund = () => {
                     >
                     <table>
                         <tr>
-                            <td> Gross Amount</td>{}
-                            
+                            <td> Gross Amount</td>{}    
                         </tr>
                     </table>
                     </div>
@@ -246,9 +188,7 @@ export const SectionRefund = () => {
                 <MDBCol className="mt-3 p-3">
                   <Keyboard
                     className="row"
-                    // onChange={(input) => setSearchKey(input)}
-                    // onKeyPress={(button) => onKeyPress(button)}
-                  />{" "}
+                  />
                 </MDBCol>
               </MDBRow>
             </div>
@@ -265,7 +205,6 @@ export const SectionRefund = () => {
                       style={{
                         position: "sticky",
                         top: 0,
-                       
                         color: "white",
                       }}
                     >
@@ -279,16 +218,7 @@ export const SectionRefund = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {invoiceList.map((product) => (
-                        <tr style={{ lineHeight: "0.5" ,color: "white"}}>
-                          <td>{product.product_id}</td>
-                          <td>{product.product_name}</td>
-                          <td>0.00</td>
-                          <td>{product.price}</td>
-                          <td>{product.quantity}</td>
-                          <td>{product.amount}</td>
-                        </tr>
-                      ))}
+                     {}
                     </tbody>
                   </Table>
                 </div>
@@ -302,7 +232,7 @@ export const SectionRefund = () => {
                       }}
                     >
                       <span>Total (Rs):</span>
-                      <span>{total}</span>
+                      <span>{}</span>
                     </div>
                     <div
                       style={{
@@ -321,11 +251,8 @@ export const SectionRefund = () => {
                         min={0}
                         max={100}
                         defaultValue="0"
-                        // onChange={(e) => {
-                        //   getNetAmount(e.target.value);
-                        // }}
                       />
-                      <span style={{ textAlign: "right" }}>{discount}</span>
+                      <span style={{ textAlign: "right" }}>{}</span>
                     </div>
                     <div
                       style={{
@@ -334,7 +261,7 @@ export const SectionRefund = () => {
                       }}
                     >
                       <span>Net amount:</span>
-                      <span>{parseFloat((total - discount).toFixed(2))}</span>
+                      <span></span>
                     </div>
                   </div>
                 </MDBCard>
