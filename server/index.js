@@ -21,6 +21,8 @@ app.use ("/Invoice_Product", invoice_productRouter )
 const  discountRouter = require('./routes/Discount')
 app.use ("/Discount", discountRouter )
 
+const  emailpdfRouter = require('./routes/Email_Invoice')
+app.use ("/Email_Invoice", emailpdfRouter )
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {

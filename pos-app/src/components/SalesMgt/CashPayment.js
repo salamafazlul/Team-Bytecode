@@ -6,6 +6,7 @@ function CashPayment(props) {
   const [balance, setBalance] = useState(-props.amount);
   const [showAlert, setShowAlert] = useState(false);
   const [paid, setPaid] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleAmountReceivedChange = (e) => {
     const receivedAmount = e.target.value;
@@ -28,6 +29,30 @@ function CashPayment(props) {
       setShowAlert(true);
     }
   };
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  
+  const handleInvoice = (email) => {
+    fetch("http://localhost:3001/Email_Invoice/api/generatePdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, invoice_id: props.invoice_id }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Invoice sent successfully");
+        } else {
+          console.log("Failed to send invoice");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
@@ -100,7 +125,8 @@ function CashPayment(props) {
                 >
                   Paid!
                 </b>
-                <button class="modalbtn" style={{ background: "#081933", color:"white" }} >Invoice</button>
+                <button class="modalbtn" style={{ background: "#081933", color:"white" }} onClick={() => handleInvoice(email)} >Invoice</button>
+                <input type="email" value={email} onChange={handleEmailChange} />
               </div>
             )}
             <div className="flex align-items-center mx-auto ">

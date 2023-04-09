@@ -105,6 +105,16 @@ export const AddtoCart = () => {
     setSearch(input);
   };
 
+  const updateQuantity = (e, product_id, invoice_id, price, discount) =>{
+    const newQuantity = e.target.value;
+    const newAmount = price * newQuantity * (100 - discount) / 100;
+    Axios.post('http://localhost:3001/invoice_product/api/updateQuantity/', {
+      product_id: product_id,
+      invoice_id: invoice_id,
+      quantity: newQuantity,
+      amount: newAmount
+    })
+  }
   return (
     <>
       <section className="section">
@@ -277,7 +287,15 @@ export const AddtoCart = () => {
                           <td>{product.product_name}</td>
                           <td>{product.discount}</td>
                           <td>{product.price}</td>
-                          <td>{product.quantity}</td>
+                          <td>
+                            <input
+                              type="number"
+                              value={product.quantity}
+                              style={{width:"40px",padding:"3px", margin:"-10px 0px -10px 0px"}}
+                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount)}
+                              min={0}
+                              ></input>
+                          </td>
                           <td>{product.amount}</td>
                         </tr>
                       ))}
@@ -355,6 +373,7 @@ export const AddtoCart = () => {
         show={cashModal}
         amount={parseFloat((total - discount).toFixed(2))}
         onHide={() => setCashModal(false)}
+        invoice_id = {currentInvoice}
       />
       <CardPayment show={cardModal} onHide={() => setCardModal(false)} />
     </>

@@ -98,10 +98,17 @@ router.post("/api/addToInvoice/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+router.post('/api/updateQuantity/', async (req, res) => {
+  const { product_id, invoice_id, quantity, amount } = req.body;
+  // Update the invoice with the new quantity value and amount
+  await Invoice_Product.update({ quantity: parseInt(quantity), amount: parseInt(amount) }, { where: { product_id: parseInt(product_id), invoice_id: parseInt(invoice_id) } });
+  res.send('Invoice updated successfully');
+});
+
 
 //refund section 
 router.get("/api/getInvoice", async (req, res) => {
   
 });
-http://localhost:3001/invoice
+
 module.exports = router;
