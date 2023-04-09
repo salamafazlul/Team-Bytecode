@@ -1,0 +1,86 @@
+.modalButton{
+  
+  background-color: #d011a7;
+  border: none;
+  color: rgb(16, 14, 22);
+  padding: 5px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 50px;
+  margin-left: 50px;
+
+}
+
+
+
+/* .formContainer{
+    background-color: rgb(140, 185, 225);
+    width: 85%;
+    height: 650px;
+    float: left;
+    padding-left: 40px;
+    padding-right: 20px;
+    padding-top: 40px;
+    color: rgb(0, 0, 0);
+
+}
+tr > * + * {
+    padding-left: 4em;
+  
+  
+  }
+
+  .button2:hover {
+    background-color: #0d617d;
+    color: rgb(2, 7, 15);
+    
+    
+  }
+  .button2{
+    background-color: #2d83a0;
+    border: none;
+    color: rgb(16, 14, 22);
+    padding: 5px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 50px;
+    
+    
+    
+    
+
+}
+h5{
+    color: rgb(3, 54, 88);   
+}
+
+span{
+    color: rgb(216, 37, 37);   
+}
+
+.drop{
+    border-radius: 12px;
+    border: none;
+    padding: 4px;
+    background-color: #2772cf;
+  
+  }
+
+  .inputshort{
+  
+    border-radius: 15px;
+    background-color: #115cb7;
+    border: none;
+    padding: 3px;
+   
+    
+  }
+
+  .table{
+   
+    padding-top: 80px;
+  }
+
+  .view {
+    padding-left: 4em;
+  } */
