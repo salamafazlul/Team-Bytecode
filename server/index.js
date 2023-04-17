@@ -2,18 +2,25 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-const mysql = require("mysql");
+const mysql = require('mysql2');
+const styled = require('styled-components');
 
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "bypos_db",
+
+app.use(express.json());
+app.use(cors());
+
+const db = require('./models');
+
+const postRouter = require('./routes/Invoice');
+app.use("/Invoice", postRouter );
+
+db.sequelize.sync().then(()=>{
+  app.listen(3001, () => {
+    console.log("running on port 3001");
+  });
+  
 });
 
-const db = require('./models')
-
-db.Sequelize.sync().then
 
 app.use(cors());
 app.use(express.json());
@@ -51,6 +58,4 @@ app.post("/api/addToInvoice/", (req, res) => {
   });
 });
 
-app.listen(3001, () => {
-  console.log("running on port 3001");
-});
+

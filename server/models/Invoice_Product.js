@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         invoice_id: {
           type: DataTypes.INTEGER,
           allowNull: false,
-          primaryKey: true,
           references: {
             model: "invoice",
             key: "invoice_id",
@@ -14,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         product_id: {
           type: DataTypes.INTEGER,
           allowNull: false,
-          primaryKey: true,
           references: {
             model: "product",
             key: "product_id",
@@ -29,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         discount: {
-          type: DataTypes.DECIMAL(5, 2),
+          type: DataTypes.DECIMAL(5, 3),
           allowNull: true,
         },
         amount: {

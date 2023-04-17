@@ -90,7 +90,6 @@ this.state = {
                 
                 
                 <button className="sign" type="submit" onClick={()=> navigate('/SalesReport') }>Login</button>
-                
         </form>
         </div>
         </div>
@@ -104,4 +103,4 @@ this.state = {
 
 
 
-export default Login
+export default Login;
