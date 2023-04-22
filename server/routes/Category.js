@@ -23,6 +23,4 @@ router.delete("/:id", async (req, res) => {
   res.send({ message: "Category deleted successfully" });
 });
 
-
 module.exports = router;
-

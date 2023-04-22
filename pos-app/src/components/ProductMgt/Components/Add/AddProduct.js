@@ -6,7 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const AddproductForm = () => {
-  const [name, setName] = useState([]);
   const initialValues = {
     Product_name: "",
     Product_id: "",
@@ -182,7 +181,7 @@ const AddproductForm = () => {
                       type="text"
                       // onChange={handleChange}
                       name="Description"
-                      placeholder="Enter produt Description"
+                      placeholder="Enter Produt Description"
                       className="input"
                     />
                   </td>

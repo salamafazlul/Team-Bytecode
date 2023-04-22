@@ -6,7 +6,7 @@ export const Navideta = [
   {
     title: "Purchasing",
     icon: <BsCheck2Square />,
-    link: "/",
+    link: "/Purchasing",
   },
 
   {
@@ -18,7 +18,7 @@ export const Navideta = [
   {
     title: "Add & Remove",
     icon: <BsFileEarmarkDiff />,
-    link: "./addorremove",
+    link: "./AddRemove",
   },
 
   {

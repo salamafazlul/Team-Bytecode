@@ -15,4 +15,14 @@ router.post("/", async (req, res) => {
   res.json(post);
 });
 
+router.delete("/:id", async (req, res) => {
+  console.log(req.params.id);
+  const product = await Product.findByPk(req.params.id);
+  if (!product) {
+    return res.status(404).send({ error: "Product not found" });
+  }
+  await product.destroy();
+  res.send({ message: "Product deleted successfully" });
+});
+
 module.exports = router;
