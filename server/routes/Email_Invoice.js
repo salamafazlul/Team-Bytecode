@@ -33,7 +33,7 @@ router.post("/api/generatePdf", async (req, res) => {
         service: "gmail",
         auth: {
           user: "salama.fhf@gmail.com",
-          pass: "lwkdhascmutdqotl",
+          pass: "azdrrhkyhqrgcfej",
         },
       });
 
@@ -41,7 +41,7 @@ router.post("/api/generatePdf", async (req, res) => {
       const message = {
         from: "salama.fhf@gmail.com",
         to: email,
-        subject: "Invoice",
+        subject: "ByTech POS Invoice",
         attachments: [
           {
             filename: `invoice-${invoice_id}.pdf`,
@@ -64,8 +64,9 @@ router.post("/api/generatePdf", async (req, res) => {
     });
 
     // add some content to the PDF document
-    doc.fontSize(25).text(`Invoice ${invoice_id}`, { align: "center" });
-    doc.fontSize(16).text("Thank you for your business!", { align: "center" });
+    doc.fontSize(25).text("BY TECH POS", { align: "center" });
+    doc.fontSize(16).text(`Invoice ${invoice_id}`, { align: "center" });
+   
 
     // add the invoice details to the PDF document
     doc.moveDown();
@@ -73,16 +74,16 @@ router.post("/api/generatePdf", async (req, res) => {
     // doc.fontSize(16).text(`Total: ${invoice.total}`);
 
     doc.moveDown();
-    doc.fontSize(20).text("Products:");
+    doc.fontSize(16).text("Products:");
 
     invoiceProduct.forEach((invoiceProduct) => {
       const product = invoiceProduct.Product;
       doc.moveDown();
-      doc.fontSize(16).text(`Product name: ${product.product_name}`);
-      doc.fontSize(16).text(`Quantity: ${invoiceProduct.quantity}`);
-      doc.fontSize(16).text(`Price: ${invoiceProduct.price}`);
-      doc.fontSize(16).text(`Discount(%): ${invoiceProduct.discount}`);
-      doc.fontSize(16).text(`Amount: ${invoiceProduct.amount}`);
+      doc.fontSize(12).text(`Product name: ${product.product_name}`);
+      doc.fontSize(12).text(`Quantity: ${invoiceProduct.quantity}`);
+      doc.fontSize(12).text(`Price: ${invoiceProduct.price}`);
+      doc.fontSize(12).text(`Discount(%): ${invoiceProduct.discount}`);
+      doc.fontSize(12).text(`Amount: ${invoiceProduct.amount}`);
     });
     
 
