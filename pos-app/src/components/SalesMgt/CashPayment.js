@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
 
 function CashPayment(props) {
+  const navigate = useNavigate();
   const [amountReceived, setAmountReceived] = useState();
   const [balance, setBalance] = useState(-props.amount);
   const [showAlert, setShowAlert] = useState(false);
@@ -17,7 +19,7 @@ function CashPayment(props) {
     setBalance(-props.amount);
     setAmountReceived("");
     setShowAlert(false);
-    setPaid(false)
+    setPaid(false);
     props.onHide();
   };
   const handlePay = (e) => {
@@ -32,7 +34,7 @@ function CashPayment(props) {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-  
+
   const handleInvoice = (email) => {
     fetch("http://localhost:3001/Email_Invoice/api/generatePdf", {
       method: "POST",
@@ -44,6 +46,7 @@ function CashPayment(props) {
       .then((response) => {
         if (response.ok) {
           console.log("Invoice sent successfully");
+          navigate("/Cashier"); // Navigate back to the cashier page
         } else {
           console.log("Failed to send invoice");
         }
@@ -52,7 +55,6 @@ function CashPayment(props) {
         console.log(error);
       });
   };
-
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
@@ -125,8 +127,19 @@ function CashPayment(props) {
                 >
                   Paid!
                 </b>
-                <button class="modalbtn" style={{ background: "#081933", color:"white" }} onClick={() => handleInvoice(email)} >Invoice</button>
-                <input type="email" value={email} onChange={handleEmailChange} />
+                <button
+                  class="modalbtn"
+                  style={{ background: "#081933", color: "white" }}
+                  onClick={() => handleInvoice(email)}
+                >
+                  Invoice
+                </button>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  style={{ marginTop: "5px" }}
+                />
               </div>
             )}
             <div className="flex align-items-center mx-auto ">
@@ -134,7 +147,6 @@ function CashPayment(props) {
             </div>
 
             <div className="d-flex mx-auto mt-2">
-             
               <button
                 class="modalbtn"
                 style={{ marginLeft: "10px" }}

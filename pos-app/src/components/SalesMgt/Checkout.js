@@ -4,16 +4,19 @@ import Header from "./Header";
 import { AddtoCart } from "./Addtocart";
 import { SideArrowL } from "./SideArrow";
 import { SideArrowR } from "./SideArrow";
+import { useParams } from "react-router-dom"; // Import useParams to access the invoiceId from the route parameter
 
 const Checkout = () => {
+  const { invoiceId } = useParams(); // Access the invoiceId from the route parameter
+
   return (
     <div className="checkout">
       <Header />
 
-      <div class="mainGlass">
-        <SideArrowL goto="../Refund" />
-        <AddtoCart />
-        <SideArrowR goto="../Refund" />
+      <div className="mainGlass">
+        <div></div>
+        <AddtoCart currentInvoice={invoiceId} /> {/* Pass the invoiceId as a prop */}
+        <div></div>
       </div>
     </div>
   );

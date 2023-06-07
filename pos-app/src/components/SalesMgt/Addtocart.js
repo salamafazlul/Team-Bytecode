@@ -13,7 +13,7 @@ import Keyboard from "react-simple-keyboard";
 import CardPayment from "./CardPayment";
 import CashPayment from "./CashPayment";
 
-export const AddtoCart = () => {
+export const AddtoCart = ({currentInvoice}) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
@@ -25,7 +25,7 @@ export const AddtoCart = () => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
-  const [currentInvoice, setCurrentInvoice] = useState();
+  // const [currentInvoice, setCurrentInvoice] = useState();
   const [cardModal, setCardModal] = useState();
   const [cashModal, setCashModal] = useState();
 
@@ -79,19 +79,19 @@ export const AddtoCart = () => {
       });
   };
 
-  const createInvoice = () => {
-    setSelectCode("");
-    setSelectName("");
-    setSelectPrice("");
-    setDiscount(0);
-    Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
-      .then((response) => {
-        setCurrentInvoice(response.data.invoice_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const createInvoice = () => {
+  //   setSelectCode("");
+  //   setSelectName("");
+  //   setSelectPrice("");
+  //   setDiscount(0);
+  //   Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
+  //     .then((response) => {
+  //       setCurrentInvoice(response.data.invoice_id);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const selectProduct = (pid, pname, price) => {
     setSelectCode(pid);
@@ -104,6 +104,17 @@ export const AddtoCart = () => {
   const setSearchKey = (input) => {
     setSearch(input);
   };
+
+  const cancelCheckout = () => {
+    Axios.delete(`http://localhost:3001/invoice_product/api/deleteRecords/${currentInvoice}`)
+      .then(() => {
+        navigate("/Cashier"); // Navigate back to the cashier page
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
 
   const updateQuantity = (e, product_id, invoice_id, price, discount) =>{
     const newQuantity = e.target.value;
@@ -120,13 +131,13 @@ export const AddtoCart = () => {
       <section className="section">
         <div class="addtocart">
           <MDBCol>
-            <button
+            {/* <button
               class="select_btn"
               onClick={createInvoice}
               style={{ marginLeft: "-15px", width: "130px" }}
             >
               Start Checkout
-            </button>
+            </button> */}
           </MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
@@ -361,7 +372,7 @@ export const AddtoCart = () => {
                     </button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn">Cancel</button>
+                    <button class="end_btn" onClick={cancelCheckout} >Cancel</button>
                   </MDBCol>
                 </MDBRow>
               </div>

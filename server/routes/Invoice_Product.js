@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Invoice_Product, Product, Invoice, Discount, sequelize } = require("../models");
+const {
+  Invoice_Product,
+  Product,
+  Invoice,
+  Discount,
+  sequelize,
+} = require("../models");
 const { Op } = require("sequelize");
 
 router.get("/api/getInvoiceList", async (req, res) => {
@@ -56,30 +62,26 @@ router.get("/api/getTotal", async (req, res) => {
 });
 
 router.post("/api/addToInvoice/", async (req, res) => {
-  const {
-    iid: invoice_id,
-    pid: product_id,
-    quantity,
-    price,
-  } = req.body;
+  const { iid: invoice_id, pid: product_id, quantity, price } = req.body;
 
   try {
-     // Find the invoice for the given invoice ID
+    // Find the invoice for the given invoice ID
     const invoice = await Invoice.findByPk(invoice_id);
 
     if (!invoice) {
-      return res.status(404).send('Invoice not found');
+      return res.status(404).send("Invoice not found");
     }
-     // Find the discount for the given product ID
-     const discount = await Discount.findOne({ where: { product_id } });
-   
- // Calculate the discount amount
- const discountAmount = discount ? discount.rate/100 * (price * quantity) : 0;
+    // Find the discount for the given product ID
+    const discount = await Discount.findOne({ where: { product_id } });
 
-  
+    // Calculate the discount amount
+    const discountAmount = discount
+      ? (discount.rate / 100) * (price * quantity)
+      : 0;
+
     // Calculate the new total amount
-    const newTotal = parseFloat(invoice.total) + price * quantity - discountAmount;
-
+    const newTotal =
+      parseFloat(invoice.total) + price * quantity - discountAmount;
 
     await Invoice_Product.create({
       invoice_id,
@@ -98,17 +100,47 @@ router.post("/api/addToInvoice/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-router.post('/api/updateQuantity/', async (req, res) => {
+router.post("/api/updateQuantity/", async (req, res) => {
   const { product_id, invoice_id, quantity, amount } = req.body;
   // Update the invoice with the new quantity value and amount
-  await Invoice_Product.update({ quantity: parseInt(quantity), amount: parseInt(amount) }, { where: { product_id: parseInt(product_id), invoice_id: parseInt(invoice_id) } });
-  res.send('Invoice updated successfully');
+  await Invoice_Product.update(
+    { quantity: parseInt(quantity), amount: parseInt(amount) },
+    {
+      where: {
+        product_id: parseInt(product_id),
+        invoice_id: parseInt(invoice_id),
+      },
+    }
+  );
+  res.send("Invoice updated successfully");
 });
 
+router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
+  const { invoice_id } = req.params;
 
-//refund section 
-router.get("/api/getInvoice", async (req, res) => {
-  
+  try {
+    // Delete records from Invoice_Product table
+    await Invoice_Product.destroy({
+      where: { invoice_id: parseInt(invoice_id) },
+    });
+
+    // Delete record from Invoice table
+    await Invoice.destroy({
+      where: { invoice_id: parseInt(invoice_id) },
+    });
+
+    // Set the auto-increment value to the deleted invoice ID
+    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(invoice_id)}`;
+    await sequelize.query(query);
+    
+    res.send("Product has been deleted from invoice successfully.");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
+
+//refund section
+router.get("/api/getInvoice", async (req, res) => {});
 
 module.exports = router;

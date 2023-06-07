@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PDFDocument = require("pdfkit");
 const nodemailer = require("nodemailer");
-const { Invoice_Product, Product, Invoice, sequelize } = require("../models");
+const { Invoice_Product, Product, Invoice, User,sequelize } = require("../models");
 
 router.post("/api/generatePdf", async (req, res) => {
   const { email, invoice_id } = req.body;
@@ -12,6 +12,12 @@ router.post("/api/generatePdf", async (req, res) => {
       where: { invoice_id },
       include: [
         { model: Product, attributes: ["product_name"] },
+      ],
+    });
+    const invoice = await Invoice.findOne({
+      where: { invoice_id },
+      include: [
+        { model: User, attributes: ["user_name"] },
       ],
     });
 
@@ -42,6 +48,12 @@ router.post("/api/generatePdf", async (req, res) => {
         from: "salama.fhf@gmail.com",
         to: email,
         subject: "ByTech POS Invoice",
+        html: `
+        <h1>Thank you for shopping with us!</h1>
+        <p>We appreciate your business and are grateful for your support. At ByTech POS, we strive to provide the best products and services to our customers.</p>
+        <p>Your satisfaction is our top priority, and we hope that you had a wonderful shopping experience with us. If you have any feedback or suggestions, please don't hesitate to reach out.</p>
+        <p>Once again, thank you for choosing ByTech POS. We look forward to serving you again in the future. Have a fantastic day!</p>        
+        `,
         attachments: [
           {
             filename: `invoice-${invoice_id}.pdf`,
@@ -70,8 +82,10 @@ router.post("/api/generatePdf", async (req, res) => {
 
     // add the invoice details to the PDF document
     doc.moveDown();
-    // doc.fontSize(16).text(`Date: ${invoice.date.toLocaleDateString()}`);
-    // doc.fontSize(16).text(`Total: ${invoice.total}`);
+    doc.fontSize(12).text(`Date: ${invoice.date}`);
+    doc.fontSize(16).text(`Cashier: ${invoice.User.user_name}`);
+    doc.fontSize(16).text(`Total Bill: ${invoice.total}`);
+    doc.fontSize(16).text(`Bill Discount: ${invoice.discount}`);
 
     doc.moveDown();
     doc.fontSize(16).text("Products:");
