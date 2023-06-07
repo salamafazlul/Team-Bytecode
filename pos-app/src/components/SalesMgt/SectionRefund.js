@@ -10,21 +10,29 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 
-export const SectionRefund = () => {
+export const SectionRefund = (currentInvoice) => {
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
   const [selectCode, setSelectCode] = useState();
-  const [selectName, setSelectName] = useState("Name");
+  const [selectName, setSelectName] = useState();
   const [selectPrice, setSelectPrice] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
   const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
+  const [refundList, setRefundList] = useState([]);
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
-  const [currentInvoice, setCurrentInvoice] = useState();
   const [invoiceKey, setInvoiceKey] = useState();
 
-
+  useEffect(() => {
+    const invoice_id = currentInvoice;
+    Axios.get(
+      `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setRefundList(response.data);
+    });
+  });
+  
   useEffect(() => {
     const invoice_id = invoiceKey;
     Axios.get(
@@ -34,18 +42,47 @@ export const SectionRefund = () => {
     });
   }, [invoiceKey]);
 
+  const selectProduct = (pid, pname, price,dis) => {
+    setSelectCode(pid);
+    setSelectName(pname);
+    setSelectPrice(price);
+    setSelectQuantity(1);
+    setDiscount(dis);
+    setSearchKey("");
+  };
+
+  const setSearchKey = (input) => {
+    setSearch(input);
+  };
+
+  const addToInvoice = () => {
+    Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
+      iid: currentInvoice.currentInvoice,
+      pid: selectCode,
+      price: selectPrice,
+      quantity: selectQuantity,
+      discount: selectDiscount,
+    });
+  };
+
+  const updateQuantity = (e, product_id, invoice_id, price, discount) =>{
+    const newQuantity = e.target.value;
+    const newAmount = price * newQuantity * (100 - discount) / 100;
+    Axios.post('http://localhost:3001/invoice_product/api/updateQuantity/', {
+      product_id: product_id,
+      invoice_id: invoice_id,
+      quantity: newQuantity,
+      amount: newAmount
+    })
+  }
+  
+
   return (
     <>
       <section className="section">
         <div class="addtocart">
           <MDBCol>
-            <button
-              class="select_btn"
-              
-              style={{ marginLeft: "-15px", width: "130px" }}
-            >
-              Start Refund
-            </button>
+            
           </MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
@@ -89,7 +126,7 @@ export const SectionRefund = () => {
                 </MDBCol>
 
                 <MDBCol>
-                  <button class="select_btn" >
+                  <button class="select_btn" onClick={addToInvoice} >
                     Add Item
                   </button>
                 </MDBCol>
@@ -108,6 +145,7 @@ export const SectionRefund = () => {
                       <Form.Control
                         value={search}
                         placeholder="Search Product"
+                        onChange={(e) => setSearchKey(e.target.value)}
                         style={{ flex: '3' }}
                       />
                     </InputGroup>
@@ -140,7 +178,7 @@ export const SectionRefund = () => {
                           .filter((product) => {
                             return search.toLowerCase() === ""
                               ? product
-                              : product.product_name
+                              : product.Product.product_name
                                   .toLowerCase()
                                   .includes(search.toLocaleLowerCase());
                           })
@@ -155,6 +193,14 @@ export const SectionRefund = () => {
                               <td>
                                 <button
                                   class="atc_btn"
+                                  onClick={() => {
+                                    selectProduct(
+                                      product.product_id,
+                                      product.Product.product_name,
+                                      product.price,
+                                      product.discount
+                                    );
+                                  }}
                                 >
                                   ADD
                                 </button>
@@ -188,6 +234,7 @@ export const SectionRefund = () => {
                 <MDBCol className="mt-3 p-3">
                   <Keyboard
                     className="row"
+                    onChange={(input) => setSearchKey(input)}
                   />
                 </MDBCol>
               </MDBRow>
@@ -211,14 +258,31 @@ export const SectionRefund = () => {
                       <tr>
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
-                        <th>Discount</th>
+                        <th>Discount%</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
-                     {}
+                    {refundList.map((product) => (
+                        <tr style={{ lineHeight: "0.5" }}>
+                          <td>{product.product_id}</td>
+                          <td>{product.product_name}</td>
+                          <td>{product.discount}</td>
+                          <td>{product.price}</td>
+                          <td>
+                            <input
+                              type="number"
+                              value={product.quantity}
+                              style={{width:"40px",padding:"3px", margin:"-10px 0px -10px 0px"}}
+                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount)}
+                              min={0}
+                              ></input>
+                          </td>
+                          <td>{product.amount}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </Table>
                 </div>

@@ -20,7 +20,14 @@ const Cashier = () => {
       });
   };
   const createRefund =()=>{
-    
+    Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
+      .then((response) => {
+        setCurrentInvoice(response.data.invoice_id);
+        navigate(`/Refund/${response.data.invoice_id}`); // Navigate to the Refund page with the invoice ID
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (

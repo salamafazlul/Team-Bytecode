@@ -130,9 +130,11 @@ router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
     });
 
     // Set the auto-increment value to the deleted invoice ID
-    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(invoice_id)}`;
+    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(
+      invoice_id
+    )}`;
     await sequelize.query(query);
-    
+
     res.send("Product has been deleted from invoice successfully.");
   } catch (err) {
     console.error(err);

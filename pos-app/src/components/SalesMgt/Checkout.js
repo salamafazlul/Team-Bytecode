@@ -2,8 +2,6 @@ import React from "react";
 import "./Checkout.css";
 import Header from "./Header";
 import { AddtoCart } from "./Addtocart";
-import { SideArrowL } from "./SideArrow";
-import { SideArrowR } from "./SideArrow";
 import { useParams } from "react-router-dom"; // Import useParams to access the invoiceId from the route parameter
 
 const Checkout = () => {

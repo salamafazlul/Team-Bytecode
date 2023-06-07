@@ -25,7 +25,6 @@ export const AddtoCart = ({currentInvoice}) => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
-  // const [currentInvoice, setCurrentInvoice] = useState();
   const [cardModal, setCardModal] = useState();
   const [cashModal, setCashModal] = useState();
 
@@ -79,20 +78,6 @@ export const AddtoCart = ({currentInvoice}) => {
       });
   };
 
-  // const createInvoice = () => {
-  //   setSelectCode("");
-  //   setSelectName("");
-  //   setSelectPrice("");
-  //   setDiscount(0);
-  //   Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
-  //     .then((response) => {
-  //       setCurrentInvoice(response.data.invoice_id);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   const selectProduct = (pid, pname, price) => {
     setSelectCode(pid);
     setSelectName(pname);
@@ -131,13 +116,7 @@ export const AddtoCart = ({currentInvoice}) => {
       <section className="section">
         <div class="addtocart">
           <MDBCol>
-            {/* <button
-              class="select_btn"
-              onClick={createInvoice}
-              style={{ marginLeft: "-15px", width: "130px" }}
-            >
-              Start Checkout
-            </button> */}
+           
           </MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
