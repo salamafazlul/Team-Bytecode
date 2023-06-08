@@ -26,12 +26,10 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
   const { invoice_id } = req.body;
   try {
     const invoice = await Invoice.findByPk(invoice_id);
-
     if (!invoice) {
       res.status(404).send("Invoice not found");
       return;
     }
-
     await invoice.update({ discount: discount });
     const totalDiscountValue = invoice.total * (discount / 100);
     const formattedTotalDiscountValue = Number(totalDiscountValue.toFixed(3));
@@ -44,6 +42,8 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+//get invoice products for refund usinf sale ID
 router.get("/api/getInvoice", async (req, res) => {
   const invoice_id = req.query.invoice_id;
   Invoice_Product.findAll({
@@ -64,6 +64,37 @@ router.get("/api/getInvoice", async (req, res) => {
         .status(500)
         .send("An error occurred while retrieving invoice products.");
     });
+});
+//----------------------------------------------
+//get sale invoice for refund using sale ID
+router.get("/api/getInvoiceDetail", async (req, res) => {
+  const invoice_id = req.query.invoice_id;
+  const currentInvoice = req.query.currentInvoice;
+
+  try{
+    const InvoiceDetail = await Invoice.findOne({
+      where: {
+        invoice_id: invoice_id,
+      },
+    });
+    if (!InvoiceDetail) {
+      return res.status(404).send("Invoice not found.");
+    }
+    const discount = InvoiceDetail.discount;
+    // Update the discount column in the invoice table for the current invoice
+    await Invoice.update(
+      { discount: discount },
+      {
+        where: {
+          invoice_id: currentInvoice,
+        },
+      }
+    );
+    res.json(InvoiceDetail);
+  }catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred while retrieving the invoice.");
+  }
 });
 
 module.exports = router;

@@ -99,18 +99,19 @@ export const AddtoCart = ({currentInvoice}) => {
         console.error(error);
       });
   };
-  
 
-  const updateQuantity = (e, product_id, invoice_id, price, discount) =>{
+  const updateQuantity = (e, product_id, invoice_id, price, discount, quantity) =>{
     const newQuantity = e.target.value;
     const newAmount = price * newQuantity * (100 - discount) / 100;
     Axios.post('http://localhost:3001/invoice_product/api/updateQuantity/', {
       product_id: product_id,
       invoice_id: invoice_id,
       quantity: newQuantity,
-      amount: newAmount
+      amount: newAmount,
+      oldQuantity: quantity
     })
   }
+
   return (
     <>
       <section className="section">
@@ -154,8 +155,10 @@ export const AddtoCart = ({currentInvoice}) => {
                     placeholder="Qty"
                     type="number"
                     defaultValue="1"
+                    min={0}
                     value={selectQuantity}
                     onChange={(e) => setSelectQuantity(e.target.value)}
+                    onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
                   />
                 </MDBCol>
 
@@ -282,7 +285,7 @@ export const AddtoCart = ({currentInvoice}) => {
                               type="number"
                               value={product.quantity}
                               style={{width:"40px",padding:"3px", margin:"-10px 0px -10px 0px"}}
-                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount)}
+                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount, product.quantity)}
                               min={0}
                               ></input>
                           </td>
@@ -311,7 +314,7 @@ export const AddtoCart = ({currentInvoice}) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>Discount(%):</span>
-                      <MDBInput
+                      <MDBInput className="discount_btn"
                         style={{
                           height: "25px",
                           width: "65px",

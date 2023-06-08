@@ -83,6 +83,11 @@ router.post("/api/addToInvoice/", async (req, res) => {
     const newTotal =
       parseFloat(invoice.total) + price * quantity - discountAmount;
 
+    // Reduce the quantity in the Product table
+    const product = await Product.findByPk(product_id);
+    const newQuantity = product.stock - quantity;
+    await product.update({ stock: newQuantity });
+
     await Invoice_Product.create({
       invoice_id,
       product_id,
@@ -100,11 +105,14 @@ router.post("/api/addToInvoice/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 router.post("/api/updateQuantity/", async (req, res) => {
-  const { product_id, invoice_id, quantity, amount } = req.body;
-  // Update the invoice with the new quantity value and amount
+  const { product_id, invoice_id, quantity, amount, oldQuantity } = req.body;
+  // Calculate the quantity difference
+  const quantityDifference = quantity - oldQuantity;
+  // Update the invoice product table with new quantity and amount
   await Invoice_Product.update(
-    { quantity: parseInt(quantity), amount: parseInt(amount) },
+    { quantity: parseInt(quantity), amount: parseFloat(amount) },
     {
       where: {
         product_id: parseInt(product_id),
@@ -112,37 +120,125 @@ router.post("/api/updateQuantity/", async (req, res) => {
       },
     }
   );
+  // Calculate the total amount for the particular invoice_id
+  const invoiceTotal = await Invoice_Product.sum("amount", {
+    where: { invoice_id: parseInt(invoice_id) },
+  });
+  // Update the total column in the Invoice table
+  await Invoice.update(
+    { total: invoiceTotal },
+    {
+      where: {
+        invoice_id: parseInt(invoice_id),
+      },
+    }
+  );
+  // Update the stock column in the Product table
+  const product = await Product.findByPk(product_id);
+  const newStock = product.stock - quantityDifference;
+  await product.update({ stock: newStock });
   res.send("Invoice updated successfully");
 });
 
 router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
   const { invoice_id } = req.params;
-
   try {
+    // Fetch the records from Invoice_Product table for the given invoice ID
+    const invoiceProducts = await Invoice_Product.findAll({
+      where: { invoice_id: parseInt(invoice_id) },
+    });
+    // Update the stock column in the Product table for each product
+    for (const invoiceProduct of invoiceProducts) {
+      const { product_id, quantity } = invoiceProduct;
+      const product = await Product.findByPk(product_id);
+      const newStock = product.stock + quantity;
+      await product.update({ stock: newStock });
+    }
     // Delete records from Invoice_Product table
     await Invoice_Product.destroy({
       where: { invoice_id: parseInt(invoice_id) },
     });
-
     // Delete record from Invoice table
     await Invoice.destroy({
       where: { invoice_id: parseInt(invoice_id) },
     });
-
     // Set the auto-increment value to the deleted invoice ID
-    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(
-      invoice_id
-    )}`;
+    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(invoice_id)}`;
     await sequelize.query(query);
-
-    res.send("Product has been deleted from invoice successfully.");
+    res.send("Product has been deleted from the invoice successfully.");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
 
+//------------------------------------------------------------------------------------------------------
 //refund section
 router.get("/api/getInvoice", async (req, res) => {});
 
+router.post("/api/addToRefund/", async (req, res) => {
+  const { iid: invoice_id, pid: product_id, quantity, price, discount, amount } = req.body;
+  try {
+    // Find the invoice for the given invoice ID
+    const invoice = await Invoice.findByPk(invoice_id);
+    if (!invoice) {
+      return res.status(404).send("Invoice not found");
+    }
+    // Calculate the new total amount
+    const newTotal =
+      parseFloat(invoice.total) + amount;
+    // Reduce the quantity in the Product table
+    const product = await Product.findByPk(product_id);
+    const newQuantity = product.stock + quantity;
+    await product.update({ stock: newQuantity });
+    await Invoice_Product.create({
+      invoice_id,
+      product_id,
+      quantity,
+      price: price,
+      amount: amount,
+      discount: discount ? discount : 0,
+    });
+    await invoice.update({ total: newTotal });
+    res.send("Refund Product has been added to invoice successfully.");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Refund Product has not been added to invoice!!");
+  }
+});
+
+router.post("/api/updateRefundQuantity/", async (req, res) => {
+  const { product_id, invoice_id, quantity, amount, oldQuantity } = req.body;
+  // Calculate the quantity difference
+  const quantityDifference = quantity - oldQuantity ;
+  console.log(quantityDifference)
+  // Update the invoice product table with new quantity and amount
+  await Invoice_Product.update(
+    { quantity: parseInt(quantity), amount: parseFloat(amount) },
+    {
+      where: {
+        product_id: parseInt(product_id),
+        invoice_id: parseInt(invoice_id),
+      },
+    }
+  );
+  // Calculate the total amount for the particular invoice_id
+  const invoiceTotal = await Invoice_Product.sum("amount", {
+    where: { invoice_id: parseInt(invoice_id) },
+  });
+  // Update the total column in the Invoice table
+  await Invoice.update(
+    { total: invoiceTotal },
+    {
+      where: {
+        invoice_id: parseInt(invoice_id),
+      },
+    }
+  );
+  // Update the stock column in the Product table
+  const product = await Product.findByPk(product_id);
+  const newStock = product.stock + quantityDifference;
+  await product.update({ stock: newStock });
+  res.send("Invoice updated successfully");
+});
 module.exports = router;

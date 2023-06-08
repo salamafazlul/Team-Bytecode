@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MDBCard, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
+import { MDBCard, MDBCol, MDBInput, MDBRow } from "mdb-react-ui-kit";
 import "./Checkout.css";
 import "./Addtocart.css";
 import "./KeyBoard.css";
@@ -9,45 +9,64 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
+import { useNavigate } from "react-router-dom";
 
 export const SectionRefund = (currentInvoice) => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [productList, setProductList] = useState([]);
   const [selectCode, setSelectCode] = useState();
   const [selectName, setSelectName] = useState();
   const [selectPrice, setSelectPrice] = useState();
+  const [selectAmount, setSelectAmount] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
   const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
+  const [invoiceDetail, setInvoiceDetail] = useState([]);
   const [refundList, setRefundList] = useState([]);
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [invoiceKey, setInvoiceKey] = useState();
 
   useEffect(() => {
-    const invoice_id = currentInvoice;
+    const invoice_id = currentInvoice.currentInvoice;
+    Axios.get(
+      `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setTotal(response.data.total);
+    });
+  });
+
+  useEffect(() => {
+    const invoice_id = currentInvoice.currentInvoice;
     Axios.get(
       `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
     ).then((response) => {
       setRefundList(response.data);
     });
   });
-  
-  useEffect(() => {
+
+  const getInvoice = (invoiceKey)=>{
     const invoice_id = invoiceKey;
     Axios.get(
       `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
     ).then((response) => {
       setInvoiceList(response.data);
     });
-  }, [invoiceKey]);
+    Axios.get(
+      `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice.currentInvoice}`
+    ).then((response) => {
+      setInvoiceDetail(response.data);
+      setDiscount(response.data.discount);
+    });
+  }
 
-  const selectProduct = (pid, pname, price,dis) => {
+  const selectProduct = (pid, pname, price, dis,quantity,amount) => {
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
-    setSelectQuantity(1);
-    setDiscount(dis);
+    setSelectQuantity(quantity);
+    setSelectDiscount(dis);
+    setSelectAmount(amount);
     setSearchKey("");
   };
 
@@ -56,34 +75,44 @@ export const SectionRefund = (currentInvoice) => {
   };
 
   const addToInvoice = () => {
-    Axios.post("http://localhost:3001/invoice_product/api/addToInvoice/", {
+    Axios.post("http://localhost:3001/invoice_product/api/addToRefund/", {
       iid: currentInvoice.currentInvoice,
       pid: selectCode,
       price: selectPrice,
       quantity: selectQuantity,
       discount: selectDiscount,
+      amount: selectAmount
     });
   };
 
-  const updateQuantity = (e, product_id, invoice_id, price, discount) =>{
+  const updateQuantity = (e, product_id, invoice_id, price, discount, quantity) =>{
     const newQuantity = e.target.value;
     const newAmount = price * newQuantity * (100 - discount) / 100;
-    Axios.post('http://localhost:3001/invoice_product/api/updateQuantity/', {
+    Axios.post('http://localhost:3001/invoice_product/api/updateRefundQuantity/', {
       product_id: product_id,
       invoice_id: invoice_id,
       quantity: newQuantity,
-      amount: newAmount
+      amount: newAmount,
+      oldQuantity: quantity
     })
   }
-  
+  const cancelRefund = () => {
+    Axios.delete(
+      `http://localhost:3001/invoice_product/api/deleteRecords/${currentInvoice.currentInvoice}`
+    )
+      .then(() => {
+        navigate("/Cashier"); // Navigate back to the cashier page
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
       <section className="section">
         <div class="addtocart">
-          <MDBCol>
-            
-          </MDBCol>
+          <MDBCol></MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
               {/* selected product area */}
@@ -110,7 +139,7 @@ export const SectionRefund = (currentInvoice) => {
                     placeholder="Price"
                     type="number"
                     value={selectPrice}
-                    onChange={(e) => setSelectPrice(e.target.value)}
+                    // onChange={(e) => setSelectPrice(e.target.value)}
                   />
                 </MDBCol>
 
@@ -119,14 +148,14 @@ export const SectionRefund = (currentInvoice) => {
                     className="mb-2 mt-4 ml-3"
                     placeholder="Qty"
                     type="number"
-                    defaultValue="1"
+                    // defaultValue="1"
                     value={selectQuantity}
-                    onChange={(e) => setSelectQuantity(e.target.value)}
+                    // onChange={(e) => setSelectQuantity(e.target.value)}
                   />
                 </MDBCol>
 
                 <MDBCol>
-                  <button class="select_btn" onClick={addToInvoice} >
+                  <button class="select_btn" onClick={addToInvoice}>
                     Add Item
                   </button>
                 </MDBCol>
@@ -138,15 +167,15 @@ export const SectionRefund = (currentInvoice) => {
                     <InputGroup>
                       <Form.Control
                         value={invoiceKey}
-                        onChange={(e) => setInvoiceKey(e.target.value)}
+                        onChange={(e) => getInvoice(e.target.value)}
                         placeholder="Enter Invoice ID"
-                        style={{ flex: '1', marginRight: '10px' }}
+                        style={{ flex: "1", marginRight: "10px" }}
                       />
                       <Form.Control
                         value={search}
                         placeholder="Search Product"
                         onChange={(e) => setSearchKey(e.target.value)}
-                        style={{ flex: '3' }}
+                        style={{ flex: "3" }}
                       />
                     </InputGroup>
                   </Form>
@@ -170,10 +199,10 @@ export const SectionRefund = (currentInvoice) => {
                           <th>quantity</th>
                           <th>discount</th>
                           <th>amount</th>
-                        <th></th>
+                          <th></th>
                         </tr>
                       </thead>
-                      <tbody style={{height:"250px"}}>
+                      <tbody style={{ height: "250px" }}>
                         {invoiceList
                           .filter((product) => {
                             return search.toLowerCase() === ""
@@ -198,7 +227,9 @@ export const SectionRefund = (currentInvoice) => {
                                       product.product_id,
                                       product.Product.product_name,
                                       product.price,
-                                      product.discount
+                                      product.discount,
+                                      product.quantity,
+                                      product.amount
                                     );
                                   }}
                                 >
@@ -217,14 +248,21 @@ export const SectionRefund = (currentInvoice) => {
                         color: "black",
                         width: "100%",
                         height: "30px",
-                        padding:"13px"
+                        padding: "13px",
                       }}
                     >
-                    <table>
-                        <tr>
-                            <td> Gross Amount</td>{}    
+                      <table>
+                        <tr >
+                          <div style={{alignItems:"center",display: "flex"}}>
+                          <td style={{marginLeft:"40px",fontWeight:"bold"}}> Gross Amount:</td>
+                          <td style={{marginLeft:"2px"}}> {invoiceDetail?.total}</td>
+                          <td style={{marginLeft:"40px", fontWeight:"bold"}}> Bill Discount:</td>
+                          <td style={{marginLeft:"2px"}}> {discount} %</td>
+                          <td style={{marginLeft:"40px", fontWeight:"bold"}}> Net Amount:</td>
+                          <td style={{marginLeft:"2px"}}> {invoiceDetail?.total-(invoiceDetail?.total*discount/100)}</td>
+                          </div>
                         </tr>
-                    </table>
+                      </table>
                     </div>
                   </div>
                 </Container>
@@ -264,8 +302,8 @@ export const SectionRefund = (currentInvoice) => {
                         <th>Amount</th>
                       </tr>
                     </thead>
-                    <tbody>
-                    {refundList.map((product) => (
+                    <tbody style={{ color: "white" }}>
+                      {refundList.map((product) => (
                         <tr style={{ lineHeight: "0.5" }}>
                           <td>{product.product_id}</td>
                           <td>{product.product_name}</td>
@@ -275,11 +313,44 @@ export const SectionRefund = (currentInvoice) => {
                             <input
                               type="number"
                               value={product.quantity}
-                              style={{width:"40px",padding:"3px", margin:"-10px 0px -10px 0px"}}
-                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount)}
+                              style={{
+                                width: "40px",
+                                padding: "3px",
+                                margin: "-10px 0px -10px 0px",
+                                color: "black",
+                              }}
+                              onChange={(e) =>
+                                updateQuantity(
+                                  e,
+                                  product.product_id,
+                                  product.invoice_id,
+                                  product.price,
+                                  product.discount,
+                                  product.quantity
+                                )
+                              }
+                              onKeyDown={(e) => {
+                                if (
+                                  e.key === "e" ||
+                                  e.key === "-" ||
+                                  e.key === "+" ||
+                                  e.key === "." ||
+                                  e.key === "E"
+                                ) {
+                                  e.preventDefault(); // Prevent "e", "-", "+", ".", "E" key inputs
+                                }
+                              }}
+                              onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
                               min={0}
-                              ></input>
+                              max={
+                                invoiceList.find(
+                                  (item) =>
+                                    item.product_id === product.product_id
+                                )?.quantity
+                              } // Set the max value dynamically based on the quantity in the invoice list
+                            />
                           </td>
+
                           <td>{product.amount}</td>
                         </tr>
                       ))}
@@ -296,7 +367,7 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <span>Total (Rs):</span>
-                      <span>{}</span>
+                      <span>{total}</span>
                     </div>
                     <div
                       style={{
@@ -305,18 +376,7 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>Discount(%):</span>
-                      <MDBInput
-                        style={{
-                          height: "25px",
-                          width: "65px",
-                          marginLeft: "-240px",
-                        }}
-                        type="number"
-                        min={0}
-                        max={100}
-                        defaultValue="0"
-                      />
-                      <span style={{ textAlign: "right" }}>{}</span>
+                      <span style={{ textAlign: "right" }}>{total*discount/100}</span>
                     </div>
                     <div
                       style={{
@@ -325,7 +385,7 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <span>Net amount:</span>
-                      <span></span>
+                      <span>{parseFloat((total - (total*discount/100)).toFixed(2))}</span>
                     </div>
                   </div>
                 </MDBCard>
@@ -335,7 +395,9 @@ export const SectionRefund = (currentInvoice) => {
                     <button class="end_btn">CASH</button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn">Cancel</button>
+                    <button class="end_btn" onClick={cancelRefund}>
+                      Cancel
+                    </button>
                   </MDBCol>
                 </MDBRow>
               </div>

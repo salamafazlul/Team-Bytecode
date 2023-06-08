@@ -84,9 +84,9 @@ router.post("/api/generatePdf", async (req, res) => {
     doc.moveDown();
     doc.fontSize(12).text(`Date: ${invoice.date}`);
     doc.fontSize(16).text(`Cashier: ${invoice.User.user_name}`);
-    doc.fontSize(16).text(`Total Bill: ${invoice.total}`);
-    doc.fontSize(16).text(`Bill Discount: ${invoice.discount}`);
-
+    doc.fontSize(16).text(`Gross Amount: ${invoice.total}`);
+    doc.fontSize(16).text(`Bill Discount: ${invoice.discount} %`);
+    doc.fontSize(16).text(`Net Amount: ${invoice.total - (invoice.total*invoice.discount/100)}`);
     doc.moveDown();
     doc.fontSize(16).text("Products:");
 
