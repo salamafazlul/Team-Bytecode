@@ -1,7 +1,8 @@
-import "./Table.css";
+import "./ViewCustomer.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Modal, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function UserTable() {
   const [ListOfUsers, setListOfUsers] = useState([]);
@@ -83,6 +84,9 @@ function UserTable() {
     <div className="table">
       <div className="container04">
         <div className="UserTable">
+          <Link to="\UserForm.js" className="btn btn-primary">
+            Add User
+          </Link>
           <Table responsive style={{ width: "150vh" }}>
             <thead>
               <tr>
@@ -146,16 +150,20 @@ function UserTable() {
                   name="full_name"
                   value={editedUser.full_name}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               <p>
                 User Role:
-                <input
-                  type="text"
+                <select
                   name="user_role"
                   value={editedUser.user_role}
                   onChange={handleInputChange}
-                />
+                  style={{ width: "100%" }}
+                >
+                  <option value="storekeeper">Storekeeper</option>
+                  <option value="cashier">Cashier</option>
+                </select>
               </p>
               <p>
                 Email:
@@ -164,6 +172,7 @@ function UserTable() {
                   name="email"
                   value={editedUser.email}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               <p>
@@ -173,6 +182,7 @@ function UserTable() {
                   name="address"
                   value={editedUser.address}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               <p>
@@ -182,6 +192,7 @@ function UserTable() {
                   name="mobile_no"
                   value={editedUser.mobile_no}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               {/* Add other fields as needed */}

@@ -1,0 +1,62 @@
+.container03 {
+  margin: 50px;
+  padding: 10px;
+}
+
+.search01 {
+  width: 50vh;
+  margin: 10px;
+}
+
+.search02 {
+  margin: 10px;
+}
+
+.table {
+  height: 250px;
+  width: 100%;
+  align-items: center;
+}
+
+.tableHead {
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: Arial;
+}
+
+td {
+  letter-spacing: 1px;
+  font-family: Arial;
+}
+
+tbody td {
+  text-align: center;
+  font-family: Arial;
+}
+
+.container04 {
+  width: 76vw;
+  position: absolute;
+  top: 75vh;
+  right: 7.3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b4d1e4;
+  padding: 1vw;
+  margin: 0;
+  border-radius: 10px;
+}
+
+.TableButton {
+  background-color: #cfd8dc;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

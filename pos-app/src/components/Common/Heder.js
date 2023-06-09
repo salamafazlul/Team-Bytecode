@@ -11,7 +11,7 @@ function Heder() {
       <div className="topWrapper">
         <div>
           <h1 className="syname">BY TECH POS SYSTEM</h1>
-          <h4 className="interfacename">INVENTORY MANAGEMENT</h4>
+          <h4 className="interfacename">USER MANAGEMENT</h4>
         </div>
         <div className="notification">
           <IconContext.Provider value={{ size: "1.5rem", color: "white" }}>

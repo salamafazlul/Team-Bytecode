@@ -1,0 +1,79 @@
+.search01 {
+  width: 50vh;
+  margin: 10px;
+}
+
+.search02 {
+  margin: 10px;
+}
+
+.tableHead {
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: Arial;
+  text-align: center;
+}
+
+td {
+  letter-spacing: 1px;
+  font-family: Arial;
+}
+
+tbody td {
+  text-align: center;
+  font-family: Arial;
+}
+
+.container04 {
+  background-color: #d5dbdb;
+  align-items: left;
+  opacity: 75%;
+  width: 76vw;
+  height: 90vh;
+  padding: 1vw;
+  background-size: auto;
+  display: flex;
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  top: 100vh;
+  position: relative;
+  left: 40vh;
+  bottom: 98vh;
+  margin-right: 4vw;
+  border-radius: 10px;
+}
+
+.TableButton {
+  background-color: #bfc9ca;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.modal-header {
+  background-color: #05486a;
+  border-bottom: none;
+}
+
+.closeButton {
+  background-color: blue !important;
+  color: white !important;
+}
+
+.button3 {
+  position: relative;
+  z-index: 1; /* Higher z-index than the table */
+  background-color: #bfc9ca;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}

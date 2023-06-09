@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
 import Login from "./components/UserMgt/Login";
-import { ReactDOM } from "react-dom";
-import { Log } from "./components/UserMgt/Log";
 import Checkout from "./components/SalesMgt/Checkout";
 import { BrowserRouter, Routes, Route, Switch, Link } from "react-router-dom";
 import KeyBoard from "./components/SalesMgt/KeyBoard";
 import AddUsers from "./components/UserMgt/AddUsers";
-import EditUser from "./components/UserMgt/EditUser";
+// import ViewUsers from "./components/UserMgt/ViewUsers";
+import Table from "./components/UserMgt/Table";
+import Customer from "./components/UserMgt/Customer";
 
 function App() {
   return (
@@ -18,7 +18,9 @@ function App() {
           <Route path="/KeyBoard" element={<KeyBoard />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/AddUsers" element={<AddUsers />} />
-          <Route path="/EditUser/:id" element={<EditUser />} />
+          {/* <Route path="/ViewUsers" element={<ViewUsers />} /> */}
+          <Route path="/Customer" element={<Customer />} />
+          <Route path="/ViewUsers" element={<Table />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,20 +1,19 @@
 import React from "react";
-import "./ViewUsers.css";
-// import UserForm from "./UserForm";
-import Table from "./Table";
+import "./AddUsers.css";
+import CustomerForm from "./CustomerForm";
+import CustomerTable from "./CustomerTable";
 import Sidenav from "../Common/Sidenav";
 import Header from "../Common/Heder";
 
-export default function ViewUsers() {
+export default function AddUsers() {
   return (
     <>
       <div className="container">
         <Header />
         <Sidenav userRole="storekeeper" />
         <div className="others">
-          {/* <UserForm /> */}
-
-          <Table />
+          <CustomerForm />
+          <CustomerTable />
         </div>
       </div>
     </>

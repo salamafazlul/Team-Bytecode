@@ -1,25 +1,28 @@
-import "./Table.css";
+import "./CustomerTable.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Modal, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-function UserTable() {
-  const [ListOfUsers, setListOfUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+function CustomerTable() {
+  const [ListOfCustomer, setListOfCustomer] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [editedUser, setEditedUser] = useState(null);
+  const [editedCustomer, setEditedCustomer] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/Users").then((response) => {
-      const sortedUsers = response.data.sort((a, b) => b.id - a.id);
-      setListOfUsers(sortedUsers);
+    axios.get("http://localhost:3001/Customer").then((response) => {
+      const sortedCustomer = response.data.sort((a, b) => b.id - a.id);
+      setListOfCustomer(sortedCustomer);
     });
   }, []);
 
-  const editUser = (user_id) => {
-    const user = ListOfUsers.find((user) => user.id === user_id);
-    setSelectedUser(user);
-    setEditedUser({ ...user });
+  const editCustomer = (customer_id) => {
+    const customer = ListOfCustomer.find(
+      (customer) => customer.id === customer_id
+    );
+    setSelectedCustomer(customer);
+    setEditedCustomer({ ...customer });
     setShowModal(true);
   };
 
@@ -29,21 +32,24 @@ function UserTable() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser((prevEditedUser) => ({
-      ...prevEditedUser,
+    setEditedCustomer((prevEditedCustomer) => ({
+      ...prevEditedCustomer,
       [name]: value,
     }));
   };
 
   const saveChanges = () => {
     axios
-      .put(`http://localhost:3001/Users/${editedUser.id}`, editedUser)
+      .put(
+        `http://localhost:3001/Customer/${editedCustomer.id}`,
+        editedCustomer
+      )
       .then((response) => {
         // Handle successful save
-        const updatedUserList = ListOfUsers.map((user) =>
-          user.id === editedUser.id ? editedUser : user
+        const updatedCustomerList = ListOfCustomer.map((customer) =>
+          customer.id === editedCustomer.id ? editedCustomer : customer
         );
-        setListOfUsers(updatedUserList);
+        setListOfCustomer(updatedCustomerList);
         setShowModal(false);
         alert("Changes saved successfully!"); // Display success message
       })
@@ -54,27 +60,27 @@ function UserTable() {
       });
   };
 
-  const removeUser = (user_id) => {
+  const removeCustomer = (customer_id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to remove this user?"
+      "Are you sure you want to remove this customer?"
     );
 
     if (confirmDelete) {
       axios
-        .delete(`http://localhost:3001/Users/${user_id}`)
+        .delete(`http://localhost:3001/Customer/${customer_id}`)
         .then((response) => {
           // Handle successful removal from the server
-          const updatedUserList = ListOfUsers.filter(
-            (user) => user.id !== user_id
+          const updatedCustomerList = ListOfCustomer.filter(
+            (customer) => customer.id !== customer_id
           );
-          setListOfUsers(updatedUserList);
+          setListOfCustomer(updatedCustomerList);
           setShowModal(false);
-          alert("User removed successfully!"); // Display an alert to notify the user
+          alert("Customer removed successfully!"); // Display an alert to notify the user
         })
         .catch((error) => {
           // Handle error
           console.log(error);
-          alert("Failed to remove the user."); // Display an alert for the error
+          alert("Failed to remove the customer."); // Display an alert for the error
         });
     }
   };
@@ -82,31 +88,31 @@ function UserTable() {
   return (
     <div className="table">
       <div className="container04">
-        <div className="UserTable">
+        <div className="CustomerTable">
           <Table responsive style={{ width: "150vh" }}>
             <thead>
               <tr>
                 <th className="tableHead">#</th>
                 <th className="tableHead">Name</th>
-                <th className="tableHead">UserRole</th>
+                <th className="tableHead">Contact No</th>
                 <th className="tableHead">EmailAddress</th>
                 <th className="tableHead"></th>
                 <th className="tableHead"></th>
               </tr>
             </thead>
             <tbody>
-              {ListOfUsers.slice(0, 7).map((value, key) => {
+              {ListOfCustomer.slice(0, 7).map((customer, key) => {
                 return (
                   <tr key={key}>
-                    <td>{value.id}</td>
-                    <td>{value.full_name}</td>
-                    <td>{value.user_role}</td>
-                    <td>{value.email}</td>
+                    <td>{customer.id}</td>
+                    <td>{customer.full_name}</td>
+                    <td>{customer.mobile_no}</td>
+                    <td>{customer.email}</td>
                     <td>
                       <button
                         className="TableButton"
                         onClick={() => {
-                          editUser(value.id);
+                          editCustomer(customer.id);
                         }}
                       >
                         Edit
@@ -116,7 +122,7 @@ function UserTable() {
                       <button
                         className="TableButton"
                         onClick={() => {
-                          removeUser(value.id);
+                          removeCustomer(customer.id);
                         }}
                       >
                         Remove
@@ -133,28 +139,20 @@ function UserTable() {
       {/* Modal for displaying user data */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit User</Modal.Title>
+          <Modal.Title>Edit Customer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {editedUser && (
+          {editedCustomer && (
             <div>
-              <p>ID: {editedUser.id}</p>
+              <p>ID: {editedCustomer.id}</p>
               <p>
                 Name:
                 <input
                   type="text"
                   name="full_name"
-                  value={editedUser.full_name}
+                  value={editedCustomer.full_name}
                   onChange={handleInputChange}
-                />
-              </p>
-              <p>
-                User Role:
-                <input
-                  type="text"
-                  name="user_role"
-                  value={editedUser.user_role}
-                  onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               <p>
@@ -162,26 +160,20 @@ function UserTable() {
                 <input
                   type="text"
                   name="email"
-                  value={editedUser.email}
+                  value={editedCustomer.email}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
-              <p>
-                Address:
-                <input
-                  type="text"
-                  name="address"
-                  value={editedUser.address}
-                  onChange={handleInputChange}
-                />
-              </p>
+
               <p>
                 Mobile Number:
                 <input
                   type="text"
                   name="mobile_no"
-                  value={editedUser.mobile_no}
+                  value={editedCustomer.mobile_no}
                   onChange={handleInputChange}
+                  style={{ width: "100%" }}
                 />
               </p>
               {/* Add other fields as needed */}
@@ -206,4 +198,4 @@ function UserTable() {
   );
 }
 
-export default UserTable;
+export default CustomerTable;

@@ -1,62 +1,8 @@
-import React, { useState, state, Component, props } from "react";
-import { ReactDOM } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  //  handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     console.log(this.state.email)
-  //     console.log(this.state.password)
-  // // const handleSubmit = (e) => {
-  // //     e.preventDefault();
-  // //     console.log(this.state.email)
-  // //     console.log(this.state.password)
-
-  //     if(this.state.email == "fazlulsalama@gmail.com" && this.state.password == 123){
-  //         const mes = "Welcome Salama"
-  //         alert(mes);
-  // //     if(this.state.email == "fazlulsalama@gmail.com" && this.state.password == 123){
-  // //         const mes = "Welcome Salama"
-  // //         alert(mes);
-
-  //     }
-  // //     }
-
-  // }
-  // // }
-
-  //  changeHandler = (c) => {
-  // //  const changeHandler = (c) => {
-
-  //     const name = c.target.name;
-  //     const value = c.target.value;
-  // //     const name = c.target.name;
-  // //     const value = c.target.value;
-
-  //     this.setState({
-  //       [name] : value,
-  // //     this.setState({
-  // //       [name] : value,
-
-  //     });
-  // }
-
-  //     });
-  // }
-
-  /*
-const [email, setEmail]         = State('');
-const [password, setPassword]   = State('');
-const [errMsg, setErrMsg]       = State('');
-const [success, setSuccess]     = State('');
-*/
-  /*
-this.state = {
-    email :''
-};*/
 
   return (
     <>
@@ -77,7 +23,6 @@ this.state = {
 
           <form className="login-form">
             {" "}
-            {/*onSubmit={this.handleSubmit} */}
             <label htmlfor="email">Username</label>
             <input
               type="text"
@@ -95,11 +40,28 @@ this.state = {
               required
             ></input>
             <button
-              className="sign"
+              className="signButton"
               type="submit"
+              // onClick={() => navigate("AddUsers")}
+              onClick={() => navigate("Table")}
+            >
+              ViewUsers
+            </button>
+            <button
+              className="signButton"
+              type="submit"
+              // onClick={() => navigate("AddUsers")}
               onClick={() => navigate("AddUsers")}
             >
-              Login
+              AddUsers
+            </button>
+            <button
+              className="signButton"
+              type="submit"
+              // onClick={() => navigate("AddUsers")}
+              onClick={() => navigate("Customer")}
+            >
+              Customer
             </button>
           </form>
         </div>

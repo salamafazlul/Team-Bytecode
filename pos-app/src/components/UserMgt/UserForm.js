@@ -32,7 +32,7 @@ function UserForm() {
   };
 
   return (
-    <div className="container01">
+    <div className="container02">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -107,10 +107,10 @@ function UserForm() {
             component="span"
             style={{ display: "block" }}
           />
-          <button className="Addbutton" type="submit">
+          <button className="Addbutton01" type="submit">
             Add
           </button>
-          <button className="Clearbutton" type="reset">
+          <button className="Clearbutton01" type="reset">
             Clear
           </button>
         </Form>
