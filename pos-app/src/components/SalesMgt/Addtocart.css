@@ -73,6 +73,16 @@ tr {
   height:35px;
   margin:20px 0px 10px 30px;
   transition: all 0.2s ease-in-out;
+  font-size: 18px;
+}
+.dlt_btn{
+  font-size: 14px;
+  color:white;
+  background-color: #4483ad;
+  width:20px;
+  height:20px;
+  margin:-20px;
+  font-weight: bold;
 }
 
 .end_btn:active {
@@ -98,6 +108,7 @@ tr {
   font-weight: bold;
   box-shadow:2px 3px rgba(82, 78, 78, 0.486);
 }
+
 /* adjust width on smaller screens */
 @media screen and (max-width: 1100px) {
   .end_btn {

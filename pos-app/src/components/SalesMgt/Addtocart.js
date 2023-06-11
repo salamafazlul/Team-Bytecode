@@ -13,7 +13,7 @@ import Keyboard from "react-simple-keyboard";
 import CardPayment from "./CardPayment";
 import CashPayment from "./CashPayment";
 
-export const AddtoCart = ({currentInvoice}) => {
+export const AddtoCart = ({ currentInvoice }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
@@ -91,7 +91,9 @@ export const AddtoCart = ({currentInvoice}) => {
   };
 
   const cancelCheckout = () => {
-    Axios.delete(`http://localhost:3001/invoice_product/api/deleteRecords/${currentInvoice}`)
+    Axios.delete(
+      `http://localhost:3001/invoice_product/api/deleteRecords/${currentInvoice}`
+    )
       .then(() => {
         navigate("/Cashier"); // Navigate back to the cashier page
       })
@@ -100,25 +102,36 @@ export const AddtoCart = ({currentInvoice}) => {
       });
   };
 
-  const updateQuantity = (e, product_id, invoice_id, price, discount, quantity) =>{
+  const updateQuantity = (
+    e,
+    product_id,
+    invoice_id,
+    price,
+    discount,
+    quantity
+  ) => {
     const newQuantity = e.target.value;
-    const newAmount = price * newQuantity * (100 - discount) / 100;
-    Axios.post('http://localhost:3001/invoice_product/api/updateQuantity/', {
+    const newAmount = (price * newQuantity * (100 - discount)) / 100;
+    Axios.post("http://localhost:3001/invoice_product/api/updateQuantity/", {
       product_id: product_id,
       invoice_id: invoice_id,
       quantity: newQuantity,
       amount: newAmount,
-      oldQuantity: quantity
-    })
-  }
+      oldQuantity: quantity,
+    });
+  };
+  const removeProduct = (product_id, invoice_id) => {
+    Axios.post(`http://localhost:3001/invoice_product/api/removeProduct/`, {
+      invoice_id: invoice_id,
+      product_id: product_id,
+    });
+  };
 
   return (
     <>
       <section className="section">
         <div class="addtocart">
-          <MDBCol>
-           
-          </MDBCol>
+          <MDBCol></MDBCol>
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
               {/* selected product area */}
@@ -284,12 +297,39 @@ export const AddtoCart = ({currentInvoice}) => {
                             <input
                               type="number"
                               value={product.quantity}
-                              style={{width:"40px",padding:"3px", margin:"-10px 0px -10px 0px"}}
-                              onChange={(e) => updateQuantity(e, product.product_id, product.invoice_id,product.price,product.discount, product.quantity)}
-                              min={0}
-                              ></input>
+                              style={{
+                                width: "40px",
+                                padding: "3px",
+                                margin: "-10px 0px -10px 0px",
+                              }}
+                              onChange={(e) =>
+                                updateQuantity(
+                                  e,
+                                  product.product_id,
+                                  product.invoice_id,
+                                  product.price,
+                                  product.discount,
+                                  product.quantity
+                                )
+                              }
+                              onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
+                              min={1}
+                            ></input>
                           </td>
                           <td>{product.amount}</td>
+                          <td>
+                            <button
+                              class="dlt_btn"
+                              onClick={() => {
+                                removeProduct(
+                                  product.product_id,
+                                  product.invoice_id
+                                );
+                              }}
+                            >
+                              X
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -314,7 +354,8 @@ export const AddtoCart = ({currentInvoice}) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>Discount(%):</span>
-                      <MDBInput className="discount_btn"
+                      <MDBInput
+                        className="discount_btn"
                         style={{
                           height: "25px",
                           width: "65px",
@@ -354,7 +395,9 @@ export const AddtoCart = ({currentInvoice}) => {
                     </button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn" onClick={cancelCheckout} >Cancel</button>
+                    <button class="end_btn" onClick={cancelCheckout}>
+                      Cancel
+                    </button>
                   </MDBCol>
                 </MDBRow>
               </div>
@@ -366,7 +409,7 @@ export const AddtoCart = ({currentInvoice}) => {
         show={cashModal}
         amount={parseFloat((total - discount).toFixed(2))}
         onHide={() => setCashModal(false)}
-        invoice_id = {currentInvoice}
+        invoice_id={currentInvoice}
       />
       <CardPayment show={cardModal} onHide={() => setCardModal(false)} />
     </>
