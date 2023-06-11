@@ -26,6 +26,7 @@ export const SectionRefund = (currentInvoice) => {
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [invoiceKey, setInvoiceKey] = useState();
+  const [timeoutId, setTimeoutId] = useState(null);
 
   useEffect(() => {
     const invoice_id = currentInvoice.currentInvoice;
@@ -45,22 +46,42 @@ export const SectionRefund = (currentInvoice) => {
     });
   });
 
-  const getInvoice = (invoiceKey)=>{
+  const getInvoice = (invoiceKey) => {
+    clearTimeout(timeoutId); // Clear previous timeout if any
     const invoice_id = invoiceKey;
-    Axios.get(
-      `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
-    ).then((response) => {
-      setInvoiceList(response.data);
-    });
-    Axios.get(
-      `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice.currentInvoice}`
-    ).then((response) => {
-      setInvoiceDetail(response.data);
-      setDiscount(response.data.discount);
-    });
-  }
+    const timeout = setTimeout(() => {
+      Axios.get(
+        `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice.currentInvoice}`
+      ).then((response) => {
+        const invoiceDate = new Date(response.data.date);
+        const currentDate = new Date();
+        const diffInMilliseconds = Math.abs(currentDate - invoiceDate);
+        const diffInDays = Math.floor(
+          diffInMilliseconds / (1000 * 60 * 60 * 24)
+        );
+        // Check if the sale was made within the last 7 days
+        if (diffInDays <= 7) {
+          setInvoiceDetail(response.data);
+          setDiscount(response.data.discount);
+          Axios.get(
+            `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
+          )
+            .then((response) => {
+              setInvoiceList(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          alert("Sale in not made within 7 days. Refund not allowed");
+        }
+      });
+    }, 1000); // Delay the execution of the Axios request by 1 second
 
-  const selectProduct = (pid, pname, price, dis,quantity,amount) => {
+    setTimeoutId(timeout); // Save the timeout ID for later use
+  };
+
+  const selectProduct = (pid, pname, price, dis, quantity, amount) => {
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
@@ -81,21 +102,31 @@ export const SectionRefund = (currentInvoice) => {
       price: selectPrice,
       quantity: selectQuantity,
       discount: selectDiscount,
-      amount: selectAmount
+      amount: selectAmount,
     });
   };
 
-  const updateQuantity = (e, product_id, invoice_id, price, discount, quantity) =>{
+  const updateQuantity = (
+    e,
+    product_id,
+    invoice_id,
+    price,
+    discount,
+    quantity
+  ) => {
     const newQuantity = e.target.value;
-    const newAmount = price * newQuantity * (100 - discount) / 100;
-    Axios.post('http://localhost:3001/invoice_product/api/updateRefundQuantity/', {
-      product_id: product_id,
-      invoice_id: invoice_id,
-      quantity: newQuantity,
-      amount: newAmount,
-      oldQuantity: quantity
-    })
-  }
+    const newAmount = (price * newQuantity * (100 - discount)) / 100;
+    Axios.post(
+      "http://localhost:3001/invoice_product/api/updateRefundQuantity/",
+      {
+        product_id: product_id,
+        invoice_id: invoice_id,
+        quantity: newQuantity,
+        amount: newAmount,
+        oldQuantity: quantity,
+      }
+    );
+  };
   const cancelRefund = () => {
     Axios.delete(
       `http://localhost:3001/invoice_product/api/deleteRefundRecords/${currentInvoice.currentInvoice}`
@@ -252,14 +283,38 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <table>
-                        <tr >
-                          <div style={{alignItems:"center",display: "flex"}}>
-                          <td style={{marginLeft:"40px",fontWeight:"bold"}}> Gross Amount:</td>
-                          <td style={{marginLeft:"2px"}}> {invoiceDetail?.total}</td>
-                          <td style={{marginLeft:"40px", fontWeight:"bold"}}> Bill Discount:</td>
-                          <td style={{marginLeft:"2px"}}> {discount} %</td>
-                          <td style={{marginLeft:"40px", fontWeight:"bold"}}> Net Amount:</td>
-                          <td style={{marginLeft:"2px"}}> {invoiceDetail?.total-(invoiceDetail?.total*discount/100)}</td>
+                        <tr>
+                          <div
+                            style={{ alignItems: "center", display: "flex" }}
+                          >
+                            <td
+                              style={{ marginLeft: "40px", fontWeight: "bold" }}
+                            >
+                              {" "}
+                              Gross Amount:
+                            </td>
+                            <td style={{ marginLeft: "2px" }}>
+                              {" "}
+                              {invoiceDetail?.total}
+                            </td>
+                            <td
+                              style={{ marginLeft: "40px", fontWeight: "bold" }}
+                            >
+                              {" "}
+                              Bill Discount:
+                            </td>
+                            <td style={{ marginLeft: "2px" }}> {discount} %</td>
+                            <td
+                              style={{ marginLeft: "40px", fontWeight: "bold" }}
+                            >
+                              {" "}
+                              Net Amount:
+                            </td>
+                            <td style={{ marginLeft: "2px" }}>
+                              {" "}
+                              {invoiceDetail?.total -
+                                (invoiceDetail?.total * discount) / 100}
+                            </td>
                           </div>
                         </tr>
                       </table>
@@ -376,7 +431,9 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>Discount(%):</span>
-                      <span style={{ textAlign: "right" }}>{total*discount/100}</span>
+                      <span style={{ textAlign: "right" }}>
+                        {(total * discount) / 100}
+                      </span>
                     </div>
                     <div
                       style={{
@@ -385,7 +442,11 @@ export const SectionRefund = (currentInvoice) => {
                       }}
                     >
                       <span>Net amount:</span>
-                      <span>{parseFloat((total - (total*discount/100)).toFixed(2))}</span>
+                      <span>
+                        {parseFloat(
+                          (total - (total * discount) / 100).toFixed(2)
+                        )}
+                      </span>
                     </div>
                   </div>
                 </MDBCard>
