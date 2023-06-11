@@ -66,7 +66,7 @@ function CardPayment(props) {
               <div className="row my-3">
                 <div className="col">
                   <p className="fpx-1 bg-white rounded border px-1 py-2">
-                    Amount <span style={{float:"right"}}>0.00</span>
+                    Amount <span style={{float:"right"}}>123.5</span>
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ function CardPayment(props) {
               <b className="text-white fs-5 ">Card Payment </b>
             </div>
             <div className="mx-auto mt-2">
-              <button class="modalbtn">Checkout</button>
+              <button class="modalbtn">Cancel</button>
             </div>
           </div>
         </div>

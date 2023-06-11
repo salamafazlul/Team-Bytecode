@@ -155,7 +155,7 @@ export const AddtoCart = ({currentInvoice}) => {
                     placeholder="Qty"
                     type="number"
                     defaultValue="1"
-                    min={0}
+                    min={1}
                     value={selectQuantity}
                     onChange={(e) => setSelectQuantity(e.target.value)}
                     onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs

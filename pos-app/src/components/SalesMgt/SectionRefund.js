@@ -98,7 +98,7 @@ export const SectionRefund = (currentInvoice) => {
   }
   const cancelRefund = () => {
     Axios.delete(
-      `http://localhost:3001/invoice_product/api/deleteRecords/${currentInvoice.currentInvoice}`
+      `http://localhost:3001/invoice_product/api/deleteRefundRecords/${currentInvoice.currentInvoice}`
     )
       .then(() => {
         navigate("/Cashier"); // Navigate back to the cashier page
@@ -341,7 +341,7 @@ export const SectionRefund = (currentInvoice) => {
                                 }
                               }}
                               onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
-                              min={0}
+                              min={1}
                               max={
                                 invoiceList.find(
                                   (item) =>

@@ -43,7 +43,7 @@ router.post("/api/setTotalDiscount/", async (req, res) => {
   }
 });
 
-//get invoice products for refund usinf sale ID
+//get invoice products for refund using sale ID
 router.get("/api/getInvoice", async (req, res) => {
   const invoice_id = req.query.invoice_id;
   Invoice_Product.findAll({
