@@ -39,7 +39,7 @@ router.post("/api/generatePdf", async (req, res) => {
         service: "gmail",
         auth: {
           user: "salama.fhf@gmail.com",
-          pass: "azdrrhkyhqrgcfej",
+          pass: "zxqtkhhafyxjexjk",
         },
       });
 

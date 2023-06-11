@@ -140,6 +140,41 @@ router.post("/api/updateQuantity/", async (req, res) => {
   res.send("Invoice updated successfully");
 });
 
+// remove product from invoice product table and update the stock during checkout
+router.post("/api/removeProduct/", async (req, res) => {
+  const invoice_id = req.body.invoice_id;
+  const product_id = req.body.product_id;
+  try {
+    const invoiceProduct = await Invoice_Product.findOne({
+      where: {
+        invoice_id: invoice_id,
+        product_id: product_id,
+      },
+    });
+    if (!invoiceProduct) {
+      return res.status(404).json({ error: "Product not found in Invoice" });
+    }
+    const amount = invoiceProduct.amount;
+    const invoice = await Invoice.findByPk(invoice_id);
+    if (invoice) {
+      invoice.total -= amount;
+      await invoice.save();
+    }
+    const quantity = invoiceProduct.quantity;
+    const product = await Product.findByPk(product_id);
+    if (product) {
+      product.stock += quantity;
+      await product.save();
+    }
+    await invoiceProduct.destroy();
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
   const { invoice_id } = req.params;
   try {
@@ -186,7 +221,7 @@ router.post("/api/addToRefund/", async (req, res) => {
     }
     // Calculate the new total amount
     const newTotal =
-      parseFloat(invoice.total) + amount;
+      parseFloat(invoice.total) + parseFloat(amount);
     // Reduce the quantity in the Product table
     const product = await Product.findByPk(product_id);
     const newQuantity = product.stock + quantity;
@@ -273,5 +308,38 @@ router.delete("/api/deleteRefundRecords/:invoice_id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+// remove product from invoice product table and update the stock during refund
+router.post("/api/removeRefundProduct/", async (req, res) => {
+  const invoice_id = req.body.invoice_id;
+  const product_id = req.body.product_id;
+  try {
+    const invoiceProduct = await Invoice_Product.findOne({
+      where: {
+        invoice_id: invoice_id,
+        product_id: product_id,
+      },
+    });
+    if (!invoiceProduct) {
+      return res.status(404).json({ error: "Product not found in Invoice" });
+    }
+    const amount = invoiceProduct.amount;
+    const invoice = await Invoice.findByPk(invoice_id);
+    if (invoice) {
+      invoice.total -= amount;
+      await invoice.save();
+    }
+    const quantity = invoiceProduct.quantity;
+    const product = await Product.findByPk(product_id);
+    if (product) {
+      product.stock -= quantity;
+      await product.save();
+    }
+    await invoiceProduct.destroy();
 
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 module.exports = router;

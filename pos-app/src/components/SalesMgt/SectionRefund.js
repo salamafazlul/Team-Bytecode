@@ -10,6 +10,7 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import { useNavigate } from "react-router-dom";
+import CashPayment from "./CashPayment";
 
 export const SectionRefund = (currentInvoice) => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const SectionRefund = (currentInvoice) => {
   const [discount, setDiscount] = useState(0);
   const [invoiceKey, setInvoiceKey] = useState();
   const [timeoutId, setTimeoutId] = useState(null);
+  const [cashModal, setCashModal] = useState();
 
   useEffect(() => {
     const invoice_id = currentInvoice.currentInvoice;
@@ -137,6 +139,15 @@ export const SectionRefund = (currentInvoice) => {
       .catch((error) => {
         console.error(error);
       });
+  };
+  const removeProduct = (product_id, invoice_id) => {
+    Axios.post(
+      `http://localhost:3001/invoice_product/api/removeRefundProduct/`,
+      {
+        invoice_id: invoice_id,
+        product_id: product_id,
+      }
+    );
   };
 
   return (
@@ -290,28 +301,23 @@ export const SectionRefund = (currentInvoice) => {
                             <td
                               style={{ marginLeft: "40px", fontWeight: "bold" }}
                             >
-                              {" "}
                               Gross Amount:
                             </td>
                             <td style={{ marginLeft: "2px" }}>
-                              {" "}
                               {invoiceDetail?.total}
                             </td>
                             <td
                               style={{ marginLeft: "40px", fontWeight: "bold" }}
                             >
-                              {" "}
                               Bill Discount:
                             </td>
                             <td style={{ marginLeft: "2px" }}> {discount} %</td>
                             <td
                               style={{ marginLeft: "40px", fontWeight: "bold" }}
                             >
-                              {" "}
                               Net Amount:
                             </td>
                             <td style={{ marginLeft: "2px" }}>
-                              {" "}
                               {invoiceDetail?.total -
                                 (invoiceDetail?.total * discount) / 100}
                             </td>
@@ -407,6 +413,19 @@ export const SectionRefund = (currentInvoice) => {
                           </td>
 
                           <td>{product.amount}</td>
+                          <td>
+                            <button
+                              class="dlt_btn"
+                              onClick={() => {
+                                removeProduct(
+                                  product.product_id,
+                                  product.invoice_id
+                                );
+                              }}
+                            >
+                              X
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -450,22 +469,31 @@ export const SectionRefund = (currentInvoice) => {
                     </div>
                   </div>
                 </MDBCard>
-
-                <MDBRow>
-                  <MDBCol>
-                    <button class="end_btn">CASH</button>
-                  </MDBCol>
-                  <MDBCol>
-                    <button class="end_btn" onClick={cancelRefund}>
-                      Cancel
-                    </button>
-                  </MDBCol>
-                </MDBRow>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <MDBRow>
+                    <MDBCol>
+                      <button class="end_btn" onClick={() => setCashModal(true)}>Cash</button>
+                    </MDBCol>
+                    <MDBCol>
+                      <button class="end_btn" onClick={cancelRefund}>
+                        Cancel
+                      </button>
+                    </MDBCol>
+                  </MDBRow>
+                </div>
               </div>
             </div>
           </MDBRow>
         </div>
       </section>
+      <CashPayment
+        show={cashModal}
+        amount={parseFloat(
+          (total - (total * discount) / 100).toFixed(2)
+        )}
+        onHide={() => setCashModal(false)}
+        invoice_id={currentInvoice.currentInvoice}
+      />
     </>
   );
 };
