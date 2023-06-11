@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Invoice, Invoice_Product, Product } = require("../models");
+const {
+  Invoice,
+  Invoice_Product,
+  Product,
+  Sale_of_Refund,
+} = require("../models");
 
 //get invoice list /api/getInvoiceList
 router.get("/", async (req, res) => {
@@ -50,10 +55,12 @@ router.get("/api/getInvoice", async (req, res) => {
     where: {
       invoice_id: invoice_id,
     },
-    include: [{
-      model: Product,
-      attributes: ['product_name']
-    }]
+    include: [
+      {
+        model: Product,
+        attributes: ["product_name"],
+      },
+    ],
   })
     .then((response) => {
       res.json(response);
@@ -71,7 +78,7 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
   const invoice_id = req.query.invoice_id;
   const currentInvoice = req.query.currentInvoice;
 
-  try{
+  try {
     const InvoiceDetail = await Invoice.findOne({
       where: {
         invoice_id: invoice_id,
@@ -81,6 +88,32 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
       return res.status(404).send("Invoice not found.");
     }
     const discount = InvoiceDetail.discount;
+
+    // Check if a record already exists in Sale_of_Refund for the currentInvoice
+    const existingRecord = await Sale_of_Refund.findOne({
+      where: {
+        refund_id: currentInvoice,
+      },
+    });
+
+    if (existingRecord) {
+      // Update the sale_id with the new invoice_id
+      await Sale_of_Refund.update(
+        { sale_id: invoice_id },
+        {
+          where: {
+            refund_id: currentInvoice,
+          },
+        }
+      );
+    } else {
+      // Create a new record in Sale_of_Refund
+      await Sale_of_Refund.create({
+        refund_id: currentInvoice,
+        sale_id: invoice_id,
+      });
+    }
+
     // Update the discount column in the invoice table for the current invoice
     await Invoice.update(
       { discount: discount },
@@ -91,7 +124,7 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
       }
     );
     res.json(InvoiceDetail);
-  }catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(500).send("An error occurred while retrieving the invoice.");
   }

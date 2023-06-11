@@ -2,17 +2,6 @@ module.exports = (sequelize, DataTypes) => {
   const Sale_of_Refund = sequelize.define(
     "Sale_of_Refund",
     {
-      sale_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        references: {
-          model: "Invoice",
-          key: "invoice_id",
-          onDelete: "no action",
-          onUpdate: "no action",
-        },
-      },
       refund_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -24,6 +13,18 @@ module.exports = (sequelize, DataTypes) => {
           onUpdate: "no action",
         },
       },
+      sale_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: "Invoice",
+          key: "invoice_id",
+          onDelete: "no action",
+          onUpdate: "no action",
+        },
+      },
+      
     },
     {
       tableName: "sale_of_refund",

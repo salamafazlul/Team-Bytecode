@@ -5,6 +5,7 @@ const {
   Product,
   Invoice,
   Discount,
+  Sale_of_Refund,
   sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
@@ -209,8 +210,6 @@ router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
 
 //------------------------------------------------------------------------------------------------------
 //refund section
-router.get("/api/getInvoice", async (req, res) => {});
-
 router.post("/api/addToRefund/", async (req, res) => {
   const { iid: invoice_id, pid: product_id, quantity, price, discount, amount } = req.body;
   try {
@@ -280,6 +279,15 @@ router.post("/api/updateRefundQuantity/", async (req, res) => {
 router.delete("/api/deleteRefundRecords/:invoice_id", async (req, res) => {
   const { invoice_id } = req.params;
   try {
+    // Fetch the sale of refund entry for the given invoice ID
+    const saleOfRefund = await Sale_of_Refund.findOne({
+      where: { refund_id: parseInt(invoice_id) },
+    });
+
+    if (saleOfRefund) {
+      // Delete the sale of refund entry
+      await saleOfRefund.destroy();
+    }
     // Fetch the records from Invoice_Product table for the given invoice ID
     const invoiceProducts = await Invoice_Product.findAll({
       where: { invoice_id: parseInt(invoice_id) },
