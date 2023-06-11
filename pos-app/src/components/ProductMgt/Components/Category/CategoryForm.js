@@ -38,7 +38,7 @@ function CategoryForm() {
                     type="text"
                     name="Category_ID"
                     size={20}
-                    placeholder="ProductID"
+                    placeholder="Category ID"
                     className=""
                     // value={Category.ID}
                   />
@@ -46,7 +46,7 @@ function CategoryForm() {
               </tr>
 
               <tr>
-                <td>Product Name</td>
+                <td>Category Name</td>
                 <td>
                   <Field
                     type="text"

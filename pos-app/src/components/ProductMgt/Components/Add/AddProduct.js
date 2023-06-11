@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import "./AddProductStyle.css";
 import axios from "axios";
@@ -6,6 +6,20 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const AddproductForm = () => {
+  //category dropdown
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    // Fetch category names from the server
+    axios
+      .get("http://localhost:3001/category")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const initialValues = {
     Product_name: "",
     Product_id: "",
@@ -153,12 +167,24 @@ const AddproductForm = () => {
 
                   <td>
                     <Field
-                      type="text"
+                      as="select"
+                      // type="text"
                       // onChange={handleChange}
                       name="CategoryId"
                       placeholder="Select category"
                       className="inputshort"
-                    />
+                    >
+                      <option value="">Select category</option>{" "}
+                      {/* Add a default option */}
+                      {categories.map((category) => (
+                        <option
+                          key={category.Category_ID}
+                          value={category.Category_ID}
+                        >
+                          {category.Category_name}
+                        </option>
+                      ))}
+                    </Field>
                   </td>
                   <td>
                     <label>Min.stock level</label>
@@ -192,11 +218,11 @@ const AddproductForm = () => {
               Add
             </button>
             {/* <div className="button">
-              <button className="b1" type="submit">
-                Add
-              </button>
-              <button className="b2">Clear</button>
-            </div> */}
+                <button className="b1" type="submit">
+                  Add
+                </button>
+                <button className="b2">Clear</button>
+              </div> */}
           </Form>
         </Formik>
       </div>
