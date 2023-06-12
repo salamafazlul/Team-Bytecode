@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const app = express();
 const cors = require('cors')
 
@@ -23,6 +24,9 @@ app.use ("/Discount", discountRouter )
 
 const  emailpdfRouter = require('./routes/Email_Invoice')
 app.use ("/Email_Invoice", emailpdfRouter )
+
+const  cardPaymentRouter = require('./routes/Card_Payment')
+app.use ("/Card_Payment", cardPaymentRouter )
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {

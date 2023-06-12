@@ -10,8 +10,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
-import CardPayment from "./CardPayment";
 import CashPayment from "./CashPayment";
+import StripeCheckout from "react-stripe-checkout";
 
 export const AddtoCart = ({ currentInvoice }) => {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ export const AddtoCart = ({ currentInvoice }) => {
   const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
+  const [netTotal, setNetTotal] = useState();
   const [discount, setDiscount] = useState(0);
-  const [cardModal, setCardModal] = useState();
   const [cashModal, setCashModal] = useState();
 
   useEffect(() => {
@@ -51,6 +51,7 @@ export const AddtoCart = ({ currentInvoice }) => {
       `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
     ).then((response) => {
       setTotal(response.data.total);
+      setNetTotal(parseFloat((response.data.total - discount).toFixed(2)));
     });
   });
 
@@ -127,6 +128,29 @@ export const AddtoCart = ({ currentInvoice }) => {
     });
   };
 
+  //card payment
+  const publishableKey =
+    "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
+
+  const priceForStripe = (netTotal / 250.0) * 100;
+
+  const payNow = async (token) => {
+    try {
+      const response = await Axios({
+        url: "http://localhost:3001/card_payment/payment",
+        method: "post",
+        data: {
+          amount: priceForStripe,
+          token,
+        },
+      });
+      if (response.status === 200) {
+        console.log("payment success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <section className="section">
@@ -378,7 +402,7 @@ export const AddtoCart = ({ currentInvoice }) => {
                       }}
                     >
                       <span>Net amount:</span>
-                      <span>{parseFloat((total - discount).toFixed(2))}</span>
+                      <span>{netTotal}</span>
                     </div>
                   </div>
                 </MDBCard>
@@ -390,9 +414,20 @@ export const AddtoCart = ({ currentInvoice }) => {
                     </button>
                   </MDBCol>
                   <MDBCol>
-                    <button class="end_btn" onClick={() => setCardModal(true)}>
-                      CARD
-                    </button>
+                    <div class="stripe_btn">
+                      <StripeCheckout
+                        stripeKey={publishableKey}
+                        label="CARD"
+                        name="Pay With Card"
+                        amount={priceForStripe}
+                        description={`Your total is $${priceForStripe/100}`}
+                        token={payNow}
+                        style={{
+                          width: "80px",
+                          height: "35px",
+                        }}
+                      />
+                    </div>
                   </MDBCol>
                   <MDBCol>
                     <button class="end_btn" onClick={cancelCheckout}>
@@ -411,7 +446,6 @@ export const AddtoCart = ({ currentInvoice }) => {
         onHide={() => setCashModal(false)}
         invoice_id={currentInvoice}
       />
-      <CardPayment show={cardModal} onHide={() => setCardModal(false)} />
     </>
   );
 };
