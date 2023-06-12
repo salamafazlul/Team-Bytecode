@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ReturnStyle.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const Rform = () => {
   const initialValues = {
@@ -20,9 +21,31 @@ const Rform = () => {
     Reason: Yup.string().required(" requird"),
   });
 
-  const onSubmit = (data, { resetForm } ) => {
-    console.log(data);
+  //update part
+  
+  const [formData, setFormData] = useState([]);
+
+  const handleSave = () => {
+    formData.map((data) =>
+      axios
+        .put(`http://localhost:3001/product/return`, [
+          { productId: data.ProductID, newQuantity: data.QTY },
+        ])
+        .then((response) => {
+          console.log("Quantity updated successfully.");
+        })
+        .catch((error) => {
+          console.error("Error updating quantity: ", error);
+        })
+    );
+  };
+
+  const onSubmit = (data, { resetForm }) => {
+    // console.log(data);
+    setFormData((prevData) => [...prevData, data]);
     resetForm();
+
+    const { ProductID, QTY } = data;
   };
 
   return (
@@ -96,8 +119,12 @@ const Rform = () => {
               </tbody>
             </table>
 
-            <button className="bb1">Update</button>
-            <button type="reset" className="bb2">Clear</button>
+            <button onClick={handleSave} className="bb1">
+              Update
+            </button>
+            <button type="reset" className="bb2">
+              Clear
+            </button>
           </Form>
         </Formik>
       </div>

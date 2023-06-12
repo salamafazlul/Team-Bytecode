@@ -153,27 +153,7 @@ function PurchersingForm() {
     ppprice: Yup.number().required("Required"),
     ppqty: Yup.number().required("Required"),
   });
-  /*
-  const [formData, setFormData] = useState([]);
-
-  const handleSubmit = (values, { resetForm }) => {
-    setFormData((prevData) => [...prevData, values]);
-    resetForm();
-
-// PUT request to update the quantity
-const { ppid, ppqty } = values;
-axios
-  .put(`http://localhost:3001/api/products/${ppid}`, { ppqty })
-  .then((response) => {
-    console.log("Quantity updated successfully.");
-  })
-  .catch((error) => {
-    console.error("Error updating quantity: ", error);
-  });
-
-  };
-
-  */
+ 
 
   const [formData, setFormData] = useState([]);
 
