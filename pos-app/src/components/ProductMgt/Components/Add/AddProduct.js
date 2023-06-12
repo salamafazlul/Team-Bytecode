@@ -6,6 +6,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const AddproductForm = () => {
+  // State for popup display
+  const [showPopup, setShowPopup] = useState(false);
+  const [formData, setFormData] = useState(null);
+
   //category dropdown
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -41,19 +45,10 @@ const AddproductForm = () => {
     Selling_price: Yup.number().required(" requird"),
     CategoryId: Yup.string().required(" requrid"),
     Min_stock_level: Yup.number().required(" requird"),
-    Description: Yup.string().required(" requird"),
+    // Description: Yup.string().required(" requird"),
   });
 
-  // const onSubmit = async (values) => {
-  //   const response = await axios
-  //     .post("http://localhost:3001/Product", values)
-  //     .then(() => {
-  //       axios.get("http://localhost:3001/Product").then((response) => {
-  //         setName(response.data);
-  //       });
-  //     });
-  // };
-
+  /*
   const onSubmit = async (values) => {
     console.log(values);
     const response = await axios
@@ -62,13 +57,26 @@ const AddproductForm = () => {
         console.log(res);
       });
   };
+*/
+  /*
+const onSubmit = async (values) => {
+  console.log(values);
+  await axios.post("http://localhost:3001/Product", values);
+  setShowPopup(true);
+}; */
 
-  // const onSubmit = (data) => {
-  //   axios.post(`http://localhost:3001/product`, data).then((res) => {
-  //     console.log(res);
-  //   });
-  //   console.log(data);
-  // };
+  const onSubmit = (values,{ resetForm } ) => {
+    setFormData(values);
+    setShowPopup(true);
+    resetForm();
+  };
+
+  const handleConfirm = async () => {
+    if (formData) {
+      await axios.post("http://localhost:3001/Product", formData);
+      setShowPopup(false);
+    }
+  };
 
   // const navigate = useNavigate();
 
@@ -168,8 +176,6 @@ const AddproductForm = () => {
                   <td>
                     <Field
                       as="select"
-                      // type="text"
-                      // onChange={handleChange}
                       name="CategoryId"
                       placeholder="Select category"
                       className="inputshort"
@@ -217,6 +223,7 @@ const AddproductForm = () => {
             <button className="b1" type="onsubmit">
               Add
             </button>
+            <button type="reset" className="b2">Clear</button>
             {/* <div className="button">
                 <button className="b1" type="submit">
                   Add
@@ -226,7 +233,42 @@ const AddproductForm = () => {
           </Form>
         </Formik>
       </div>
-      <hr className="hrule" />
+
+      {/* Popup message */}
+      {/*
+       {showPopup && (
+        <div className="popup">
+          <h3>Confirmation</h3>
+          <p>Are you sure you want to add the product?</p>
+          <div className="button">
+            <button className="b1" onClick={handleConfirm}>
+              Confirm
+            </button>
+            <button className="b2" onClick={() => setShowPopup(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+       )} */}
+
+      {showPopup && (
+        <div className="modal-overlay">
+          <div className="popup">
+            <h3>Confirmation</h3>
+            <p>Are you sure you want to add the product?</p>
+            <div className="">
+              <button className="b1" onClick={handleConfirm}>
+                Confirm
+              </button>
+              <button className="b2" onClick={() => setShowPopup(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* <hr className="rule"/> */}
     </>
   );
 };

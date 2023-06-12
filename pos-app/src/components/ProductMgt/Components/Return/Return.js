@@ -20,11 +20,9 @@ const Rform = () => {
     Reason: Yup.string().required(" requird"),
   });
 
-  const onSubmit = (data) => {
-    // axios.post(`http://localhost:8801/product`, data).then((res) => {
-    //   console.log(res);
-    // });
+  const onSubmit = (data, { resetForm } ) => {
     console.log(data);
+    resetForm();
   };
 
   return (
@@ -98,14 +96,12 @@ const Rform = () => {
               </tbody>
             </table>
 
-            <div className="button">
-              <button className="bb1">Update</button>
-              <button className="bb2">Clear</button>
-            </div>
+            <button className="bb1">Update</button>
+            <button type="reset" className="bb2">Clear</button>
           </Form>
         </Formik>
       </div>
-      <hr className="hrule" />
+      {/* <hr className="hrule" /> */}
     </>
   );
 };

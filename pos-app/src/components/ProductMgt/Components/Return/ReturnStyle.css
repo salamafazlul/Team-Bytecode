@@ -98,15 +98,14 @@
   margin-left: 8vw;
   margin-top: 1vh;
   box-sizing: border-box;
-
-
 }
+
 .title2{
     display: flex;
     color: rgb(2, 2, 59);
     padding: 0.2vw 1vw 0vw 0vw;
 }
 .hrule{
-    height: 2px;
+    height: px;
     color: rgb(2, 2, 59);
 }

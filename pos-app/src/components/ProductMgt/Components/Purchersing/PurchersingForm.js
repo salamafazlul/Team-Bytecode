@@ -146,7 +146,6 @@ function PurchersingForm() {
     ppqty: "",
     ppdescription: "",
   };
-  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     ppid: Yup.string().required("Required"),
