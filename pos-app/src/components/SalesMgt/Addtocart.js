@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MDBCard, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
+import { MDBCard, MDBCol, MDBInput, MDBRow } from "mdb-react-ui-kit";
 import "./Checkout.css";
 import "./Addtocart.css";
 import "./KeyBoard.css";
@@ -21,7 +21,6 @@ export const AddtoCart = ({ currentInvoice }) => {
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
-  const [selectDiscount, setSelectDiscount] = useState(0);
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [netTotal, setNetTotal] = useState();
@@ -61,7 +60,6 @@ export const AddtoCart = ({ currentInvoice }) => {
       pid: selectCode,
       price: selectPrice,
       quantity: selectQuantity,
-      discount: selectDiscount,
     });
   };
 
@@ -132,8 +130,8 @@ export const AddtoCart = ({ currentInvoice }) => {
   const publishableKey =
     "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
 
-  const priceForStripe = (netTotal / 250.0) * 100;
-
+  const tempPriceForStripe = parseInt((netTotal * 100) / 250.0);
+  const priceForStripe = parseInt(tempPriceForStripe);
   const payNow = async (token) => {
     try {
       const response = await Axios({
@@ -420,7 +418,7 @@ export const AddtoCart = ({ currentInvoice }) => {
                         label="CARD"
                         name="Pay With Card"
                         amount={priceForStripe}
-                        description={`Your total is $${priceForStripe/100}`}
+                        description={`Your total is $${priceForStripe}`}
                         token={payNow}
                         style={{
                           width: "80px",

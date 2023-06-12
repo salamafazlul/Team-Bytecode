@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PDFDocument = require("pdfkit");
 const nodemailer = require("nodemailer");
-const { Invoice_Product, Product, Invoice, User,sequelize } = require("../models");
+const { Invoice_Product, Product, Invoice, User } = require("../models");
 
 router.post("/api/generatePdf", async (req, res) => {
   const { email, invoice_id } = req.body;
