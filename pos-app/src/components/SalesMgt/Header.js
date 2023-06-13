@@ -2,7 +2,6 @@ import React from 'react'
 import Logo from "../images/logo.png"
 import "./Header.css"
 import { MDBIcon } from "mdbreact";
-import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 

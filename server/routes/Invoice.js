@@ -6,6 +6,7 @@ const {
   Product,
   Sale_of_Refund,
 } = require("../models");
+const { Op } = require('sequelize');
 
 //get invoice list /api/getInvoiceList
 router.get("/", async (req, res) => {
@@ -89,6 +90,18 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
     }
     const discount = InvoiceDetail.discount;
 
+    //check if a refund is already made for the same sale_id
+    const refundMade = await Sale_of_Refund.findOne({
+      where: {
+        sale_id: invoice_id,
+        refund_id: {
+          [Op.not]: currentInvoice
+        }
+      }
+    });
+    if (refundMade) {
+      return res.json({ status: 400});
+    }
     // Check if a record already exists in Sale_of_Refund for the currentInvoice
     const existingRecord = await Sale_of_Refund.findOne({
       where: {

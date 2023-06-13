@@ -142,8 +142,10 @@ export const AddtoCart = ({ currentInvoice }) => {
           token,
         },
       });
-      if (response.status === 200) {
-        console.log("payment success");
+      if (response.data.status === "success") {
+        navigate("/Cashier");
+      } else {
+        alert("Card Payment Failed");
       }
     } catch (error) {
       console.log(error);

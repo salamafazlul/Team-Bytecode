@@ -26,7 +26,6 @@ export const SectionRefund = (currentInvoice) => {
   const [refundList, setRefundList] = useState([]);
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
-  const [invoiceKey, setInvoiceKey] = useState();
   const [timeoutId, setTimeoutId] = useState(null);
   const [cashModal, setCashModal] = useState();
 
@@ -55,28 +54,35 @@ export const SectionRefund = (currentInvoice) => {
       Axios.get(
         `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice.currentInvoice}`
       ).then((response) => {
-        const invoiceDate = new Date(response.data.date);
-        const currentDate = new Date();
-        const diffInMilliseconds = Math.abs(currentDate - invoiceDate);
-        const diffInDays = Math.floor(
-          diffInMilliseconds / (1000 * 60 * 60 * 24)
-        );
-        // Check if the sale was made within the last 7 days
-        if (diffInDays <= 7) {
-          setInvoiceDetail(response.data);
-          setDiscount(response.data.discount);
-          Axios.get(
-            `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
-          )
-            .then((response) => {
-              setInvoiceList(response.data);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+        if (response.data.status === 400) {
+          alert("A refund already made for the same invoice");
         } else {
-          alert("Sale in not made within 7 days. Refund not allowed");
+          const invoiceDate = new Date(response.data.date);
+          const currentDate = new Date();
+          const diffInMilliseconds = Math.abs(currentDate - invoiceDate);
+          const diffInDays = Math.floor(
+            diffInMilliseconds / (1000 * 60 * 60 * 24)
+          );
+          // Check if the sale was made within the last 7 days
+          if (diffInDays <= 7) {
+            setInvoiceDetail(response.data);
+            setDiscount(response.data.discount);
+            Axios.get(
+              `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
+            )
+              .then((response) => {
+                setInvoiceList(response.data);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            alert("Sale in not made within 7 days. Refund not allowed");
+          }
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
     }, 1000); // Delay the execution of the Axios request by 1 second
 
@@ -208,7 +214,6 @@ export const SectionRefund = (currentInvoice) => {
                   <Form style={{ paddingBottom: "10px" }}>
                     <InputGroup>
                       <Form.Control
-                        value={invoiceKey}
                         onChange={(e) => getInvoice(e.target.value)}
                         placeholder="Enter Invoice ID"
                         style={{ flex: "1", marginRight: "10px" }}
@@ -472,7 +477,12 @@ export const SectionRefund = (currentInvoice) => {
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <MDBRow>
                     <MDBCol>
-                      <button class="end_btn" onClick={() => setCashModal(true)}>Cash</button>
+                      <button
+                        class="end_btn"
+                        onClick={() => setCashModal(true)}
+                      >
+                        Cash
+                      </button>
                     </MDBCol>
                     <MDBCol>
                       <button class="end_btn" onClick={cancelRefund}>
@@ -488,9 +498,7 @@ export const SectionRefund = (currentInvoice) => {
       </section>
       <CashPayment
         show={cashModal}
-        amount={parseFloat(
-          (total - (total * discount) / 100).toFixed(2)
-        )}
+        amount={parseFloat((total - (total * discount) / 100).toFixed(2))}
         onHide={() => setCashModal(false)}
         invoice_id={currentInvoice.currentInvoice}
       />
