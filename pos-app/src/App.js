@@ -2,10 +2,11 @@ import React,{ useState} from "react";
 import './App.css';
 import Login from './components/UserMgt/Login';
 import { ReactDOM } from "react-dom";
-import { Log } from './components/UserMgt/Log';
 import Checkout from "./components/SalesMgt/Checkout";
+import Refund from "./components/SalesMgt/Refund"
+import Cashier from "./components/SalesMgt/Cashier";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
-import KeyBoard from "./components/SalesMgt/KeyBoard";
+
 
 function App() {
   return (
@@ -14,14 +15,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/KeyBoard" element={<KeyBoard/>} />
-        <Route path="/Checkout" element={<Checkout/>} />
+        <Route path="/Checkout/:invoiceId" element={<Checkout />} /> 
+        <Route path="/Refund/:invoiceId" element={<Refund />} />
+        <Route path="/Cashier" element={<Cashier/>} />
       </Routes>
-    
     </BrowserRouter>
 
   </>
-
   );
 }
 
