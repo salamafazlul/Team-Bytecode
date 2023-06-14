@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Keyboard from "react-simple-keyboard";
-import { useNavigate } from "react-router-dom";
+import "react-simple-keyboard/build/css/index.css";
 
 function PosCustomer(props) {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState(null);
+  const [contactNumberError, setContactNumberError] = useState("");
 
   useEffect(() => {
     if (props.show) {
-      setEmail(""); // Reset the email state to an empty string when the modal is shown
+      setContactNumber(""); // Reset the contact number state to null when the modal is shown
+      setContactNumberError(""); // Reset the contact number error state
     }
   }, [props.show]);
 
-  const setEmailKey = (input) => {
-    setEmail(input);
+  const setContactNumberKey = (input) => {
+    setContactNumber(input);
+    setContactNumberError(""); // Clear the error message when the contact number changes
   };
 
   const handleDone = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    props.onEmailSet(email); // Invoke the callback function with the email value
+
+    if (contactNumber && contactNumber.length === 10) {
+      props.onContactNumberSet(contactNumber); // Invoke the callback function with the parsed contact number value
+    } else {
+      setContactNumberError("Contact number must be 10 digits");
+    }
+  };
+
+  const numberKeyboardOptions = {
+    layout: {
+      default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp}"],
+    },
+    display: {
+      "{bksp}": "⌫",
+    },
   };
 
   return (
@@ -29,15 +45,18 @@ function PosCustomer(props) {
           <form onSubmit={handleDone}>
             <div className="row my-3">
               <div className="col">
-                <label className="form-label text-white m-0">Email</label>
+                <label className="form-label text-white m-0">Contact Number</label>
                 <input
-                  type="text"
+                  type="tel"
                   className="form-control px-1"
-                  placeholder="Email"
+                  placeholder="Enter your contact number"
                   required
-                  value={email}
-                  onChange={(e) => setEmailKey(e.target.value)}
+                  minLength={10}
+                  maxLength={10}
+                  value={contactNumber}
+                  onChange={(e) => setContactNumberKey(e.target.value)}
                 />
+                {contactNumberError && <p className="text-danger">{contactNumberError}</p>}
               </div>
             </div>
 
@@ -45,8 +64,12 @@ function PosCustomer(props) {
               <div className="col">
                 <Keyboard
                   className="row"
-                  input={email}
-                  onChange={(input) => setEmailKey(input)}
+                  input={contactNumber}
+                  onChange={(input) => setContactNumberKey(input)}
+                  layoutName="default"
+                  mergeDisplay={true}
+                  layout={numberKeyboardOptions.layout}
+                  display={numberKeyboardOptions.display}
                 />
               </div>
             </div>
