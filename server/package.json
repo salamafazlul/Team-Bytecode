@@ -10,14 +10,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.2.0",
+    "nodemailer": "^6.9.1",
     "nodemon": "^2.0.20",
+    "pdfkit": "^0.11.0",
+    "pdfkit-table": "^0.1.99",
+    "pdfmake": "^0.2.7",
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0",
-    "styled-components": "^5.3.9"
+    "stripe": "^12.9.0"
   }
 }

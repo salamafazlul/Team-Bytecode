@@ -5,12 +5,11 @@ import { useEffect } from "react";
 import styled from 'styled-components';
 import Login from './components/UserMgt/Login';
 import { ReactDOM } from "react-dom";
-import { Log } from './components/UserMgt/Log';
 import Checkout from "./components/SalesMgt/Checkout";
-import { BrowserRouter, Routes,Route, Switch } from "react-router-dom";
-import KeyBoard from "./components/SalesMgt/KeyBoard";
-import Dashboard from "./components/Dashboard/Dashboard";
-import SalesReport from "./components/ReportMgt/SalesReport";
+import Refund from "./components/SalesMgt/Refund"
+import Cashier from "./components/SalesMgt/Cashier";
+import { BrowserRouter, Routes,Route } from "react-router-dom";
+
 
 function App() {  
 
@@ -18,13 +17,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/KeyBoard" element={<KeyBoard/>} />
-        <Route path="/Dashboard" element={<Dashboard/>} />
-        <Route path="/SalesReport" element={<SalesReport/>} />
+        <Route path="/Checkout/:invoiceId" element={<Checkout />} /> 
+        <Route path="/Refund/:invoiceId" element={<Refund />} />
+        <Route path="/Cashier" element={<Cashier/>} />
       </Routes>
-    
     </BrowserRouter>
 
+  </>
   );
 }
 
