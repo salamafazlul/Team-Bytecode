@@ -200,8 +200,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                       const newQuantity = parseInt(e.target.value);
                       if (selectStock - newQuantity !== -1) {
                         setSelectQuantity(newQuantity);
-                        
-                      }else{
+                      } else {
                         alert("No Stock");
                       }
                     }}
@@ -251,11 +250,17 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                       <tbody>
                         {productList
                           .filter((product) => {
-                            return search.toLowerCase() === ""
-                              ? product
-                              : product.product_name
-                                  .toLowerCase()
-                                  .includes(search.toLocaleLowerCase());
+                            const searchValue = search.toLowerCase();
+                            const productId = product.product_id.toString().toLowerCase();
+                            const productName = product.product_name.toLowerCase();
+                            
+                            return (
+                              searchValue === "" ||
+                              productId.includes(searchValue) ||
+                              productName.includes(searchValue)
+                            );
+
+                          
                           })
                           .map((product) => (
                             <tr key={product.product_id}>
