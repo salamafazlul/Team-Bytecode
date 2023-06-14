@@ -22,8 +22,6 @@ function App() {
         <Route path="/Cashier" element={<Cashier/>} />
       </Routes>
     </BrowserRouter>
-
-  </>
   );
 }
 
