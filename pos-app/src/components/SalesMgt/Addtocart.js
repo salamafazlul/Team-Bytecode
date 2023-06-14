@@ -13,7 +13,7 @@ import Keyboard from "react-simple-keyboard";
 import CashPayment from "./CashPayment";
 import StripeCheckout from "react-stripe-checkout";
 
-export const AddtoCart = ({ currentInvoice }) => {
+export const AddtoCart = ({ currentInvoice, email }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [productList, setProductList] = useState([]);
@@ -445,6 +445,7 @@ export const AddtoCart = ({ currentInvoice }) => {
         amount={parseFloat((total - discount).toFixed(2))}
         onHide={() => setCashModal(false)}
         invoice_id={currentInvoice}
+        email={email}
       />
     </>
   );

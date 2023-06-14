@@ -28,6 +28,9 @@ app.use ("/Email_Invoice", emailpdfRouter )
 const  cardPaymentRouter = require('./routes/Card_Payment')
 app.use ("/Card_Payment", cardPaymentRouter )
 
+const  cashierRouter = require('./routes/Cashier')
+app.use ("/Cashier", cashierRouter )
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("Server running on port 3001");
