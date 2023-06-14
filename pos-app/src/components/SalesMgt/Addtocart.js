@@ -21,6 +21,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
+  const [selectStock, setSelectStock] = useState();
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [netTotal, setNetTotal] = useState();
@@ -77,12 +78,13 @@ export const AddtoCart = ({ currentInvoice, email }) => {
       });
   };
 
-  const selectProduct = (pid, pname, price) => {
+  const selectProduct = (pid, pname, price, stock) => {
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
     setSelectQuantity(1);
     setSearchKey("");
+    setSelectStock(stock);
   };
 
   const setSearchKey = (input) => {
@@ -188,13 +190,21 @@ export const AddtoCart = ({ currentInvoice, email }) => {
 
                 <MDBCol>
                   <MDBInput
-                    className="mb-2 mt-4 ml-3"
+                    className={`mb-2 mt-4 ml-3`}
                     placeholder="Qty"
                     type="number"
                     defaultValue="1"
                     min={1}
                     value={selectQuantity}
-                    onChange={(e) => setSelectQuantity(e.target.value)}
+                    onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value);
+                      if (selectStock - newQuantity !== -1) {
+                        setSelectQuantity(newQuantity);
+                        
+                      }else{
+                        alert("No Stock");
+                      }
+                    }}
                     onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
                   />
                 </MDBCol>
@@ -260,7 +270,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                                     selectProduct(
                                       product.product_id,
                                       product.product_name,
-                                      product.selling_price
+                                      product.selling_price,
+                                      product.stock
                                     );
                                   }}
                                 >
