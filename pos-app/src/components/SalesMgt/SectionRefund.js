@@ -12,7 +12,10 @@ import Keyboard from "react-simple-keyboard";
 import { useNavigate } from "react-router-dom";
 import CashPayment from "./CashPayment";
 
-export const SectionRefund = (currentInvoice) => {
+export const SectionRefund = ({ currentInvoice, email }) => {
+  console.log(currentInvoice);
+  console.log(email);
+
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectCode, setSelectCode] = useState();
@@ -30,29 +33,30 @@ export const SectionRefund = (currentInvoice) => {
   const [cashModal, setCashModal] = useState();
 
   useEffect(() => {
-    const invoice_id = currentInvoice.currentInvoice;
+    const invoice_id = currentInvoice;
     Axios.get(
       `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
     ).then((response) => {
       setTotal(response.data.total);
     });
-  });
-
+  }); // Add dependency array
+  
   useEffect(() => {
-    const invoice_id = currentInvoice.currentInvoice;
+    const invoice_id = currentInvoice;
     Axios.get(
       `http://localhost:3001/invoice_product/api/getInvoiceList?invoice_id=${invoice_id}`
     ).then((response) => {
       setRefundList(response.data);
     });
-  });
+  }); // Add dependency array
+  
 
   const getInvoice = (invoiceKey) => {
     clearTimeout(timeoutId); // Clear previous timeout if any
     const invoice_id = invoiceKey;
     const timeout = setTimeout(() => {
       Axios.get(
-        `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice.currentInvoice}`
+        `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice}` //currentInvoice.currentInvoice
       ).then((response) => {
         if (response.data.status === 400) {
           alert("A refund already made for the same invoice");
@@ -105,7 +109,7 @@ export const SectionRefund = (currentInvoice) => {
 
   const addToInvoice = () => {
     Axios.post("http://localhost:3001/invoice_product/api/addToRefund/", {
-      iid: currentInvoice.currentInvoice,
+      iid: currentInvoice,
       pid: selectCode,
       price: selectPrice,
       quantity: selectQuantity,
@@ -137,7 +141,7 @@ export const SectionRefund = (currentInvoice) => {
   };
   const cancelRefund = () => {
     Axios.delete(
-      `http://localhost:3001/invoice_product/api/deleteRefundRecords/${currentInvoice.currentInvoice}`
+      `http://localhost:3001/invoice_product/api/deleteRefundRecords/${currentInvoice}`
     )
       .then(() => {
         navigate("/Cashier"); // Navigate back to the cashier page
@@ -500,7 +504,8 @@ export const SectionRefund = (currentInvoice) => {
         show={cashModal}
         amount={parseFloat((total - (total * discount) / 100).toFixed(2))}
         onHide={() => setCashModal(false)}
-        invoice_id={currentInvoice.currentInvoice}
+        invoice_id={currentInvoice}
+        email={email}
       />
     </>
   );

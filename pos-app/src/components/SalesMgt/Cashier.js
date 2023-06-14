@@ -55,7 +55,6 @@ const Cashier = (props) => {
       .then((response) => {
         const emailParam = email ? encodeURIComponent(email) : null;
         navigate(`/Refund/${response.data.invoice_id}?email=${emailParam}`); // Navigate to the Refund page with the invoice ID and email
-
       })
       .catch((error) => {
         console.log(error);
