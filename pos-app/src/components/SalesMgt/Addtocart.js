@@ -81,6 +81,10 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   };
 
   const selectProduct = (pid, pname, price, stock) => {
+    if (stock <= 0) {
+      alert("There is no stock available.");
+      return;
+    }
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
@@ -88,7 +92,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
     setSearchKey("");
     setSelectStock(stock);
   };
-
+  
   const setSearchKey = (input) => {
     setSearch(input);
   };
