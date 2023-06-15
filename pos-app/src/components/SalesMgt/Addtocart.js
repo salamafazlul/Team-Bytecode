@@ -11,6 +11,7 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import CashPayment from "./CashPayment";
+import CardInvoice from "./CardInvoice";
 import StripeCheckout from "react-stripe-checkout";
 
 export const AddtoCart = ({ currentInvoice, email }) => {
@@ -27,6 +28,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [netTotal, setNetTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [cashModal, setCashModal] = useState();
+  const [cardModal, setCardModal] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/product/api/getProduct").then(
@@ -145,7 +147,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         },
       });
       if (response.data.status === "success") {
-        navigate("/Cashier");
+        setCardModal(true);
+        // navigate("/Cashier");
       } else {
         alert("Card Payment Failed");
       }
@@ -251,16 +254,17 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         {productList
                           .filter((product) => {
                             const searchValue = search.toLowerCase();
-                            const productId = product.product_id.toString().toLowerCase();
-                            const productName = product.product_name.toLowerCase();
-                            
+                            const productId = product.product_id
+                              .toString()
+                              .toLowerCase();
+                            const productName =
+                              product.product_name.toLowerCase();
+
                             return (
                               searchValue === "" ||
                               productId.includes(searchValue) ||
                               productName.includes(searchValue)
                             );
-
-                          
                           })
                           .map((product) => (
                             <tr key={product.product_id}>
@@ -436,7 +440,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         label="CARD"
                         name="Pay With Card"
                         amount={priceForStripe}
-                        description={`Your total is $${priceForStripe}`}
+                        description={`Your total is $${priceForStripe / 100}`}
                         token={payNow}
                         style={{
                           width: "80px",
@@ -460,6 +464,13 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         show={cashModal}
         amount={parseFloat((total - discount).toFixed(2))}
         onHide={() => setCashModal(false)}
+        invoice_id={currentInvoice}
+        email={email}
+      />
+      <CardInvoice
+        show={cardModal}
+        // amount={parseFloat((total - discount).toFixed(2))}
+        onHide={() => setCardModal(false)}
         invoice_id={currentInvoice}
         email={email}
       />
