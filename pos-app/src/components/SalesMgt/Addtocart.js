@@ -11,6 +11,7 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import CashPayment from "./CashPayment";
+import CardInvoice from "./CardInvoice";
 import StripeCheckout from "react-stripe-checkout";
 
 export const AddtoCart = ({ currentInvoice, email }) => {
@@ -21,11 +22,13 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [selectName, setSelectName] = useState("Name");
   const [selectPrice, setSelectPrice] = useState();
   const [selectQuantity, setSelectQuantity] = useState();
+  const [selectStock, setSelectStock] = useState();
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [netTotal, setNetTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [cashModal, setCashModal] = useState();
+  const [cardInvoice, setCardInvoice] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/product/api/getProduct").then(
@@ -77,12 +80,17 @@ export const AddtoCart = ({ currentInvoice, email }) => {
       });
   };
 
-  const selectProduct = (pid, pname, price) => {
+  const selectProduct = (pid, pname, price, stock) => {
+    if (stock <= 0) {
+      alert("There is no stock available.");
+      return;
+    }
     setSelectCode(pid);
     setSelectName(pname);
     setSelectPrice(price);
     setSelectQuantity(1);
     setSearchKey("");
+    setSelectStock(stock);
   };
 
   const setSearchKey = (input) => {
@@ -111,14 +119,33 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   ) => {
     const newQuantity = e.target.value;
     const newAmount = (price * newQuantity * (100 - discount)) / 100;
-    Axios.post("http://localhost:3001/invoice_product/api/updateQuantity/", {
-      product_id: product_id,
-      invoice_id: invoice_id,
-      quantity: newQuantity,
-      amount: newAmount,
-      oldQuantity: quantity,
-    });
+    const qtyDiff = newQuantity - quantity; //1
+
+    Axios.get(
+      `http://localhost:3001/invoice_product/api/getStock?product_id=${product_id}`
+    )
+      .then((response) => {
+        const stock = response.data.stock;
+        if (stock <= 0 && qtyDiff > 0) {
+          alert("Insufficient stock");
+          return;
+        }
+        Axios.post(
+          "http://localhost:3001/invoice_product/api/updateQuantity/",
+          {
+            product_id: product_id,
+            invoice_id: invoice_id,
+            quantity: newQuantity,
+            amount: newAmount,
+            oldQuantity: quantity,
+          }
+        );
+      })
+      .catch((error) => {
+        console.log("Error fetching stock:", error);
+      });
   };
+
   const removeProduct = (product_id, invoice_id) => {
     Axios.post(`http://localhost:3001/invoice_product/api/removeProduct/`, {
       invoice_id: invoice_id,
@@ -143,7 +170,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         },
       });
       if (response.data.status === "success") {
-        navigate("/Cashier");
+        setCardInvoice(true);
+        // navigate("/Cashier");
       } else {
         alert("Card Payment Failed");
       }
@@ -188,13 +216,20 @@ export const AddtoCart = ({ currentInvoice, email }) => {
 
                 <MDBCol>
                   <MDBInput
-                    className="mb-2 mt-4 ml-3"
+                    className={`mb-2 mt-4 ml-3`}
                     placeholder="Qty"
                     type="number"
                     defaultValue="1"
                     min={1}
                     value={selectQuantity}
-                    onChange={(e) => setSelectQuantity(e.target.value)}
+                    onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value);
+                      if (selectStock - newQuantity !== -1) {
+                        setSelectQuantity(newQuantity);
+                      } else {
+                        alert("No Stock");
+                      }
+                    }}
                     onKeyPress={(e) => e.preventDefault()} // Prevent any key inputs
                   />
                 </MDBCol>
@@ -241,11 +276,18 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                       <tbody>
                         {productList
                           .filter((product) => {
-                            return search.toLowerCase() === ""
-                              ? product
-                              : product.product_name
-                                  .toLowerCase()
-                                  .includes(search.toLocaleLowerCase());
+                            const searchValue = search.toLowerCase();
+                            const productId = product.product_id
+                              .toString()
+                              .toLowerCase();
+                            const productName =
+                              product.product_name.toLowerCase();
+
+                            return (
+                              searchValue === "" ||
+                              productId.includes(searchValue) ||
+                              productName.includes(searchValue)
+                            );
                           })
                           .map((product) => (
                             <tr key={product.product_id}>
@@ -260,7 +302,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                                     selectProduct(
                                       product.product_id,
                                       product.product_name,
-                                      product.selling_price
+                                      product.selling_price,
+                                      product.stock
                                     );
                                   }}
                                 >
@@ -420,7 +463,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         label="CARD"
                         name="Pay With Card"
                         amount={priceForStripe}
-                        description={`Your total is $${priceForStripe}`}
+                        description={`Your total is $${priceForStripe / 100}`}
                         token={payNow}
                         style={{
                           width: "80px",
@@ -444,6 +487,12 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         show={cashModal}
         amount={parseFloat((total - discount).toFixed(2))}
         onHide={() => setCashModal(false)}
+        invoice_id={currentInvoice}
+        email={email}
+      />
+      <CardInvoice
+        show={cardInvoice}
+        onHide={() => setCardInvoice(false)}
         invoice_id={currentInvoice}
         email={email}
       />

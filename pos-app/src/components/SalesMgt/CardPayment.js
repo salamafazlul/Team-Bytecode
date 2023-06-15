@@ -1,98 +1,91 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import Axios from "axios";
+import StripeCheckout from "react-stripe-checkout";
+import CardInvoice from "./CardInvoice";
 
 function CardPayment(props) {
+  const [cardInvoice, setCardInvoice] = useState();
+  const email=props.email;
+  const balance = parseFloat(props.balance);
+  
+  //card payment
+  const publishableKey =
+    "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
+  const tempPriceForStripe = parseInt((balance * 100) / 250.0);
+  const priceForStripe = parseInt(tempPriceForStripe);
+  const payNow = async (token) => {
+    try {
+      const response = await Axios({
+        url: "http://localhost:3001/card_payment/payment",
+        method: "post",
+        data: {
+          amount: priceForStripe,
+          token,
+        },
+      });
+      if (response.data.status === "success") {
+        setCardInvoice(true);
+      } else {
+        alert("Card Payment Failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Body
-        className="show-grid rounded "
-        style={{ background: "#4483ad" }}
+    <>
+      <Modal
+        {...props}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
-        <div className="flex justify-content-between px-2">
-          <div className="d-flex w-[45%] mx-1">
-            <form>
-              <div className="row my-3">
-                <div className="col">
-                  <label className="form-label text-white m-0">
-                    Card Number{" "}
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control px-1"
-                    placeholder="Card Number"
-                    required
-                    minLength={10}
-                    maxLength={10}
-                  />
-                </div>
+        <Modal.Body
+          className="show-grid rounded "
+          style={{ background: "#4483ad" }}
+        >
+          <div className="justify-content-between px-2">
+            <div className="row my-3">
+              <div className="col">
+                <p className="fpx-1 bg-white rounded border px-1 py-2">
+                  Balance
+                  <span style={{ float: "right" }}>{balance}</span>
+                </p>
               </div>
-
-              <div className="row my-3">
-                <label className="form-label  text-white m-0">
-                  Expire Date{" "}
-                </label>
-                <div className="col">
-                  <input
-                    type="text"
-                    className="form-control px-1"
-                    placeholder="mm"
-                    required
-                  />
-                </div>
-                <div className="col">
-                  <input
-                    type="text"
-                    className="form-control px-1"
-                    placeholder="yy"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="row my-3">
-                <div className="col">
-                  <label className="form-label m-0 text-white ">CV Code</label>
-                  <input
-                    type="text"
-                    className="form-control px-1"
-                    placeholder="Cv"
-                    required
-                    minLength={3}
-                    maxLength={3}
-                  />
-                </div>
-              </div>
-
-              <div className="row my-3">
-                <div className="col">
-                  <p className="fpx-1 bg-white rounded border px-1 py-2">
-                    Amount <span style={{float:"right"}}>123.5</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="row my-3">
-                <div className="flex col justify-content-center">
-                  <button class="modalbtn">Pay</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="d-flex bg-gray-100 w-1 rounded "></div>
-          <div className="d-flex align-items-start flex-column  justify-content-center w-[45%] mx-1">
-          <div className="flex align-items-center mx-auto ">
-              <b className="fs-5" style={{color:"#26eb0c", fontWeight:"bold"}}></b>
             </div>
-            <div className="flex align-items-center mx-auto ">
-              <b className="text-white fs-5 ">Card Payment </b>
-            </div>
-            <div className="mx-auto mt-2">
-              <button class="modalbtn">Cancel</button>
+            <div className="flex col justify-content-center">
+                      <p className="fpx-1 bg-white rounded border px-1 py-2 " style={{textAlign:"center"}}>
+                        Card payment will be processed in USD!!
+                      </p>
+                    </div>
+            <div className="row my-3">
+              <div className="flex col justify-content-center">
+                <div class="stripe_btn">
+                  <StripeCheckout
+                    stripeKey={publishableKey}
+                    label="Pay With Card"
+                    name="Pay With Card"
+                    amount={priceForStripe}
+                    description={`Your total is $${priceForStripe / 100}`}
+                    token={payNow}
+                    style={{
+                      width: "150px",
+                      height: "35px",
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </Modal.Body>
-    </Modal>
+        </Modal.Body>
+      </Modal>
+      <CardInvoice
+        show={cardInvoice}
+        onHide={() => setCardInvoice(false)}
+        invoice_id={props.invoice_id}
+        email={email}
+      />
+    </>
   );
 }
 
