@@ -77,7 +77,7 @@ router.post("/api/addToInvoice/", async (req, res) => {
 
     // Calculate the discount amount
     const discountAmount = discount
-      ? (discount.rate / 100) * (price * quantity)
+      ? (discount.rate_amount / 100) * (price * quantity)
       : 0;
 
     // Calculate the new total amount
@@ -95,7 +95,7 @@ router.post("/api/addToInvoice/", async (req, res) => {
       quantity,
       price: price,
       amount: price * quantity - discountAmount,
-      discount: discount ? discount.rate : 0,
+      discount: discount ? discount.rate_amount : 0,
     });
 
     await invoice.update({ total: newTotal });
