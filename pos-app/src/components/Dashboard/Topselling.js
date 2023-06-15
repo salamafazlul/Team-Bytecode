@@ -8,7 +8,7 @@ export default function Topselling({data}) {
     return (
         <div>
             <CardGroup>
-                {data.map(product => {
+                {data?.map(product => {
                     return (
                         <Card key={product.product.product_id} className='cardBody2'>
                             <Card.Body>

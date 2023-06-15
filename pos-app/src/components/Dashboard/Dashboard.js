@@ -31,7 +31,7 @@ export default function Dashboard() {
                 <div>
                     <h1></h1>
                     <h4>Top Selling items</h4>
-                    {/* <Topselling data={stats?.topSellingProducts}/> */}
+                    <Topselling data={stats?.topSellingProducts}/>
                 </div>
 
                 <h1></h1>
