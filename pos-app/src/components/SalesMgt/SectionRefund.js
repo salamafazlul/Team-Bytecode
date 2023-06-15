@@ -256,11 +256,18 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                       <tbody style={{ height: "250px" }}>
                         {invoiceList
                           .filter((product) => {
-                            return search.toLowerCase() === ""
-                              ? product
-                              : product.Product.product_name
-                                  .toLowerCase()
-                                  .includes(search.toLocaleLowerCase());
+                            const searchValue = search.toLowerCase();
+                            const productId = product.product_id
+                              .toString()
+                              .toLowerCase();
+                            const productName =
+                              product.Product.product_name.toLowerCase();
+
+                            return (
+                              searchValue === "" ||
+                              productId.includes(searchValue) ||
+                              productName.includes(searchValue)
+                            );
                           })
                           .map((product) => (
                             <tr key={product.product_id}>
