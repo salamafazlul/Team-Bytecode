@@ -1,16 +1,29 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { CChart } from '@coreui/react-chartjs'
 
-function Piecharts(props) {
+function Piecharts({data}) {
+    const [categories, setCategories] = useState([]);
+    const [chartData, setChartData] = useState([]);
+
+    useEffect(() => {
+        console.log(data);
+        if (data) {
+            const c = data.map(c => c.category.category_name);
+            setCategories(c);
+            const q = data.map(c => c.total);
+            setChartData(q);
+        }
+    }, [data])
+
     return (
         <CChart
             type="pie"
             data={{
-                labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6'],
+                labels: categories,
                 datasets: [
                 {
-                    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#41B883', '#DD1B16' ],
-                    data: [props.cat1, props.cat2, props.cat3, props.cat4, props.cat5, props.cat6],
+                    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#172EF5', '#683A10' , '#FDC307', '#FD47EB', '#8F3AE4'],
+                    data: chartData,
                 },
                 ],
             }}

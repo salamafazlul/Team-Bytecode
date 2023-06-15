@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './dashboard.css'
 import TextExample from './TextExample'
 import CChartBar from './CChartBar'
@@ -7,43 +7,58 @@ import Linechart from './Linechart'
 import Topselling from './Topselling'
 import Purchaseqty from './Purchaseqty'
 
+
 export default function Dashboard() {
+
+    const [stats, setStats] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch('http://localhost:3001/stats/api/dailySales').then(async res => {
+            setLoading(false);
+            const response = await res.json();
+            console.log(response)
+            setStats(response);
+        })
+    }, [])
+
     return (
         <div>
             <div>
-                <TextExample />
+                <TextExample data={stats} loading={loading}/>
 
                 <div>
                     <h1></h1>
                     <h4>Top Selling items</h4>
-                    <Topselling />
+                    {/* <Topselling data={stats?.topSellingProducts}/> */}
                 </div>
 
                 <h1></h1>
                 <div className='section'>
                     <div className='leftcol'>
                         <h5>Monthly Sales</h5>
-                        <CChartBar jan="20" feb="60" march="30" apri="40" may="15" june="20" july="40" aug="50" sep="10" oct="35" nov="25" dec="50" />
+                        <CChartBar data={stats?.monthlyIncome}/>
                     </div>
                     <div className='rightcol'>
-                        <h5>Total Revenue & Expenses</h5>
-                        <Linechart />
+                        <h5>Total Revenue</h5>
+                        <Linechart data={stats?.monthlyProfit}/>
                     </div>
                 </div>
 
                 <div className='section'>
                     <div className='leftcol'>
                         <h5>Purachse Quantity By Product Category</h5>
-                        <Purchaseqty />
+                        <Purchaseqty data={stats?.quantityByCategory}/>
                     </div>
                     <div className='rightcol'>
                         <div className='piecol'>
                             <h5>Sales by product Category</h5>
-                            <Piecharts cat1='50' cat2='10' cat3='5' cat4='15' cat5='5' cat6='15' />
+                            <Piecharts data={stats?.quantityByCategory}/>
                         </div>
                         <div className='donghutcol'>
                             <h5>Inventory by Category</h5>
-                            <Piecharts cat1='10' cat2='20' cat3='10' cat4='30' cat5='5' cat6='25' />
+                            <Piecharts data={stats?.inventoryByCategory}/>
                         </div>
                     </div>
                 </div>

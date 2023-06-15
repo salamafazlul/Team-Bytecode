@@ -1,13 +1,11 @@
 import React,{ useState} from "react";
 import './App.css';
-import axios from "axios";
-import { useEffect } from "react";
-import styled from 'styled-components';
 import Login from './components/UserMgt/Login';
-import { ReactDOM } from "react-dom";
 import Checkout from "./components/SalesMgt/Checkout";
 import Refund from "./components/SalesMgt/Refund"
 import Cashier from "./components/SalesMgt/Cashier";
+import Dashboard from "./components/Dashboard/Dashboard";
+import SalesReport from "./components/ReportMgt/SalesReport";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
 
 
@@ -20,6 +18,8 @@ function App() {
         <Route path="/Checkout/:invoiceId" element={<Checkout />} /> 
         <Route path="/Refund/:invoiceId" element={<Refund />} />
         <Route path="/Cashier" element={<Cashier/>} />
+        <Route path="/Dashboard" element={<Dashboard/>} />
+        <Route path="/SalesReport" element={<SalesReport/>} />
       </Routes>
     </BrowserRouter>
   );

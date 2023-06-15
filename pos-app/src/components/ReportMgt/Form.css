@@ -1,7 +1,7 @@
-form{
-    margin-left: 20%;
-    margin-right: 20%;
+.form{
+  margin: 200px;
 }
+
 label {
     display: block;
     margin-bottom: 5px;
@@ -64,5 +64,6 @@ table th{
     background-color: rgb(117, 154, 224);
     color: white;
     text-align: center;
+    height: 30px;
 }
   
