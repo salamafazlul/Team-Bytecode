@@ -28,7 +28,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [netTotal, setNetTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [cashModal, setCashModal] = useState();
-  const [cardModal, setCardModal] = useState();
+  const [cardInvoice, setCardInvoice] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/product/api/getProduct").then(
@@ -170,7 +170,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         },
       });
       if (response.data.status === "success") {
-        setCardModal(true);
+        setCardInvoice(true);
         // navigate("/Cashier");
       } else {
         alert("Card Payment Failed");
@@ -491,9 +491,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         email={email}
       />
       <CardInvoice
-        show={cardModal}
-        // amount={parseFloat((total - discount).toFixed(2))}
-        onHide={() => setCardModal(false)}
+        show={cardInvoice}
+        onHide={() => setCardInvoice(false)}
         invoice_id={currentInvoice}
         email={email}
       />
