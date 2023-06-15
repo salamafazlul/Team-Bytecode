@@ -92,7 +92,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
     setSearchKey("");
     setSelectStock(stock);
   };
-  
+
   const setSearchKey = (input) => {
     setSearch(input);
   };
@@ -119,14 +119,33 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   ) => {
     const newQuantity = e.target.value;
     const newAmount = (price * newQuantity * (100 - discount)) / 100;
-    Axios.post("http://localhost:3001/invoice_product/api/updateQuantity/", {
-      product_id: product_id,
-      invoice_id: invoice_id,
-      quantity: newQuantity,
-      amount: newAmount,
-      oldQuantity: quantity,
-    });
+    const qtyDiff = newQuantity - quantity; //1
+
+    Axios.get(
+      `http://localhost:3001/invoice_product/api/getStock?product_id=${product_id}`
+    )
+      .then((response) => {
+        const stock = response.data.stock;
+        if (stock <= 0 && qtyDiff > 0) {
+          alert("Insufficient stock");
+          return;
+        }
+        Axios.post(
+          "http://localhost:3001/invoice_product/api/updateQuantity/",
+          {
+            product_id: product_id,
+            invoice_id: invoice_id,
+            quantity: newQuantity,
+            amount: newAmount,
+            oldQuantity: quantity,
+          }
+        );
+      })
+      .catch((error) => {
+        console.log("Error fetching stock:", error);
+      });
   };
+
   const removeProduct = (product_id, invoice_id) => {
     Axios.post(`http://localhost:3001/invoice_product/api/removeProduct/`, {
       invoice_id: invoice_id,

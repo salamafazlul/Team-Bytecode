@@ -140,6 +140,23 @@ router.post("/api/updateQuantity/", async (req, res) => {
   await product.update({ stock: newStock });
   res.send("Invoice updated successfully");
 });
+// Fetch the stock  for the specified product_id
+router.get("/api/getStock", async (req, res) => {
+  try {
+    const { product_id } = req.query;    
+    const product = await Product.findByPk(product_id);
+    if (!product) {
+      // Handle the case where the product is not found
+      res.status(404).send("Product not found");
+      return;
+    }
+    const stock = product.stock;
+    res.json({ stock });
+  } catch (error) {
+    console.log("Error fetching stock:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 // remove product from invoice product table and update the stock during checkout
 router.post("/api/removeProduct/", async (req, res) => {
@@ -199,7 +216,9 @@ router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
       where: { invoice_id: parseInt(invoice_id) },
     });
     // Set the auto-increment value to the deleted invoice ID
-    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(invoice_id)}`;
+    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(
+      invoice_id
+    )}`;
     await sequelize.query(query);
     res.send("Product has been deleted from the invoice successfully.");
   } catch (err) {
@@ -211,7 +230,14 @@ router.delete("/api/deleteRecords/:invoice_id", async (req, res) => {
 //------------------------------------------------------------------------------------------------------
 //refund section
 router.post("/api/addToRefund/", async (req, res) => {
-  const { iid: invoice_id, pid: product_id, quantity, price, discount, amount } = req.body;
+  const {
+    iid: invoice_id,
+    pid: product_id,
+    quantity,
+    price,
+    discount,
+    amount,
+  } = req.body;
   try {
     // Find the invoice for the given invoice ID
     const invoice = await Invoice.findByPk(invoice_id);
@@ -219,8 +245,7 @@ router.post("/api/addToRefund/", async (req, res) => {
       return res.status(404).send("Invoice not found");
     }
     // Calculate the new total amount
-    const newTotal =
-      parseFloat(invoice.total) + parseFloat(amount);
+    const newTotal = parseFloat(invoice.total) + parseFloat(amount);
     // Reduce the quantity in the Product table
     const product = await Product.findByPk(product_id);
     const newQuantity = product.stock + quantity;
@@ -244,7 +269,7 @@ router.post("/api/addToRefund/", async (req, res) => {
 router.post("/api/updateRefundQuantity/", async (req, res) => {
   const { product_id, invoice_id, quantity, amount, oldQuantity } = req.body;
   // Calculate the quantity difference
-  const quantityDifference = quantity - oldQuantity ;
+  const quantityDifference = quantity - oldQuantity;
   // Update the invoice product table with new quantity and amount
   await Invoice_Product.update(
     { quantity: parseInt(quantity), amount: parseFloat(amount) },
@@ -274,7 +299,6 @@ router.post("/api/updateRefundQuantity/", async (req, res) => {
   await product.update({ stock: newStock });
   res.send("Invoice updated successfully");
 });
-
 
 router.delete("/api/deleteRefundRecords/:invoice_id", async (req, res) => {
   const { invoice_id } = req.params;
@@ -308,7 +332,9 @@ router.delete("/api/deleteRefundRecords/:invoice_id", async (req, res) => {
       where: { invoice_id: parseInt(invoice_id) },
     });
     // Set the auto-increment value to the deleted invoice ID
-    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(invoice_id)}`;
+    const query = `ALTER TABLE Invoice AUTO_INCREMENT = ${parseInt(
+      invoice_id
+    )}`;
     await sequelize.query(query);
     res.send("Product has been deleted from the invoice successfully.");
   } catch (err) {
