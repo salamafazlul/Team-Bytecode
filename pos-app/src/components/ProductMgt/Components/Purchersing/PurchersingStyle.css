@@ -138,3 +138,8 @@
   margin-top: 3vh;
   box-sizing: border-box;
 }
+
+.grnTable{
+    max-height: 300px;
+    overflow-y: auto;   
+}

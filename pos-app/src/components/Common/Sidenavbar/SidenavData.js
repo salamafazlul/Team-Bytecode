@@ -10,13 +10,13 @@ export const Navideta = [
   },
 
   {
-    title: "Product Category",
+    title: "Category",
     icon: <BsFillDiagram3Fill />,
     link: "./category",
   },
 
   {
-    title: "Add & Remove",
+    title: "Product",
     icon: <BsFileEarmarkDiff />,
     link: "./AddRemove",
   },

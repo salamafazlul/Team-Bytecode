@@ -22,26 +22,27 @@ const Rform = () => {
   });
 
   //update part
-  
   const [formData, setFormData] = useState([]);
-
-  const handleSave = () => {
-    formData.map((data) =>
-      axios
-        .put(`http://localhost:3001/product/return`, [
-          { productId: data.ProductID, newQuantity: data.QTY },
-        ])
-        .then((response) => {
-          console.log("Quantity updated successfully.");
-        })
-        .catch((error) => {
-          console.error("Error updating quantity: ", error);
-        })
-    );
+  const handleSave = (form) => {
+    axios.put(`http://localhost:3001/product/return`, form).then((res) => {
+      console.log(res.data);
+    });
   };
+
+  // const handleSave = (abc) => {
+  //   axios
+  //     .put(`http://localhost:3001/product/return`, abc)
+  //     .then((response) => {
+  //       console.log("Quantity updated successfully.");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating quantity: ", error);
+  //     });
+  // };
 
   const onSubmit = (data, { resetForm }) => {
     // console.log(data);
+    handleSave(data);
     setFormData((prevData) => [...prevData, data]);
     resetForm();
 
@@ -119,9 +120,7 @@ const Rform = () => {
               </tbody>
             </table>
 
-            <button onClick={handleSave} className="bb1">
-              Update
-            </button>
+            <button className="bb1">Update</button>
             <button type="reset" className="bb2">
               Clear
             </button>

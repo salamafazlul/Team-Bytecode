@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import "./RemoveCategoryStyle.css";
 function RemoveCategory() {
 
   const [categoryName, setCategoryName] = useState('');
@@ -41,7 +41,7 @@ function RemoveCategory() {
 
 
   return (
-    <div>
+    <div className="category_remove_table">
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ errors, touched }) => (
           <Form>

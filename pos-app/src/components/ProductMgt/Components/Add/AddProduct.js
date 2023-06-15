@@ -65,7 +65,7 @@ const onSubmit = async (values) => {
   setShowPopup(true);
 }; */
 
-  const onSubmit = (values,{ resetForm } ) => {
+  const onSubmit = (values, { resetForm }) => {
     setFormData(values);
     setShowPopup(true);
     resetForm();
@@ -177,11 +177,9 @@ const onSubmit = async (values) => {
                     <Field
                       as="select"
                       name="CategoryId"
-                      placeholder="Select category"
-                      className="inputshort"
+                      className="inputshort select"
                     >
-                      <option value="">Select category</option>{" "}
-                      {/* Add a default option */}
+                      <option value="">Select category</option>
                       {categories.map((category) => (
                         <option
                           key={category.Category_ID}
@@ -223,7 +221,9 @@ const onSubmit = async (values) => {
             <button className="b1" type="onsubmit">
               Add
             </button>
-            <button type="reset" className="b2">Clear</button>
+            <button type="reset" className="b2">
+              Clear
+            </button>
             {/* <div className="button">
                 <button className="b1" type="submit">
                   Add

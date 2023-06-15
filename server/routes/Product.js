@@ -106,45 +106,58 @@ router.put("/", async (req, res) => {
 });
 
 //retun
+
+// router.put("/return", async (req, res) => {
+//   console.log("dsf", req.body);
+//   const productsToUpdate = req.body;
+
+//   try {
+//     for (const productData of productsToUpdate) {
+//       const { productId, newQuantity } = productData;
+
+//       // Find the product by ID
+//       const product = await Product.findByPk(productId);
+
+//       if (!product) {
+//         console.warn(
+//           `Product with ID ${productId} not found. Skipping update.`
+//         );
+//         continue;
+//       }
+
+//       console.log(product.Quantity, newQuantity);
+//       // Update the product's quantity
+//       let Quantity = parseInt(product.Quantity) - parseInt(newQuantity);
+
+//       await product.update(
+//         {
+//           Quantity,
+//         },
+//         { where: { productId: productId } }
+//       );
+
+//       console.log(`Product with ID ${productId} updated successfully.`);
+//     }
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error("Error updating products: ", error);
+//     res.sendStatus(500);
+//   }
+// });
+
 router.put("/return", async (req, res) => {
-  console.log("dsf", req.body);
-  const productsToUpdate = req.body;
-
-  try {
-    for (const productData of productsToUpdate) {
-      const { productId, newQuantity } = productData;
-
-      // Find the product by ID
-      const product = await Product.findByPk(productId);
-
-      if (!product) {
-        console.warn(
-          `Product with ID ${productId} not found. Skipping update.`
-        );
-        continue;
-      }
-
-      console.log(product.Quantity, newQuantity);
-      // Update the product's quantity
-      let Quantity = parseInt(product.Quantity) - parseInt(newQuantity);
-
-      await product.update(
-        {
-          Quantity,
-        },
-        { where: { productId: productId } }
-      );
-
-      console.log(`Product with ID ${productId} updated successfully.`);
+  const product = await Product.findOne({
+    where: { Product_id: req.body.ProductID },
+  });
+  console.log(product);
+  const newproduct = await Product.update(
+    {
+      Quantity: parseInt(product.Quantity) - parseInt(req.body.QTY),
+    },
+    {
+      where: { Product_id: req.body.ProductID },
     }
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error("Error updating products: ", error);
-    res.sendStatus(500);
-  }
+  );
 });
-
-
-
 module.exports = router;

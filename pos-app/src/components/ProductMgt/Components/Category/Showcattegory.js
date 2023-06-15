@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./ShowcattegoryStyle.css";
 
 function Showcattegory() {
   const [name, setName] = useState([]);
@@ -14,12 +15,13 @@ function Showcattegory() {
   }, []);
 
   return (
-    <div>
+    <div className="showcategory">
+      <h3>Show Category</h3>
       {name.map((item) => (
         <>
-          <span>{item.Category_name}</span>
+          <span className="Cidfield">{item.Category_name}</span>
           <span>{item.Category_ID}</span>
-          <br></br>
+          
         </>
       ))}
     </div>
