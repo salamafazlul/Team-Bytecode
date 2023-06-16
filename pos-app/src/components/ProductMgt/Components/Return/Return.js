@@ -22,28 +22,32 @@ const Rform = () => {
   });
 
   //update part
-  const [formData, setFormData] = useState([]);
-  const handleSave = (form) => {
-    axios.put(`http://localhost:3001/product/return`, form).then((res) => {
-      console.log(res.data);
-    });
-  };
+    // const [formData, setFormData] = useState([]);
+    // const handleSave = (form) => {
+    //   axios.put(`http://localhost:3001/product/return`, form).then((res) => {
+    //     console.log(res.data);
+        
+    //   });
+    // };
 
-  // const handleSave = (abc) => {
-  //   axios
-  //     .put(`http://localhost:3001/product/return`, abc)
-  //     .then((response) => {
-  //       console.log("Quantity updated successfully.");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating quantity: ", error);
-  //     });
-  // };
+    const handleSave = async (form) => {
+      try {
+        const [putResponse, postResponse] = await axios.all([
+          axios.put(`http://localhost:3001/product/return`, form),
+          axios.post(`http://localhost:3001/Return`, form),
+        ]);
+  
+        console.log(putResponse.data); // Response from PUT request
+        console.log(postResponse.data); // Response from POST request
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   const onSubmit = (data, { resetForm }) => {
     // console.log(data);
     handleSave(data);
-    setFormData((prevData) => [...prevData, data]);
+    // setFormData((prevData) => [...prevData, data]);
     resetForm();
 
     const { ProductID, QTY } = data;
@@ -63,7 +67,7 @@ const Rform = () => {
               <tbody>
                 <tr>
                   <td>
-                    <label>Product code</label>
+                    <label>Product ID</label>
                     <ErrorMessage name="ProductID" component="span" />
                   </td>
                   <td>
@@ -71,7 +75,7 @@ const Rform = () => {
                       type="text"
                       name="ProductID"
                       size={50}
-                      placeholder="select code"
+                      placeholder="Enter Product ID"
                       className="barshort"
                     />
                   </td>
@@ -120,7 +124,7 @@ const Rform = () => {
               </tbody>
             </table>
 
-            <button className="bb1">Update</button>
+            <button className="bb1" typ="button">Update</button>
             <button type="reset" className="bb2">
               Clear
             </button>
