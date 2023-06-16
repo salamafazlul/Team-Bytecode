@@ -10,7 +10,8 @@ import Table from "react-bootstrap/Table";
 import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import { useNavigate } from "react-router-dom";
-import CashPayment from "./CashPayment";
+import RefundPayment from "./RefundPayment";
+
 
 export const SectionRefund = ({ currentInvoice, email }) => {
   console.log(currentInvoice);
@@ -30,7 +31,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
   const [total, setTotal] = useState();
   const [discount, setDiscount] = useState(0);
   const [timeoutId, setTimeoutId] = useState(null);
-  const [cashModal, setCashModal] = useState();
+  const [refundModal, setRefundModal] = useState();
 
   useEffect(() => {
     const invoice_id = currentInvoice;
@@ -491,7 +492,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                     <MDBCol>
                       <button
                         class="end_btn"
-                        onClick={() => setCashModal(true)}
+                        onClick={() => setRefundModal(true)}
                       >
                         Cash
                       </button>
@@ -508,10 +509,10 @@ export const SectionRefund = ({ currentInvoice, email }) => {
           </MDBRow>
         </div>
       </section>
-      <CashPayment
-        show={cashModal}
+      <RefundPayment
+        show={refundModal}
         amount={parseFloat((total - (total * discount) / 100).toFixed(2))}
-        onHide={() => setCashModal(false)}
+        onHide={() => setRefundModal(false)}
         invoice_id={currentInvoice}
         email={email}
       />
