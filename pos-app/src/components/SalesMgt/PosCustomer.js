@@ -55,6 +55,7 @@ function PosCustomer(props) {
                   maxLength={10}
                   value={contactNumber}
                   onChange={(e) => setContactNumberKey(e.target.value)}
+                  style={{width:"460px"}}
                 />
                 {contactNumberError && <p className="text-danger">{contactNumberError}</p>}
               </div>

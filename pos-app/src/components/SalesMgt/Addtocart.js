@@ -31,7 +31,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [cardInvoice, setCardInvoice] = useState();
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/product/api/getProduct").then(
+    Axios.get("http://localhost:3001/invoice/api/getProduct").then(
       (response) => {
         setProductList(response.data);
       }

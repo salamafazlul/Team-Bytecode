@@ -43,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "no action",
         onUpdate: "CASCADE",
       },
+      expiry_date:{
+        type: DataTypes.STRING,
+        primaryKey: false,
+        allowNull: true
+      }
     },
     {
       tableName: "product",
