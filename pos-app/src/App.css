@@ -1,0 +1,17 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.main-app-layout{
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    background-image: url("./components/images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #cccccc;
+}
+.main-context-container{
+   /* background: #000; */
+   width: 100%;
+}

@@ -1,0 +1,89 @@
+.discount-container h1{
+    color: aquamarine !important;
+    
+}
+
+.discount-container{
+    /* background-color: #99abb7; */
+    height: fit-content; 
+     display: flex; 
+     padding: 15px 30px;
+     flex-direction: column;
+}
+.add-discount-form{
+    width: 100%;
+    min-height: fit-content;
+    border: 1px solid gray;
+    background-color: rgba(255, 255, 255, 0.507);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.164);
+    border-radius: 8px;
+    padding: 20px 10px;
+    display: flex;
+}
+.pd-add-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.pd-row{
+    /* background-color: bisque; */
+    display: flex;
+}
+
+.form-group{
+    padding: 2px 2px;
+}
+.form-control{
+    width: fit-content;
+}
+
+.pd-create-new-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.pd-table-container{
+    padding-top: 15px;
+    
+}
+.pd-table{
+    padding-top: 15px;
+    border: 1px solid gray;
+    background-color: rgba(255, 255, 255, 0.507);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.164);
+    border-radius: 8px;
+   
+}
+
+.pd-erro-logger{
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.507);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.164);
+    border-radius: 4px;
+    color: red;
+    letter-spacing: 1.2px;
+    font-size: .8em;
+}
+
+.pd-success-logger{
+    padding: 15px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.164);
+    border-radius: 4px;
+    color: green;
+    letter-spacing: 1.2px;
+    font-size: .8em;
+}
+
+.loading_screen{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid gray; */
+    background-color: rgba(14, 14, 14, 0.226);
+}
