@@ -236,6 +236,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
+                      class="theadcashier"
                         style={{
                           position: "sticky",
                           top: 0,
@@ -243,7 +244,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                           color: "black",
                         }}
                       >
-                        <tr>
+                        <tr class="trcashier">
                           <th>Code</th>
                           <th>Name</th>
                           <th>Price</th>
@@ -270,7 +271,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                             );
                           })
                           .map((product) => (
-                            <tr key={product.product_id}>
+                            <tr class="trcashier" key={product.product_id}>
                               <td>{product.product_id}</td>
                               <td>{product.Product.product_name}</td>
                               <td>{product.price}</td>
@@ -310,7 +311,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                       }}
                     >
                       <table>
-                        <tr>
+                        <tr class="trcashier">
                           <div
                             style={{ alignItems: "center", display: "flex" }}
                           >
@@ -363,14 +364,14 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                   style={{ minHeight: "350px", color: "white" }}
                 >
                   <Table hover>
-                    <thead
+                    <thead class="theadcashier"
                       style={{
                         position: "sticky",
                         top: 0,
                         color: "white",
                       }}
                     >
-                      <tr>
+                      <tr class="trcashier">
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
                         <th>Discount%</th>
@@ -381,7 +382,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                     </thead>
                     <tbody style={{ color: "white" }}>
                       {refundList.map((product) => (
-                        <tr style={{ lineHeight: "0.5" }}>
+                        <tr class="trcashier" style={{ lineHeight: "0.5" }}>
                           <td>{product.product_id}</td>
                           <td>{product.product_name}</td>
                           <td>{product.discount}</td>
