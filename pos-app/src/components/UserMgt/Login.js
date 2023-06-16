@@ -45,7 +45,7 @@ const Login = () => {
             <button
               className="sign"
               type="submit"
-              onClick={() => navigate("/Dashboard")}
+              onClick={() => navigate("/Cashier")}
             >
               Login
             </button>

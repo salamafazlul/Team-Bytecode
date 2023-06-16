@@ -47,9 +47,6 @@ label {
     align-items: center;
   }
 
-  span{
-    color: red;
-  }
   table{
     width: 75%;
     position: relative;
