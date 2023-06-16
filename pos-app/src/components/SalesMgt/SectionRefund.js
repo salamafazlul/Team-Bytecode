@@ -364,8 +364,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                   style={{ minHeight: "350px", color: "white" }}
                 >
                   <Table hover>
-                    <thead
-                    class="theadcashier"
+                    <thead class="theadcashier"
                       style={{
                         position: "sticky",
                         top: 0,

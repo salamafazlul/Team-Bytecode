@@ -37,7 +37,8 @@
   display: flex;
   color: rgb(12, 11, 11);
 }
-.theadcashier,.trcashier {
+.theadcashier,
+.trcashier {
   line-height: 0.1;
 }
 
