@@ -183,7 +183,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
     <>
       <section className="section">
         <div class="addtocart">
-          <MDBCol></MDBCol>
+          
           <MDBRow className="m-0">
             <div className="addContainer" class="leftcontainer">
               {/* selected product area */}

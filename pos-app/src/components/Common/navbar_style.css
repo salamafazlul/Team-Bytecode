@@ -1,6 +1,6 @@
 .side_navbar-container{
     background-color: #a7bfcb;
-    min-width: 230px;
+    width: 230px;
     min-height: 100vh;
     opacity: 0.7;
     box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.16);

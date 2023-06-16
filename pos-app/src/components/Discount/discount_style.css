@@ -1,15 +1,14 @@
 .discount-container h1{
     color: aquamarine !important;
-    
 }
 
-.discount-container{
-    /* background-color: #99abb7; */
-    height: fit-content; 
-     display: flex; 
-     padding: 15px 30px;
-     flex-direction: column;
-}
+.discount-container {
+    display: flex;
+    flex-grow: 1;
+    padding: 15px 30px;
+    flex-direction: column;
+  }
+  
 .add-discount-form{
     width: 100%;
     min-height: fit-content;

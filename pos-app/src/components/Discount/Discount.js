@@ -5,6 +5,7 @@ import POSHeader from "../Common/POSHeader";
 import DiscountAddForm from "./discount_add_form";
 import BillDiscountForm from "./bill_discount_form";
 import loading from "../images/loading.gif";
+import SideNavBar from "../Common/SideNavBar";
 
 const DiscountComponent = () => {
   const [isFormShow, setIsFormShow] = useState(0);
@@ -50,7 +51,7 @@ const DiscountComponent = () => {
   };
   const addNewDiscount = (data) => {
     setisLoading(true);
-   
+
     fetch("http://localhost:3001/Discount/api/", {
       method: "POST",
       headers: {
@@ -208,35 +209,39 @@ const DiscountComponent = () => {
       });
   };
   return (
-    <>
-      <POSHeader title={"Product Discount"} />
-      <div className="discount-container">
-        {isLoading ? (
-          <div className="loading_screen">
-            <img
-              src={require("../images/loading.gif")}
-              style={{ height: "100px", width: "100px" }}
-            />
-          </div>
-        ) : (
-          <>
-            <div className="pd-create-new-container">
-              <button
-                className={
-                  isFormShow
-                    ? "btn btn-sm btn-danger  "
-                    : "btn btn-sm btn-success  "
-                }
-                onClick={() => {
-                  setUpdateData();
-                  setIsFormShow(!isFormShow);
-                  setIsClear(true);
-                }}
-              >
-                {isFormShow ? "CLOSE FORM" : "NEW Product Discount"}
-              </button>
+    
+      <div style={{ display: "flex" }}>
+        <SideNavBar style={{ flexBasis:"20%"}} />
 
-              {/* <button
+        <div  style={{ flexBasis:"80%"}}>
+          <POSHeader title={"Product Discount"} />
+          <div className="discount-container">
+            {isLoading ? (
+              <div className="loading_screen">
+                <img
+                  src={require("../images/loading.gif")}
+                  style={{ height: "100px", width: "100px" }}
+                />
+              </div>
+            ) : (
+              <>
+                <div className="pd-create-new-container">
+                  <button
+                    className={
+                      isFormShow
+                        ? "btn btn-sm btn-danger  "
+                        : "btn btn-sm btn-success  "
+                    }
+                    onClick={() => {
+                      setUpdateData();
+                      setIsFormShow(!isFormShow);
+                      setIsClear(true);
+                    }}
+                  >
+                    {isFormShow ? "CLOSE FORM" : "NEW Product Discount"}
+                  </button>
+
+                  {/* <button
                 className={
                   isFormShow
                     ? "btn btn-sm btn-danger  "
@@ -250,76 +255,77 @@ const DiscountComponent = () => {
               >
                 {isFormShow ? "CLOSE FORM" : "NEW Bill Discount"}
               </button> */}
-            </div>
-            {isFormShow ? (
-              <DiscountAddForm
-                productList={productList}
-                isClear={isClear}
-                updateDiscount={updateDiscount}
-                addNewDiscount={addNewDiscount}
-                statusMessage={statusMessage}
-                updateData={updateData}
-              />
-            ) : (
-              <></>
+                </div>
+                {isFormShow ? (
+                  <DiscountAddForm
+                    productList={productList}
+                    isClear={isClear}
+                    updateDiscount={updateDiscount}
+                    addNewDiscount={addNewDiscount}
+                    statusMessage={statusMessage}
+                    updateData={updateData}
+                  />
+                ) : (
+                  <></>
+                )}
+                <div className="pd-table-container">
+                  <h4> Current Discount Details</h4>
+                  <table className="table table-striped pd-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product_Id</th>
+                        {/* <th scope="col">Qty</th> */}
+                        <th scope="col">Rate</th>
+                        <th scope="col">Start</th>
+                        <th scope="col">End</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {discountList?.map((item, index) => (
+                        <tr key={index}>
+                          <th scope="row">{item.product_id}</th>
+                          {/* <td>{item.qty}</td> */}
+                          <td>
+                            {/* {item.type == "amount" ? "Rs " : ""} */}
+                            {item.rate_amount}
+                          </td>
+                          <td>{item.startDate}</td>
+                          <td>{item.endDate}</td>
+                          <td>
+                            <button
+                              className="btn btn-sm btn-warning "
+                              onClick={() => onEditHandler(item)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() =>
+                                window.confirm(
+                                  "You want to delete discount for id " +
+                                    item.product_id
+                                )
+                                  ? deleteDiscount({
+                                      product_id: item.product_id,
+                                    })
+                                  : null
+                              }
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
-            <div className="pd-table-container">
-              <h4> Current Discount Details</h4>
-              <table className="table table-striped pd-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Product_Id</th>
-                    {/* <th scope="col">Qty</th> */}
-                    <th scope="col">Rate</th>
-                    <th scope="col">Start</th>
-                    <th scope="col">End</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {discountList?.map((item, index) => (
-                    <tr key={index}>
-                      <th scope="row">{item.product_id}</th>
-                      {/* <td>{item.qty}</td> */}
-                      <td>
-                        {/* {item.type == "amount" ? "Rs " : ""} */}
-                        {item.rate_amount} 
-                      </td>
-                      <td>{item.startDate}</td>
-                      <td>{item.endDate}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-warning "
-                          onClick={() => onEditHandler(item)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() =>
-                            window.confirm(
-                              "You want to delete discount for id " +
-                                item.product_id
-                            )
-                              ? deleteDiscount({
-                                  product_id: item.product_id,
-                                 
-                                })
-                              : null
-                          }
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
-    </>
+    
   );
 };
 

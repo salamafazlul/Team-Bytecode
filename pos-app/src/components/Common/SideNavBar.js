@@ -9,8 +9,9 @@ const SideNavBar = ()=> {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0)
     const onClickHandle = (path, tabIndex) => {
-        navigate(path)
         setActiveTab(tabIndex)
+        navigate(path)
+        
     }
 
 
@@ -23,7 +24,7 @@ const SideNavBar = ()=> {
                 
                 {
                     nav_data.map(
-                        (item, index) => <div className={ activeTab == index ? "nav-tag active-tab" :"nav-tag "} isActive={activeTab } onClick={ () =>{onClickHandle(item.link, index)}}  >
+                        (item, index) => <div onClick={ () =>{onClickHandle(item.link, index)}} isActive={activeTab }className={ activeTab == index ? "nav-tag active-tab" :"nav-tag "}   >
                         {item.icon}
                         <div className='nav-tag-title'> {item.text}</div>
                     </div>

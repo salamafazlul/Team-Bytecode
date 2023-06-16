@@ -1,4 +1,4 @@
-import { FaAccusoft, FaList, FaListAlt, FaMonero, FaProductHunt, FaShoppingCart, MdListAlt, MdOutlineCategory, MdOutlineDashboardCustomize, MdOutlineLocalOffer, MdOutlineSupervisedUserCircle, MdReceiptLong } from "react-icons/md";
+import { FaAccusoft, FaList, FaListAlt, FaMonero, FaProductHunt, FaShoppingCart, MdListAlt, MdOutlineCategory, MdOutlineDashboardCustomize, MdOutlineLocalOffer, MdOutlineSupervisedUserCircle, MdReceiptLong, MdPointOfSale } from "react-icons/md";
 import DiscountComponent from "../Discount/Discount";
 
 export const nav_data = [
@@ -13,6 +13,12 @@ export const nav_data = [
         icon: <MdOutlineSupervisedUserCircle size={'22px'} />,
         text: "User",
         link: "/user"
+    },
+    {
+        id: 7,
+        icon: <MdPointOfSale size={'22px'} />,
+        text: "Sales & Refund",
+        link: "/cashier"
     },
     {
         id: 3,
