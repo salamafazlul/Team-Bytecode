@@ -1,15 +1,24 @@
 const express = require("express");
 require('dotenv').config();
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const bodyParser = require("body-parser");
 
 app.use(express.json())
 app.use(cors())
 
 const db = require("./models");
 
+const statsRouter = require('./routes/Stats')
+app.use ("/stats", statsRouter)
+const invoiceProductRouter = require('./routes/Invoice_Product')
+app.use("/invoices", invoiceProductRouter)
+
 
 // Routers
+const postRouter = require('./routes/Invoice');
+app.use("/Invoice", postRouter );
+
 const  invoiceRouter = require('./routes/Invoice')
 app.use ("/Invoice", invoiceRouter )
 

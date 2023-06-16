@@ -1,0 +1,69 @@
+.form{
+  margin: 200px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="number"],
+  input[type="string"],
+  input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button[type="submit"] {
+    background-color: #4d68c1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    width: 20%;
+    margin: 10px;
+  }
+
+  button{
+    background-color: #4d68c1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    width: 20%;
+    margin: 10px;
+  }
+  
+  
+  button[type="submit"]:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    cursor: not-allowed;
+    align-items: center;
+  }
+
+  span{
+    color: red;
+  }
+  table{
+    width: 75%;
+    position: relative;
+    padding: 10px 10px;
+    margin-top: 20;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 10px;
+    border-color: black;
+}
+table th{
+    background-color: rgb(117, 154, 224);
+    color: white;
+    text-align: center;
+    height: 30px;
+}
+  
