@@ -258,6 +258,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
+                      class="theadcashier"
                         style={{
                           position: "sticky",
                           top: 0,
@@ -265,7 +266,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                           color: "black",
                         }}
                       >
-                        <tr>
+                        <tr class="trcashier">
                           <th>Code</th>
                           <th>Name</th>
                           <th>Price</th>
@@ -290,7 +291,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                             );
                           })
                           .map((product) => (
-                            <tr key={product.product_id}>
+                            <tr class="trcashier" key={product.product_id}>
                               <td>{product.product_id}</td>
                               <td>{product.product_name}</td>
                               <td>{product.selling_price}</td>
@@ -336,7 +337,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                   style={{ minHeight: "350px", background: "white" }}
                 >
                   <Table hover>
-                    <thead
+                    <thead class="theadcashier"
                       style={{
                         position: "sticky",
                         top: 0,
@@ -344,7 +345,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         color: "black",
                       }}
                     >
-                      <tr>
+                      <tr class="trcashier">
                         <th style={{ width: "10px" }}>Code</th>
                         <th>Name</th>
                         <th style={{ width: "15px" }}>Discount(%)</th>
@@ -355,7 +356,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                     </thead>
                     <tbody>
                       {invoiceList.map((product) => (
-                        <tr style={{ lineHeight: "0.5" }}>
+                        <tr class="trcashier" style={{ lineHeight: "0.5" }}>
                           <td>{product.product_id}</td>
                           <td>{product.product_name}</td>
                           <td>{product.discount}</td>
