@@ -12,11 +12,7 @@ import Keyboard from "react-simple-keyboard";
 import { useNavigate } from "react-router-dom";
 import RefundPayment from "./RefundPayment";
 
-
 export const SectionRefund = ({ currentInvoice, email }) => {
-  console.log(currentInvoice);
-  console.log(email);
-
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectCode, setSelectCode] = useState();
@@ -41,7 +37,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
       setTotal(response.data.total);
     });
   }); // Add dependency array
-  
+
   useEffect(() => {
     const invoice_id = currentInvoice;
     Axios.get(
@@ -50,7 +46,6 @@ export const SectionRefund = ({ currentInvoice, email }) => {
       setRefundList(response.data);
     });
   }); // Add dependency array
-  
 
   const getInvoice = (invoiceKey) => {
     clearTimeout(timeoutId); // Clear previous timeout if any
@@ -58,37 +53,38 @@ export const SectionRefund = ({ currentInvoice, email }) => {
     const timeout = setTimeout(() => {
       Axios.get(
         `http://localhost:3001/invoice/api/getInvoiceDetail?invoice_id=${invoice_id}&currentInvoice=${currentInvoice}` //currentInvoice.currentInvoice
-      ).then((response) => {
-        if (response.data.status === 400) {
-          alert("A refund already made for the same invoice");
-        } else {
-          const invoiceDate = new Date(response.data.date);
-          const currentDate = new Date();
-          const diffInMilliseconds = Math.abs(currentDate - invoiceDate);
-          const diffInDays = Math.floor(
-            diffInMilliseconds / (1000 * 60 * 60 * 24)
-          );
-          // Check if the sale was made within the last 7 days
-          if (diffInDays <= 7) {
-            setInvoiceDetail(response.data);
-            setDiscount(response.data.discount);
-            Axios.get(
-              `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
-            )
-              .then((response) => {
-                setInvoiceList(response.data);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+      )
+        .then((response) => {
+          if (response.data.status === 400) {
+            alert("A refund already made for the same invoice");
           } else {
-            alert("Sale in not made within 7 days. Refund not allowed");
+            const invoiceDate = new Date(response.data.date);
+            const currentDate = new Date();
+            const diffInMilliseconds = Math.abs(currentDate - invoiceDate);
+            const diffInDays = Math.floor(
+              diffInMilliseconds / (1000 * 60 * 60 * 24)
+            );
+            // Check if the sale was made within the last 7 days
+            if (diffInDays <= 7) {
+              setInvoiceDetail(response.data);
+              setDiscount(response.data.discount);
+              Axios.get(
+                `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
+              )
+                .then((response) => {
+                  setInvoiceList(response.data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              alert("Sale in not made within 7 days. Refund not allowed");
+            }
           }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }, 1000); // Delay the execution of the Axios request by 1 second
 
     setTimeoutId(timeout); // Save the timeout ID for later use
@@ -237,7 +233,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
-                      class="theadcashier"
+                        class="theadcashier"
                         style={{
                           position: "sticky",
                           top: 0,
@@ -365,7 +361,8 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                   style={{ minHeight: "350px", color: "white" }}
                 >
                   <Table hover>
-                    <thead class="theadcashier"
+                    <thead
+                      class="theadcashier"
                       style={{
                         position: "sticky",
                         top: 0,
