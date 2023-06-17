@@ -26,10 +26,10 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [total, setTotal] = useState();
   const [netTotal, setNetTotal] = useState();
-  const [discount, setDiscount] = useState(0);
-  const [discountRate, setDiscountRate] = useState(0);
+  const [discount, setDiscount] = useState(0); //bill discount value
   const [cashModal, setCashModal] = useState();
   const [cardInvoice, setCardInvoice] = useState();
+  const [billDiscount, setBillDiscount] = useState(0);
 
   useEffect(() => {
     Axios.get("http://localhost:3001/invoice/api/getProduct").then(
@@ -51,10 +51,20 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   useEffect(() => {
     const invoice_id = currentInvoice;
     Axios.get(
+      `http://localhost:3001/invoice/api/getBillDiscount?invoice_id=${invoice_id}`
+    ).then((response) => {
+      setBillDiscount(response.data.rate);
+      setDiscount((response.data.rate * total) / 100);
+    });
+  });
+
+  useEffect(() => {
+    const invoice_id = currentInvoice;
+    Axios.get(
       `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
     ).then((response) => {
       setTotal(response.data.total);
-      setDiscount(response.data.total*discountRate/100);
+      setDiscount((response.data.total * billDiscount) / 100);
       setNetTotal(parseFloat((response.data.total - discount).toFixed(2)));
     });
   });
@@ -66,21 +76,6 @@ export const AddtoCart = ({ currentInvoice, email }) => {
       price: selectPrice,
       quantity: selectQuantity,
     });
-  };
-
-  const getDiscount = (discount) => {
-    setDiscountRate(discount)
-    Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
-      discount: discount,
-      invoice_id: currentInvoice,
-    })
-      .then((response) => {
-        const totalDiscountValue = parseFloat(response.data.totalDiscountValue);
-        setDiscount(totalDiscountValue);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   const selectProduct = (pid, pname, price, stock) => {
@@ -261,7 +256,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                   >
                     <Table hover style={{ color: "white" }}>
                       <thead
-                      class="theadcashier"
+                        class="theadcashier"
                         style={{
                           position: "sticky",
                           top: 0,
@@ -340,7 +335,8 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                   style={{ minHeight: "350px", background: "white" }}
                 >
                   <Table hover>
-                    <thead class="theadcashier"
+                    <thead
+                      class="theadcashier"
                       style={{
                         position: "sticky",
                         top: 0,
@@ -424,8 +420,11 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span style={{ marginRight: "5px" }}>Discount(%):</span>
-                      <MDBInput
+                      <span style={{ marginRight: "5px" }}>
+                        Discount: <b>{billDiscount}%</b>
+                      </span>
+
+                      {/* <MDBInput
                         className="discount_btn"
                         style={{
                           height: "25px",
@@ -439,8 +438,10 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                         onChange={(e) => {
                           getDiscount(e.target.value);
                         }}
-                      />
-                      <span style={{ textAlign: "right" }}>{parseFloat((discount).toFixed(2))}</span>
+                      /> */}
+                      <span style={{ textAlign: "right" }}>
+                        {parseFloat(discount.toFixed(2))}
+                      </span>
                     </div>
                     <div
                       style={{

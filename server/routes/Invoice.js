@@ -5,6 +5,7 @@ const {
   Invoice_Product,
   Product,
   Sale_of_Refund,
+  Bill_Discount,
 } = require("../models");
 const { Op } = require("sequelize");
 
@@ -27,25 +28,36 @@ router.post("/api/createInvoice/", async (req, res) => {
   }
 });
 
-router.post("/api/setTotalDiscount/", async (req, res) => {
-  const { discount } = req.body;
-  const { invoice_id } = req.body;
+router.get("/api/getBillDiscount", async (req, res) => {
+  const invoice_id = req.query.invoice_id;
   try {
     const invoice = await Invoice.findByPk(invoice_id);
     if (!invoice) {
       res.status(404).send("Invoice not found");
       return;
     }
-    await invoice.update({ discount: discount });
-    const totalDiscountValue = invoice.total * (discount / 100);
-    const formattedTotalDiscountValue = Number(totalDiscountValue.toFixed(3));
-    res.send({
-      message: "Discount has been updated successfully.",
-      totalDiscountValue: formattedTotalDiscountValue,
+    const discount = await Bill_Discount.findOne({
+      where: {
+        start_date: {
+          [Op.lte]: new Date(),
+        },
+        end_date: {
+          [Op.gte]: new Date(),
+        },
+      },
+      order: [["end_date", "ASC"]],
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
+
+    if (!discount) {
+      return res.status(404).send("No discount available.");
+    }
+    await invoice.update({ discount: discount.rate });
+    res.json({ rate: discount.rate });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send("An error occurred while retrieving the bill discount rate.");
   }
 });
 
