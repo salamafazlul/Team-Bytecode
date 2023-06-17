@@ -15,6 +15,22 @@ router.post("/", async (req, res) => {
   res.json(post);
 });
 
+// Get product by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+    res.json({ Product_name: product.Product_name }); // Return only the product name
+  } catch (error) {
+    console.error("Error retrieving product: ", error);
+    res.sendStatus(500);
+  }
+});
+
+//delete product
 router.delete("/:id", async (req, res) => {
   console.log(req.params.id);
   const product = await Product.findByPk(req.params.id);

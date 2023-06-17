@@ -5,6 +5,9 @@ import * as Yup from "yup";
 import axios from "axios";
 
 const Rform = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [formData, setFormData] = useState(null);
+
   const initialValues = {
     ProductID: "",
     ProductName: "",
@@ -22,35 +25,35 @@ const Rform = () => {
   });
 
   //update part
-    // const [formData, setFormData] = useState([]);
-    // const handleSave = (form) => {
-    //   axios.put(`http://localhost:3001/product/return`, form).then((res) => {
-    //     console.log(res.data);
-        
-    //   });
-    // };
+  // const [formData, setFormData] = useState([]);
+  // const handleSave = (form) => {
+  //   axios.put(`http://localhost:3001/product/return`, form).then((res) => {
+  //     console.log(res.data);
 
-    const handleSave = async (form) => {
-      try {
-        const [putResponse, postResponse] = await axios.all([
-          axios.put(`http://localhost:3001/product/return`, form),
-          axios.post(`http://localhost:3001/Return`, form),
-        ]);
-  
-        console.log(putResponse.data); // Response from PUT request
-        console.log(postResponse.data); // Response from POST request
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //   });
+  // };
+
+  const handleSave = async (form) => {
+    setShowPopup(false);
+    try {
+      const [putResponse, postResponse] = await axios.all([
+        axios.put(`http://localhost:3001/product/return`, form),
+        axios.post(`http://localhost:3001/Return`, form),
+      ]);
+
+      console.log(putResponse.data); // Response from PUT request
+      console.log(postResponse.data); // Response from POST request
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const onSubmit = (data, { resetForm }) => {
     // console.log(data);
-    handleSave(data);
+    setShowPopup(true);
+    setFormData(data);
     // setFormData((prevData) => [...prevData, data]);
     resetForm();
-
-    const { ProductID, QTY } = data;
   };
 
   return (
@@ -124,13 +127,33 @@ const Rform = () => {
               </tbody>
             </table>
 
-            <button className="bb1" typ="button">Update</button>
+            <button className="bb1" typ="button">
+              Update
+            </button>
             <button type="reset" className="bb2">
               Clear
             </button>
           </Form>
         </Formik>
       </div>
+
+      {showPopup && (
+        <div className="modal-overlay">
+          <div className="popup">
+            <h3>Confirmation</h3>
+            <p>Are you sure you want to retern this item?</p>
+            <div className="">
+              <button className="b1" onClick={() => handleSave(formData)}>
+                Confirm
+              </button>
+              <button className="b2" onClick={() => setShowPopup(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* <hr className="hrule" /> */}
     </>
   );

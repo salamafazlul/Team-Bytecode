@@ -224,32 +224,9 @@ const onSubmit = async (values) => {
             <button type="reset" className="b2">
               Clear
             </button>
-            {/* <div className="button">
-                <button className="b1" type="submit">
-                  Add
-                </button>
-                <button className="b2">Clear</button>
-              </div> */}
           </Form>
         </Formik>
       </div>
-
-      {/* Popup message */}
-      {/*
-       {showPopup && (
-        <div className="popup">
-          <h3>Confirmation</h3>
-          <p>Are you sure you want to add the product?</p>
-          <div className="button">
-            <button className="b1" onClick={handleConfirm}>
-              Confirm
-            </button>
-            <button className="b2" onClick={() => setShowPopup(false)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-       )} */}
 
       {showPopup && (
         <div className="modal-overlay">
