@@ -57,6 +57,10 @@ export const SectionRefund = ({ currentInvoice, email }) => {
         .then((response) => {
           if (response.data.status === 400) {
             alert("A refund already made for the same invoice");
+          } else if (response.data.status === 200) {
+            alert("This is the current invoice");
+          } else if (response.data.status === 204) {
+            alert("This is a refund invoice, you cannot make a refund.");
           } else {
             const invoiceDate = new Date(response.data.date);
             const currentDate = new Date();

@@ -3,6 +3,13 @@ import "./Cashier.css";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShoppingCart,
+  faUndo,
+  faUser,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 import PosCustomer from "./PosCustomer";
 
 const Cashier = (props) => {
@@ -13,13 +20,12 @@ const Cashier = (props) => {
 
   useEffect(() => {
     if (customerModal) {
-      setContactNumber(); // Reset the contact number state to an empty string when customerModal changes
+      setContactNumber("");
     }
   }, [customerModal]);
 
   useEffect(() => {
     if (contactNumber) {
-      // Make an API request to fetch the email address for the given contact number
       Axios.get(
         `http://localhost:3001/cashier/api/getEmailAddress?contactNumber=${contactNumber}`
       )
@@ -27,7 +33,7 @@ const Cashier = (props) => {
           const { email } = response.data;
           if (email) {
             setEmail(email);
-            alert(email)
+            alert(email);
           } else {
             alert("Customer is not registered");
           }
@@ -37,13 +43,12 @@ const Cashier = (props) => {
         });
     }
   }, [contactNumber]);
-  
-  
+
   const createInvoice = () => {
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
         const emailParam = email ? encodeURIComponent(email) : null;
-        navigate(`/Checkout/${response.data.invoice_id}?email=${emailParam}`); // Navigate to the Checkout page with the invoice ID and email
+        navigate(`/Checkout/${response.data.invoice_id}?email=${emailParam}`);
       })
       .catch((error) => {
         console.log(error);
@@ -54,7 +59,7 @@ const Cashier = (props) => {
     Axios.post("http://localhost:3001/invoice/api/createInvoice/", {})
       .then((response) => {
         const emailParam = email ? encodeURIComponent(email) : null;
-        navigate(`/Refund/${response.data.invoice_id}?email=${emailParam}`); // Navigate to the Refund page with the invoice ID and email
+        navigate(`/Refund/${response.data.invoice_id}?email=${emailParam}`);
       })
       .catch((error) => {
         console.log(error);
@@ -62,31 +67,41 @@ const Cashier = (props) => {
   };
 
   const handleContactNumberSet = (contactNumber) => {
-    setContactNumber(contactNumber); // Update the contact number state in Cashier component
-    console.log(contactNumber); // Display the contact number in the console
-    setCustomerModal(false); // Close the modal
+    setContactNumber(contactNumber);
+    console.log(contactNumber);
+    setCustomerModal(false);
   };
 
   return (
     <>
       <div className="cashier-container">
         <Header />
-        <div style={{ marginLeft: "40px" }}>Cashier Name: Jeffry</div>
+        <div style={{ marginLeft: "40px" }}>Cashier Interface</div>
+
         <div
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "20px",
+            marginTop: "70px",
           }}
         >
           <button
             className="cashierbtn"
             onClick={createInvoice}
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "10px", background: "#193882" }}
           >
+            <FontAwesomeIcon
+              icon={faShoppingCart}
+              style={{ marginRight: "5px" }}
+            />
             Checkout
           </button>
-          <button className="cashierbtn" onClick={createRefund}>
+          <button
+            className="cashierbtn"
+            onClick={createRefund}
+            style={{ marginLeft: "100px", background: "#2C4EA3" }}
+          >
+            <FontAwesomeIcon icon={faUndo} style={{ marginRight: "5px" }} />
             Refund
           </button>
         </div>
@@ -94,20 +109,24 @@ const Cashier = (props) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "20px",
+            marginTop: "50px",
           }}
         >
           <button
             className="cashierbtn"
             onClick={() => setCustomerModal(true)}
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "10px", background: "#0E6EA9" }}
           >
+            <FontAwesomeIcon icon={faUser} style={{ marginRight: "15px" }} />
             POS Customer
           </button>
-          <button className="cashierbtn" style={{ marginRight: "10px" }}>
-            Register Customer
+          <button
+            className="cashierbtn"
+            style={{ marginLeft: "100px", background: "#328CA9" }}
+          >
+            <FontAwesomeIcon icon={faUsers} style={{ marginRight: "5px" }} />
+            Customers
           </button>
-          <button className="cashierbtn">View Customers</button>
         </div>
       </div>
       <PosCustomer

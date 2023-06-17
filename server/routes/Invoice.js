@@ -6,7 +6,7 @@ const {
   Product,
   Sale_of_Refund,
 } = require("../models");
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 //get invoice list /api/getInvoiceList
 router.get("/", async (req, res) => {
@@ -76,8 +76,8 @@ router.get("/api/getInvoice", async (req, res) => {
 //----------------------------------------------
 //get sale invoice for refund using sale ID
 router.get("/api/getInvoiceDetail", async (req, res) => {
-  const invoice_id = req.query.invoice_id;
-  const currentInvoice = req.query.currentInvoice;
+  const invoice_id = req.query.invoice_id; //invoicekey, saleid
+  const currentInvoice = req.query.currentInvoice; //refundid
 
   try {
     const InvoiceDetail = await Invoice.findOne({
@@ -88,6 +88,19 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
     if (!InvoiceDetail) {
       return res.status(404).send("Invoice not found.");
     }
+
+    const refundIds = await Sale_of_Refund.findAll({
+      attributes: ["refund_id"],
+    });
+    const refundIdList = refundIds.map((refund) => refund.refund_id);
+    const invoiceId = parseInt(invoice_id.trim());
+
+    if (invoiceId === parseInt(currentInvoice.trim())) {
+      return res.json({ status: 200 });
+    } else if (refundIdList.includes(invoiceId)) {
+      return res.json({ status: 204 });
+    }
+
     const discount = InvoiceDetail.discount;
 
     //check if a refund is already made for the same sale_id
@@ -95,12 +108,12 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
       where: {
         sale_id: invoice_id,
         refund_id: {
-          [Op.not]: currentInvoice
-        }
-      }
+          [Op.not]: currentInvoice,
+        },
+      },
     });
     if (refundMade) {
-      return res.json({ status: 400});
+      return res.json({ status: 400 });
     }
     // Check if a record already exists in Sale_of_Refund for the currentInvoice
     const existingRecord = await Sale_of_Refund.findOne({
@@ -142,13 +155,14 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
     res.status(500).send("An error occurred while retrieving the invoice.");
   }
 });
-router.get('/api/getProduct', async (req, res) => {
+
+router.get("/api/getProduct", async (req, res) => {
   try {
     const products = await Product.findAll();
     res.send(products);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 

@@ -62,18 +62,29 @@ router.get("/api/getTotal", async (req, res) => {
   }
 });
 
+
 router.post("/api/addToInvoice/", async (req, res) => {
   const { iid: invoice_id, pid: product_id, quantity, price } = req.body;
 
   try {
-    // Find the invoice for the given invoice ID
     const invoice = await Invoice.findByPk(invoice_id);
-
     if (!invoice) {
       return res.status(404).send("Invoice not found");
     }
-    // Find the discount for the given product ID
-    const discount = await Discount.findOne({ where: { product_id } });
+
+    // Find the applicable discount for the given product ID
+    const discount = await Discount.findOne({
+      where: {
+        product_id,
+        startDate: {
+          [Op.lte]: new Date(),
+        },
+        endDate: {
+          [Op.gte]: new Date(),
+        },
+      },
+      order: [["startDate", "DESC"]],
+    });
 
     // Calculate the discount amount
     const discountAmount = discount
@@ -81,8 +92,7 @@ router.post("/api/addToInvoice/", async (req, res) => {
       : 0;
 
     // Calculate the new total amount
-    const newTotal =
-      parseFloat(invoice.total) + price * quantity - discountAmount;
+    const newTotal = parseFloat(invoice.total) + price * quantity - discountAmount;
 
     // Reduce the quantity in the Product table
     const product = await Product.findByPk(product_id);
@@ -93,14 +103,14 @@ router.post("/api/addToInvoice/", async (req, res) => {
       invoice_id,
       product_id,
       quantity,
-      price: price,
+      price,
       amount: price * quantity - discountAmount,
       discount: discount ? discount.rate_amount : 0,
     });
 
     await invoice.update({ total: newTotal });
 
-    res.send("Product has been added to invoice successfully.");
+    res.send("Product has been added to the invoice successfully.");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

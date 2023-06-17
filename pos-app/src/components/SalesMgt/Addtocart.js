@@ -27,6 +27,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   const [total, setTotal] = useState();
   const [netTotal, setNetTotal] = useState();
   const [discount, setDiscount] = useState(0);
+  const [discountRate, setDiscountRate] = useState(0);
   const [cashModal, setCashModal] = useState();
   const [cardInvoice, setCardInvoice] = useState();
 
@@ -53,6 +54,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
       `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
     ).then((response) => {
       setTotal(response.data.total);
+      setDiscount(response.data.total*discountRate/100);
       setNetTotal(parseFloat((response.data.total - discount).toFixed(2)));
     });
   });
@@ -67,6 +69,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   };
 
   const getDiscount = (discount) => {
+    setDiscountRate(discount)
     Axios.post("http://localhost:3001/invoice/api/setTotalDiscount/", {
       discount: discount,
       invoice_id: currentInvoice,
@@ -437,7 +440,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                           getDiscount(e.target.value);
                         }}
                       />
-                      <span style={{ textAlign: "right" }}>{discount}</span>
+                      <span style={{ textAlign: "right" }}>{parseFloat((discount).toFixed(2))}</span>
                     </div>
                     <div
                       style={{

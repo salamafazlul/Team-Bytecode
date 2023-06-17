@@ -14,7 +14,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Cashier />} />
           <Route path="/Checkout/:invoiceId" element={<Checkout />} />
           <Route path="/Refund/:invoiceId" element={<Refund />} />
           <Route path="/Cashier" element={<Cashier />} />

@@ -27,7 +27,7 @@
   font-size: 30px;
   font-weight: 600;
   color: #ffffff;
-  box-shadow: 3px 5px 5px #00000062;
+  box-shadow: 3px 5px 5px 5px #00000062;
   border-radius: 5px;
   background-color: rgb(80, 140, 175);
 }
