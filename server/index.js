@@ -2,13 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-app.use(express.json());
 app.use(cors());
-
-const db = require("./models");
-
-const CategoryRouter = require("./routes/Category");
-app.use("/Category", CategoryRouter);
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const ProductRouter = require("./routes/Product");
 app.use("/Product", ProductRouter);

@@ -1,50 +1,62 @@
-module.exports = (Sequelize, DataTypes) => {
-  const Product = Sequelize.define(
+module.exports = (sequelize, DataTypes) => {
+  const Product = sequelize.define(
     "Product",
     {
-      Product_id: {
+      product_id: {
         type: DataTypes.STRING,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
       },
-
-      Product_name: {
-        type: DataTypes.STRING,
+      product_name: {
+        type: DataTypes.STRING(100),
         allowNull: false,
       },
-
-      Buying_price: {
-        type: DataTypes.STRING,
+      buying_price: {
+        type: DataTypes.DECIMAL(18, 2),
         allowNull: false,
       },
-
-      Selling_price: {
-        type: DataTypes.STRING,
+      selling_price: {
+        type: DataTypes.DECIMAL(18, 2),
         allowNull: false,
       },
-
-      Quantity: {
-        type: DataTypes.STRING,
+      stock: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-
-      Min_stock_level: {
-        type: DataTypes.STRING,
+      reorder_level: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-
-      Description: {
-        type: DataTypes.STRING,
+      reorder_status: {
+        type: DataTypes.STRING(100),
         allowNull: false,
+        defaultValue: "No Status",
       },
+      category_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "product_category",
+          key: "category_id",
+        },
+        onDelete: "no action",
+        onUpdate: "CASCADE",
+      },
+      expiry_date:{
+        type: DataTypes.STRING,
+        primaryKey: false,
+        allowNull: true
+      }
     },
     {
+      tableName: "product",
       timestamps: false,
     }
   );
 
   Product.associate = (models) => {
-    Product.belongsTo(models.Category, { foreignKey: "CategoryId" });
+    Product.belongsTo(models.Product_Category, { foreignKey: "category_id" });
   };
   return Product;
 };

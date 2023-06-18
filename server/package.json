@@ -11,14 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.2.0",
-    "nodemon": "^2.0.21",
+    "nodemon": "^2.0.20",
     "sequelize": "^6.29.0",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "stripe": "^12.9.0"
   }
 }
 
