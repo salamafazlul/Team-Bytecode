@@ -9,6 +9,10 @@ import DiscountComponent from "./components/Discount/Discount";
 import ProductReport from "./components/ReportMgt/ProductReport";
 import Dashboard from "./components/Dashboard/Dashboard";
 import SalesReport from "./components/ReportMgt/SalesReport";
+
+import Purchasing from "./components/ProductMgt/Pages/Purchasing";
+import AddRemove from "./components/ProductMgt/Pages/ProducrCreateRemove";
+import Category from "./components/ProductMgt/Pages/Category";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -24,6 +28,10 @@ function App() {
           <Route path="/pdeport" element={<ProductReport />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/SalesReport" element={<SalesReport />} />
+
+          <Route path="Purchasing" element={<Purchasing />} />
+          <Route path="AddRemove" element={<AddRemove />} />
+          <Route path="Category" element={<Category />} />
         </Routes>
       </BrowserRouter>
     </>

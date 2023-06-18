@@ -1,0 +1,67 @@
+.sidenavi{
+    height: 100vh;
+    width: 13vw;
+    background-color: rgba(255, 255, 255, 0.536); 
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    display: grid;
+    grid-template-rows: 0.6fr 2fr 0.5fr;
+
+}
+
+.logo{
+    width: 18vh;
+    height: 18vh;
+    margin: 1vh 1vh 1vh 4vh;
+}
+
+.but{
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    color: rgb(2, 2, 59);
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    width: 10em;
+    padding: 0.5em;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin-left: 0em;
+    margin-top: 1em;
+    display: flex;
+    
+}
+.but:hover{
+    background-color: #0361f9;
+    color: #fff;
+
+}
+.icon{
+    margin-right: 2vh;
+}
+
+.logout{
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.4s;
+    cursor: pointer;
+    width: 1vh 2vw 1vh 0;
+    padding: 1vh 6vw 1vh 1vw;
+    background-color: #ffffff00;
+    margin: 6vh 1vh 0vh 0vh;
+    text-align: center;
+
+}
+
+.logout:hover{
+    background-color: #0361f9;
+    color: #fff;
+}
+.butonname{
+    margin-left: .5vw;
+    
+}

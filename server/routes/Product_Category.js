@@ -26,7 +26,6 @@ router.get("/api/getProductCategory", async (req, res) => {
 });
 
 router.post("/api/getProductReOrderByEmail", async (req, res) => {
-
   let temp = req.body.data?.map((item) => [
     item.product_id,
     item.product_name,
@@ -98,7 +97,6 @@ router.post("/api/getProductReOrderByEmail", async (req, res) => {
     temp.forEach((element, index) => {
       table[index + 1] = element;
     });
-  
 
     const tableTop = 150;
     const tableLeft = 50;
@@ -134,7 +132,6 @@ router.post("/api/getProductReOrderByEmail", async (req, res) => {
 });
 
 router.post("/api/getProductReOrderReport", async (req, res) => {
-
   let temp = req.body?.map((item) => [
     item.product_id,
     item.product_name,
@@ -166,7 +163,6 @@ router.post("/api/getProductReOrderReport", async (req, res) => {
     temp.forEach((element, index) => {
       table[index + 1] = element;
     });
-  
 
     const tableTop = 150;
     const tableLeft = 50;
@@ -200,6 +196,41 @@ router.post("/api/getProductReOrderReport", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-router.post("/", async (req, res) => {});
+
+router.get("/", async (req, res) => {
+  const categories = await Product_Category.findAll();
+  res.json(categories);
+});
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Product_Category.findByPk(id);
+    if (!category) {
+      return res.status(404).send({ error: "Category not found" });
+    }
+    res.json(category);
+  } catch (error) {
+    console.log("Error retrieving category details:", error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while retrieving category details" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  const post = req.body;
+  await Product_Category.create(post);
+  res.json(post);
+});
+
+router.delete("/:id", async (req, res) => {
+  const category = await Product_Category.findByPk(req.params.id);
+  if (!category) {
+    return res.status(404).send({ error: "Category not found" });
+  }
+  await category.destroy();
+  res.send({ message: "Category deleted successfully" });
+});
 
 module.exports = router;

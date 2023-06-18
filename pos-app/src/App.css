@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
 }
-.main-app-layout{
+/* .main-app-layout{
     min-width: 100vw;
     min-height: 100vh;
     display: flex;
@@ -10,8 +10,20 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #cccccc;
-}
-.main-context-container{
+} */
+/* .main-context-container{ */
    /* background: #000; */
-   width: 100%;
-}
+   /* width: 100%;
+} */
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-image:url('./components/images/bg.jpg');
+    background-size:cover;
+    display: flex;
+    font-size: medium;
+    /*font-size: calc(10px + 2vmin);*/
+    color: rgb(0, 0, 0);
+  }
+  

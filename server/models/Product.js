@@ -3,9 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     "Product",
     {
       product_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
       },
       product_name: {
@@ -34,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "No Status",
       },
       category_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         references: {
           model: "product_category",
@@ -43,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "no action",
         onUpdate: "CASCADE",
       },
-      expiry_date:{
+      expiry_date: {
         type: DataTypes.STRING,
         primaryKey: false,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       tableName: "product",

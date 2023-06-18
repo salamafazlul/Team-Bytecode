@@ -1,0 +1,145 @@
+.fulldiv{
+    background-color: rgba(255, 255, 255, 0.818);
+    opacity: 75%; 
+    width: 82.3vw;
+    padding: 1vw 1vw 1vw 1vw;
+    background-size: auto;
+    display:flex;    
+    display: grid;
+}
+
+
+.purchersingform{
+    background-color: rgba(255, 255, 255, 0.818);
+    opacity: 75%; 
+    width: 82.3vw;
+    padding: 1vw 1vw 1vw 1vw;
+    background-size: auto;
+    display:flex;    
+    display: grid;
+    justify-content: center;
+}
+
+.inputfield{
+    width: 15vw;
+    height: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1vh 0 0 1vw;
+    
+}
+
+.purbutton01{
+    width: 9vw;
+  background-color:rgba(88, 154, 192, 1);
+  border-radius: 10px;
+  border-style: none;
+  box-shadow:#000205; 
+  color: #fff;
+  cursor: pointer;
+  font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  height: 5vh; 
+  transform: translate3d(0, 0, 0);
+  transition: all .4s;
+  margin-left: 30vw;
+  margin-top: 3vh;
+  box-sizing: border-box;
+}
+
+.purbutton02 {
+    width: 9vw;
+  background-color:rgba(88, 154, 192, 1);
+  border-radius: 10px;
+  border-style: none;
+  box-shadow:#000205; 
+  color: #fff;
+  cursor: pointer;
+  font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  height: 5vh; 
+  align-content: center;
+  transform: translate3d(0, 0, 0);
+  transition: all .4s;
+  margin-left: 2vw;
+  margin-top: 3vh;
+  box-sizing: border-box;
+}
+
+.GRN{
+    background-color: rgba(255, 255, 255, 0.818);
+    opacity: 75%; 
+    width: 82.3vw;
+    padding: 1vw 1vw 1vw 1vw;
+    background-size: auto;
+    display:flex;    
+    display: grid;
+    justify-content: center;
+}
+
+.thead{
+    width: 10vw;
+    height: 10px;
+    padding: 10px;
+    border-radius: px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1vh 0 0 1vw;
+    background-color: rgba(46, 142, 164, 1);
+    color: #fff;
+}
+
+.tdata{
+    width: 10vw;
+    height: 10px;
+    padding: 10px;
+    border-radius: px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1vh 0 0 1vw;
+    background-color:#fff;
+    color: rgba(112, 109, 109, 1);
+
+}
+
+.header{
+    color:#000205;
+    justify-content: center;
+   
+    
+}
+
+.boru {
+    width: 9vw;
+  background-color:rgba(88, 154, 192, 1);
+  border-radius: 10px;
+  border-style: none;
+  box-shadow:#000205; 
+  color: #fff;
+  cursor: pointer;
+  font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  height: 5vh; 
+  align-content: center;
+  transform: translate3d(0, 0, 0);
+  transition: all .4s;
+  margin-left: 15vw;
+  margin-top: 3vh;
+  box-sizing: border-box;
+}
+
+.grnTable{
+    max-height: 300px;
+    overflow-y: auto;   
+}
