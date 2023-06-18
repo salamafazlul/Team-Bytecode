@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios"; 
 import "./RemoveStyle.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -40,9 +40,9 @@ const Removeform = () => {
   };*/}
 
   const handleConfirm = async () => {
+    setShowPopup(false);
     try {
       await axios.delete(`http://localhost:3001/Product/${product.id}`);
-      setShowPopup(false);
       setProduct({ id: "", name: "" });
     } catch (error) {
       console.log("Error deleting product:", error);
@@ -114,8 +114,11 @@ const Removeform = () => {
                     size={50}
                     placeholder="Product Name"
                     className="bar"
-                    value={productName}
-                    onChange={handleInputChange}                  
+                    value={product.name}
+                    onChange={(event) => {
+                      handleInputChange(event);
+                      setProductName(event.target.value);
+                    }}                 
                   />
                 </td>
               </tr>

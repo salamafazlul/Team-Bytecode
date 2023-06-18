@@ -8,6 +8,20 @@ router.get("/", async (req, res) => {
   res.json(categories);
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findByPk(id);
+    if (!category) {
+      return res.status(404).send({ error: "Category not found" });
+    }
+    res.json(category);
+  } catch (error) {
+    console.log("Error retrieving category details:", error);
+    res.status(500).send({ error: "An error occurred while retrieving category details" });
+  }
+});
+
 router.post("/", async (req, res) => {
   const post = req.body;
   await Category.create(post);
