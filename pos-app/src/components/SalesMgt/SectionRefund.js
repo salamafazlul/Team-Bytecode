@@ -49,6 +49,12 @@ export const SectionRefund = ({ currentInvoice, email }) => {
 
   const getInvoice = (invoiceKey) => {
     clearTimeout(timeoutId); // Clear previous timeout if any
+    if (!invoiceKey) {
+      setInvoiceList(null);
+      setInvoiceDetail(null);
+      setDiscount(null);
+      return;
+    }
     const invoice_id = invoiceKey;
     const timeout = setTimeout(() => {
       Axios.get(
@@ -256,48 +262,52 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                         </tr>
                       </thead>
                       <tbody style={{ height: "250px" }}>
-                        {invoiceList
-                          .filter((product) => {
-                            const searchValue = search.toLowerCase();
-                            const productId = product.product_id
-                              .toString()
-                              .toLowerCase();
-                            const productName =
-                              product.Product.product_name.toLowerCase();
+                        {invoiceList &&
+                          invoiceList
+                            .filter((product) => {
+                              const searchValue = search.toLowerCase();
+                              const productId = product.product_id
+                                .toString()
+                                .toLowerCase();
+                              const productName =
+                                product.Product.product_name.toLowerCase();
 
-                            return (
-                              searchValue === "" ||
-                              productId.includes(searchValue) ||
-                              productName.includes(searchValue)
-                            );
-                          })
-                          .map((product) => (
-                            <tr class="trcashier" key={product.product_id}>
-                              <td>{product.product_id}</td>
-                              <td>{product.Product.product_name}</td>
-                              <td>{product.price}</td>
-                              <td>{product.quantity}</td>
-                              <td>{product.discount}</td>
-                              <td>{product.amount}</td>
-                              <td>
-                                <button
-                                  class="atc_btn"
-                                  onClick={() => {
-                                    selectProduct(
-                                      product.product_id,
-                                      product.Product.product_name,
-                                      product.price,
-                                      product.discount,
-                                      product.quantity,
-                                      product.amount
-                                    );
-                                  }}
-                                >
-                                  ADD
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
+                              return (
+                                searchValue === "" ||
+                                productId.includes(searchValue) ||
+                                productName.includes(searchValue)
+                              );
+                            })
+                            .map((product) => (
+                              <tr
+                                className="trcashier"
+                                key={product.product_id}
+                              >
+                                <td>{product.product_id}</td>
+                                <td>{product.Product.product_name}</td>
+                                <td>{product.price}</td>
+                                <td>{product.quantity}</td>
+                                <td>{product.discount}</td>
+                                <td>{product.amount}</td>
+                                <td>
+                                  <button
+                                    className="atc_btn"
+                                    onClick={() =>
+                                      selectProduct(
+                                        product.product_id,
+                                        product.Product.product_name,
+                                        product.price,
+                                        product.discount,
+                                        product.quantity,
+                                        product.amount
+                                      )
+                                    }
+                                  >
+                                    ADD
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
                       </tbody>
                     </Table>
                     <div
@@ -468,7 +478,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span style={{ marginRight: "5px" }}>Discount(%):</span>
+                      <span style={{ marginRight: "5px" }}>Discount(Rs):</span>
                       <span style={{ textAlign: "right" }}>
                         {(total * discount) / 100}
                       </span>
