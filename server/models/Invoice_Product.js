@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       product_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
         references: {

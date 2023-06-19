@@ -126,7 +126,7 @@ router.post("/api/updateQuantity/", async (req, res) => {
     { quantity: parseInt(quantity), amount: parseFloat(amount) },
     {
       where: {
-        product_id: parseInt(product_id),
+        product_id: product_id,
         invoice_id: parseInt(invoice_id),
       },
     }
@@ -150,13 +150,13 @@ router.post("/api/updateQuantity/", async (req, res) => {
   await product.update({ stock: newStock });
   res.send("Invoice updated successfully");
 });
+
 // Fetch the stock  for the specified product_id
 router.get("/api/getStock", async (req, res) => {
   try {
     const { product_id } = req.query;    
     const product = await Product.findByPk(product_id);
     if (!product) {
-      // Handle the case where the product is not found
       res.status(404).send("Product not found");
       return;
     }
@@ -285,7 +285,7 @@ router.post("/api/updateRefundQuantity/", async (req, res) => {
     { quantity: parseInt(quantity), amount: parseFloat(amount) },
     {
       where: {
-        product_id: parseInt(product_id),
+        product_id: product_id,
         invoice_id: parseInt(invoice_id),
       },
     }

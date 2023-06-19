@@ -3,9 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     "Product",
     {
       product_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
-        autoIncrement: true,
+        
         primaryKey: true,
       },
       product_name: {
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "No Status",
       },
       category_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         references: {
           model: "product_category",
