@@ -12,7 +12,7 @@ router.get("/api/getEmailAddress", async (req, res) => {
     });
 
     if (customer) {
-      res.json({ email: customer.email });
+      res.json({ email: customer.email, name:customer.full_name });
     } else {
       res.json({ email: null });
     }

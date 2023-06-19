@@ -33,7 +33,9 @@ const Cashier = (props) => {
           const { email } = response.data;
           if (email) {
             setEmail(email);
-            alert(email);
+            setTimeout(() => {
+              alert(`Welcome ${response.data.name}!!`);
+            }, 300);
           } else {
             alert("Customer is not registered");
           }
