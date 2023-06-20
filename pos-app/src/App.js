@@ -15,6 +15,12 @@ import AddRemove from "./components/ProductMgt/Pages/ProducrCreateRemove";
 import Category from "./components/ProductMgt/Pages/Category";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import AddUsers from "./components/UserMgt/AddUsers";
+import EditUser from "./components/UserMgt/EditUser";
+import ResetPassword from "./components/UserMgt/ResetPassword";
+import ViewUsers from "./components/UserMgt/ViewUsers";
+import Customer from "./components/UserMgt/Customer";
+
 function App() {
   return (
     <>
@@ -32,6 +38,12 @@ function App() {
           <Route path="Purchasing" element={<Purchasing />} />
           <Route path="AddRemove" element={<AddRemove />} />
           <Route path="Category" element={<Category />} />
+
+          <Route path="/AddUsers" element={<AddUsers />} />
+          <Route path="/EditUser/:id" element={<EditUser />} />
+          <Route path="/ResetPassword/:id/:token" element={<ResetPassword />} />
+          <Route path="/user" element={<ViewUsers />} />
+          <Route path="/Customer" element={<Customer />} />
         </Routes>
       </BrowserRouter>
     </>

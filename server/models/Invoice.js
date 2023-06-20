@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "User",
-          key: "user_id",
+          model: "Users",
+          key: "id",
           onDelete: "no action",
           onUpdate: "CASCADE",
         },
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Invoice.associate = (models) => {
-    Invoice.belongsTo(models.User, { foreignKey: "user_id" });
+    Invoice.belongsTo(models.User, { foreignKey: "id" });
   };
 
   return Invoice;

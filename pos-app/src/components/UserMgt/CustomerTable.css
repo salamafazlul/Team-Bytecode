@@ -1,0 +1,75 @@
+.CustomerTcontainer {
+  width: 78vw;
+  position: absolute;
+  top: 68vh;
+  right: 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.536);
+  padding: 1vw;
+  margin: 0;
+  border-radius: 10px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.CustomersearchBarWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 14px;
+}
+
+.CustomersearchBar {
+  border: none;
+  /* text-align: center; */
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.CustomerTable {
+  width: 100%;
+}
+
+.CustomertableWidth {
+  width: 150vh;
+}
+
+.Customertable {
+  font-size: 12px;
+}
+
+.Customertable thead th {
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 6px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.Customertable tbody td {
+  line-height: 0.1;
+}
+
+.CustomerTableButton {
+  background-color: #cfd8dc;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 12px 13px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}

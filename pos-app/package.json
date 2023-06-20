@@ -23,6 +23,7 @@
     "react-simple-keyboard": "^3.5.24",
     "react-stripe-checkout": "^2.6.3",
     "stripe": "^12.9.0",
+    "sweetalert2": "^11.7.12",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },

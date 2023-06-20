@@ -1,0 +1,85 @@
+/* .UserTcontainer01 {
+  margin: 50px;
+  padding: 10px;
+} */
+
+.UserTcontainer01 {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.536);
+  padding: 10px;
+  margin: 0;
+  position: absolute;
+  top: 16vh;
+  left: 45vh;
+  border-radius: 10px;
+}
+
+.UserSearchBar {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.Usertable {
+  height: 250px;
+  width: 100%;
+  align-items: center;
+}
+
+.UsertableHead {
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 100px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.td {
+  font-size: 12px !important;
+  letter-spacing: 1px;
+  font-family: Arial;
+}
+
+.table td {
+  font-size: 12px !important;
+  text-align: center;
+  font-family: Arial;
+}
+
+.UserTableButton01 {
+  background-color: #cfd8dc;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.UserTablebutton02 {
+  background-color: #1e6a99;
+  border: none;
+  color: rgb(10, 10, 10);
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 8vh;
+  width: 10vh;
+}
+
+.custom-modal .modal-content {
+  background-color: #9fbccb;
+}

@@ -1,28 +1,26 @@
-module.exports = (sequelize, DataTypes) => {
-    const Customers = sequelize.define(
-      "Customers",
-      {
-        mobile_no: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-        },
-        full_name: {
-          type: DataTypes.STRING(45),
-          allowNull: true,
-        },
-        email: {
-          type: DataTypes.STRING(45),
-          allowNull: false,
-          unique: true,
-        },
-      },
-      {
-        tableName: "customer",
-        timestamps: false,
-      }
-    );
-  
-    return Customers;
-  };
-  
+module.exports = (Sequelize, DataTypes) => {
+  const Customers = Sequelize.define("Customers", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    full_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    mobile_no: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+  });
+
+  return Customers;
+};
