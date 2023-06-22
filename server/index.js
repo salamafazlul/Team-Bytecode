@@ -1,52 +1,47 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+require('dotenv').config();
 const app = express();
-const mysql = require("mysql");
+const cors = require('cors');
+const bodyParser = require("body-parser");
 
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "bypos_db",
-});
+app.use(express.json())
+app.use(cors())
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const db = require("./models");
 
-app.get("/api/getProduct", (req, res) => {
-  const sqlSelect = "select * from product";
-  db.query(sqlSelect, (err, result) => {
-    res.send(result);
+const statsRouter = require('./routes/Stats')
+app.use ("/stats", statsRouter)
+const invoiceProductRouter = require('./routes/Invoice_Product')
+app.use("/invoices", invoiceProductRouter)
+
+
+// Routers
+const postRouter = require('./routes/Invoice');
+app.use("/Invoice", postRouter );
+
+const  invoiceRouter = require('./routes/Invoice')
+app.use ("/Invoice", invoiceRouter )
+
+const  productRouter = require('./routes/Product')
+app.use ("/Product", productRouter )
+
+const  invoice_productRouter = require('./routes/Invoice_Product')
+app.use ("/Invoice_Product", invoice_productRouter )
+
+const  discountRouter = require('./routes/Discount')
+app.use ("/Discount", discountRouter )
+
+const  emailpdfRouter = require('./routes/Email_Invoice')
+app.use ("/Email_Invoice", emailpdfRouter )
+
+const  cardPaymentRouter = require('./routes/Card_Payment')
+app.use ("/Card_Payment", cardPaymentRouter )
+
+const  cashierRouter = require('./routes/Cashier')
+app.use ("/Cashier", cashierRouter )
+
+db.sequelize.sync().then(() => {
+  app.listen(3001, () => {
+    console.log("Server running on port 3001");
   });
-});
-app.get("/api/getInvoiceList", (req, res) => {
-  const sqlSelect = "select * from invoice_items";
-  db.query(sqlSelect, (err, result) => {
-    res.send(result);
-  });
-});
-
-app.post("/api/insert", (req, res) => {
-  const amount = req.body.amount;
-  const sqlInsert = "insert into sale_amount (amount) values (?)";
-  db.query(sqlInsert, [amount], (err, result) => {
-    console.log("successful insert");
-  });
-});
-
-app.post("/api/addToInvoice/", (req, res) => {
-  const pid = req.body.pid;
-  const pname = req.body.pname;
-  const price = req.body.price;
-  const sqlInsert =
-    "Insert into invoice_items (product_id,name,price) values(?,?,?)";
-  db.query(sqlInsert, [pid, pname, price], (err, result) => {
-    if (err) console.log(err);
-  });
-});
-
-app.listen(3001, () => {
-  console.log("running on port 3001");
 });
