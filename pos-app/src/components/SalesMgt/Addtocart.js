@@ -154,22 +154,20 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   //card payment
   const publishableKey =
     "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
-
   const tempPriceForStripe = parseInt((netTotal * 100) / 250.0);
   const priceForStripe = parseInt(tempPriceForStripe);
   const payNow = async (token) => {
     try {
-      const response = await Axios({
-        url: "http://localhost:3001/card_payment/payment",
-        method: "post",
-        data: {
+      const response = await Axios.post(
+        "http://localhost:3001/card_payment/payment",
+        {
           amount: priceForStripe,
           token,
-        },
-      });
+          invoice_id: currentInvoice,
+        }
+      );
       if (response.data.status === "success") {
         setCardInvoice(true);
-        // navigate("/Cashier");
       } else {
         alert("Card Payment Failed");
       }

@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 0,
       },
+      charge_id:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "cash",
+      }
     },
     {
       tableName: "invoice",
