@@ -498,6 +498,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
         onHide={() => setCardInvoice(false)}
         invoice_id={currentInvoice}
         email={email}
+        text="Card Payment"
       />
     </>
   );

@@ -16,14 +16,14 @@ function CardPayment(props) {
   const priceForStripe = parseInt(tempPriceForStripe);
   const payNow = async (token) => {
     try {
-      const response = await Axios({
-        url: "http://localhost:3001/card_payment/payment",
-        method: "post",
-        data: {
+      const response = await Axios.post(
+        "http://localhost:3001/card_payment/payment",
+        {
           amount: priceForStripe,
           token,
-        },
-      });
+          invoice_id: props.invoice_id,
+        }
+      );
       if (response.data.status === "success") {
         setCardInvoice(true);
       } else {

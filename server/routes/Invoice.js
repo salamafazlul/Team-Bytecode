@@ -9,11 +9,6 @@ const {
 } = require("../models");
 const { Op } = require("sequelize");
 
-//get invoice list /api/getInvoiceList
-router.get("/", async (req, res) => {
-  const invoiceList = await Invoice.findAll();
-  res.send(invoiceList);
-});
 
 //create invoice and return invoice id /api/createInvoice/
 router.post("/api/createInvoice/", async (req, res) => {
@@ -88,7 +83,7 @@ router.get("/api/getInvoice", async (req, res) => {
 //----------------------------------------------
 //get sale invoice for refund using sale ID
 router.get("/api/getInvoiceDetail", async (req, res) => {
-  const invoice_id = req.query.invoice_id; //invoicekey, saleid
+  const invoice_id = req.query.invoice_id; //invoicekey (saleid)
   const currentInvoice = req.query.currentInvoice; //refundid
 
   try {
@@ -114,6 +109,7 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
     }
 
     const discount = InvoiceDetail.discount;
+    const charge_id = InvoiceDetail.charge_id;
 
     //check if a refund is already made for the same sale_id
     const refundMade = await Sale_of_Refund.findOne({
@@ -154,7 +150,7 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
 
     // Update the discount column in the invoice table for the current invoice
     await Invoice.update(
-      { discount: discount },
+      { discount: discount, charge_id: charge_id },
       {
         where: {
           invoice_id: currentInvoice,
@@ -176,6 +172,12 @@ router.get("/api/getProduct", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
+});
+
+//get invoice list /api/getInvoiceList
+router.get("/", async (req, res) => {
+  const invoiceList = await Invoice.findAll();
+  res.send(invoiceList);
 });
 
 module.exports = router;

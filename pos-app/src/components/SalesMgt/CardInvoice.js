@@ -6,9 +6,9 @@ function CardInvoice(props) {
   const navigate = useNavigate();
   const [email, setEmail] = useState(props.email || "");
 
-  const handleCancel = () => {
-    props.onHide();
-  };
+  // const handleCancel = () => {
+  //   props.onHide();
+  // };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -46,24 +46,25 @@ function CardInvoice(props) {
             <b className="fs-5" style={{ color: "white", fontWeight: "bold" }}>
               Payment Successful!!
             </b>
-            <button
-              class="modalbtn"
-              style={{ background: "#081933", color: "white", width:"150px" }}
-              onClick={() => handleInvoice(email)}
-            >
-              Send Invoice
-            </button>
+            
             <input
               type="email"
               value={email}
               onChange={handleEmailChange}
-              style={{ marginTop: "5px" , marginBottom:"20px"}}
+              style={{ marginTop: "15px" , marginBottom:"20px"}}
             />
+            <button
+              class="modalbtn"
+              style={{ background: "#081933", color: "white", width:"150px" , marginTop: "-5px", marginBottom: "15px"}}
+              onClick={() => handleInvoice(email)}
+            >
+              Send Invoice
+            </button>
             <div className="flex align-items-center mx-auto ">
-            <b className="text-white fs-5 ">Card Payment</b>
+            <b className="text-white fs-5 " style={{fontWeight: "bold"}}>{props.text}</b>
           </div>
 
-          <div className="d-flex mx-auto mt-2">
+          {/* <div className="d-flex mx-auto mt-2">
             <button
               class="modalbtn"
               style={{ marginLeft: "10px" }}
@@ -71,7 +72,7 @@ function CardInvoice(props) {
             >
               Cancel
             </button>
-          </div>
+          </div> */}
           </div>
 
           

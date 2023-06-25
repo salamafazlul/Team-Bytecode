@@ -11,6 +11,8 @@ import Axios from "axios";
 import Keyboard from "react-simple-keyboard";
 import { useNavigate } from "react-router-dom";
 import RefundPayment from "./RefundPayment";
+import CardInvoice from "./CardInvoice";
+
 
 export const SectionRefund = ({ currentInvoice, email }) => {
   const navigate = useNavigate();
@@ -28,6 +30,9 @@ export const SectionRefund = ({ currentInvoice, email }) => {
   const [discount, setDiscount] = useState(0);
   const [timeoutId, setTimeoutId] = useState(null);
   const [refundModal, setRefundModal] = useState();
+  const [chargeId, setChargeId] = useState();
+  const [netTotal, setNetTotal] = useState();
+  const [cardInvoice, setCardInvoice] = useState();
 
   useEffect(() => {
     const invoice_id = currentInvoice;
@@ -35,8 +40,12 @@ export const SectionRefund = ({ currentInvoice, email }) => {
       `http://localhost:3001/invoice_product/api/getTotal?invoice_id=${invoice_id}`
     ).then((response) => {
       setTotal(response.data.total);
+      setNetTotal(parseFloat(
+        (response.data.total - (response.data.total * discount) / 100).toFixed(2)
+      ));
+
     });
-  }); // Add dependency array
+  }); 
 
   useEffect(() => {
     const invoice_id = currentInvoice;
@@ -45,10 +54,10 @@ export const SectionRefund = ({ currentInvoice, email }) => {
     ).then((response) => {
       setRefundList(response.data);
     });
-  }); // Add dependency array
+  }); 
 
   const getInvoice = (invoiceKey) => {
-    clearTimeout(timeoutId); // Clear previous timeout if any
+    clearTimeout(timeoutId); // Clear previous timeout (if any)
     if (!invoiceKey) {
       setInvoiceList(null);
       setInvoiceDetail(null);
@@ -78,6 +87,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
             if (diffInDays <= 7) {
               setInvoiceDetail(response.data);
               setDiscount(response.data.discount);
+              setChargeId(response.data.charge_id)
               Axios.get(
                 `http://localhost:3001/invoice/api/getInvoice?invoice_id=${invoice_id}`
               )
@@ -166,7 +176,28 @@ export const SectionRefund = ({ currentInvoice, email }) => {
       }
     );
   };
+  const tempPriceForStripe = parseInt((netTotal * 100) / 250.0);
+  const priceForStripe = parseInt(tempPriceForStripe);
 
+  const handleCardRefund = async () => {
+    try {
+      const response = await Axios.post(
+        "http://localhost:3001/card_payment/refund",
+        {
+          charge_id: chargeId,
+          refundAmount: priceForStripe,
+        }
+      );
+      if (response.data.status === "success") {
+        setCardInvoice(true);
+      } else {
+        alert("Refund Failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   return (
     <>
       <section className="section">
@@ -491,9 +522,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                     >
                       <span>Net amount:</span>
                       <span>
-                        {parseFloat(
-                          (total - (total * discount) / 100).toFixed(2)
-                        )}
+                        {netTotal}
                       </span>
                     </div>
                   </div>
@@ -507,6 +536,15 @@ export const SectionRefund = ({ currentInvoice, email }) => {
                       >
                         Cash
                       </button>
+                      
+                    </MDBCol>
+                    <MDBCol>
+                      <button
+                        class="end_btn"
+                        onClick={handleCardRefund}                      >
+                        Card
+                      </button>
+                      
                     </MDBCol>
                     <MDBCol>
                       <button class="end_btn" onClick={cancelRefund}>
@@ -526,6 +564,13 @@ export const SectionRefund = ({ currentInvoice, email }) => {
         onHide={() => setRefundModal(false)}
         invoice_id={currentInvoice}
         email={email}
+      />
+      <CardInvoice
+        show={cardInvoice}
+        onHide={() => setCardInvoice(false)}
+        invoice_id={currentInvoice}
+        email={email}
+        text="Card Refund"
       />
     </>
   );

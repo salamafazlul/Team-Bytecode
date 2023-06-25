@@ -8,7 +8,6 @@ router.post("/payment", async (req, res) => {
   const invoiceId = req.body.invoice_id;
   const token = req.body.token;
   const value = req.body.amount;
-
   amount = parseInt(value);
   try {
     const charge = await Stripe.charges.create({
@@ -34,4 +33,26 @@ router.post("/payment", async (req, res) => {
   console.log(status);
   res.json({ error, status });
 });
+
+router.post("/refund", async (req, res) => {
+  const { charge_id, refundAmount } = req.body;
+  amount = parseInt(refundAmount);
+
+  try {
+    const refund = await Stripe.refunds.create({
+      charge: charge_id,
+      amount: amount,
+    });
+
+    if (refund.status === "succeeded") {
+      res.json({ status: "success" });
+    } else {
+      res.json({ status: "failure" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "failure" });
+  }
+});
+
 module.exports = router;
