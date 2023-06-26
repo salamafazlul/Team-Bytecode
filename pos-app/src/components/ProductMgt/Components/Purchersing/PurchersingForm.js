@@ -450,6 +450,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 function PurchersingForm() {
+  const [productName, setProductName] = useState("");
   const initialValues = {
     ppid: "",
     ppname: "",
@@ -470,12 +471,22 @@ function PurchersingForm() {
 
   const validationSchema = Yup.object().shape({
     ppid: Yup.string().required("Required"),
-    ppname: Yup.string().required("Required"),
+    // ppname: Yup.string().required("Required"),
     ppprice: Yup.number().required("Required"),
     ppqty: Yup.number().required("Required"),
   });
 
- 
+  const getProductDetails = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/Product/${id}`);
+      const productData = response.data;
+      if (productData) {
+        setProductName(productData.Product_name); // Set the fetched product name
+      }
+    } catch (error) {
+      console.log("Error retrieving product details:", error);
+    }
+  };
 
   const handleSave = () => {
     formData.forEach((data) =>
@@ -496,8 +507,17 @@ function PurchersingForm() {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    setFormData((prevData) => [...prevData, values]);
+    console.log(values);
+    const productValue = {
+      ppid: values.ppid,
+      ppname: productName,
+      ppprice: values.ppprice,
+      ppqty: values.ppqty,
+      ppdescription: values.ppdescription,
+    };
+    setFormData((prevData) => [...prevData, productValue]);
     resetForm();
+    setProductName("");
     // PUT request to update the quantity
     const { ppid, ppqty } = values;
   };
@@ -507,12 +527,19 @@ function PurchersingForm() {
     resetForm();
   };
 
+  //Genarate PDF
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text("GOOD RECEIVING NOTE (GRN)", 10, 10);
     doc.autoTable({
       head: [
-        ["Product Id", "Product Name", "Purchasing Price", "Quantity", "Description"],
+        [
+          "Product Id",
+          "Product Name",
+          "Purchasing Price",
+          "Quantity",
+          "Description",
+        ],
       ],
       body: formData.map((data) => [
         data.ppid,
@@ -522,11 +549,14 @@ function PurchersingForm() {
         data.ppdescription,
       ]),
     });
-  
+
     const pdfData = doc.output("datauristring");
     const newWindow = window.open();
-    newWindow.document.write('<iframe src="' + pdfData + '" width="100%" height="100%"></iframe>');
+    newWindow.document.write(
+      '<iframe src="' + pdfData + '" width="100%" height="100%"></iframe>'
+    );
   };
+  
   return (
     <div className="fulldive">
       <div className="purchersingform">
@@ -545,6 +575,12 @@ function PurchersingForm() {
                       name="ppid"
                       placeholder="Product Id"
                       className="inputfield"
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault(); // Prevent form submission
+                          getProductDetails(e.target.value);
+                        }
+                      }}
                     />
                     <ErrorMessage
                       name="ppid"
@@ -559,6 +595,7 @@ function PurchersingForm() {
                       name="ppname"
                       placeholder="Product Name"
                       className="inputfield"
+                      value={productName}
                     />
                     <ErrorMessage
                       name="ppname"
@@ -695,16 +732,10 @@ function PurchersingForm() {
           </div>
         )}
 
-      {/* PDF Preview */}
-      <div>
-          <iframe
-            ref={pdfRef}
-            title="PDF Preview"
-            className="pdf-preview"
-          />
+        {/* PDF Preview */}
+        <div>
+          <iframe ref={pdfRef} title="PDF Preview" className="pdf-preview" />
         </div>
-
-
       </div>
     </div>
   );
