@@ -455,6 +455,7 @@ function PurchersingForm() {
     ppid: "",
     ppname: "",
     ppprice: "",
+    ppselprice: "",
     ppqty: "",
     ppdescription: "",
   };
@@ -473,6 +474,7 @@ function PurchersingForm() {
     ppid: Yup.string().required("Required"),
     // ppname: Yup.string().required("Required"),
     ppprice: Yup.number().required("Required"),
+    ppselprice: Yup.number().required("Required"),
     ppqty: Yup.number().required("Required"),
   });
 
@@ -489,10 +491,11 @@ function PurchersingForm() {
   };
 
   const handleSave = () => {
+    
     formData.forEach((data) =>
       axios
         .put(`http://localhost:3001/product`, [
-          { productId: data.ppid, newQuantity: data.ppqty },
+          { productId: data.ppid, newQuantity: data.ppqty,newBuyingprice: data.ppprice, newSellingprice: data.ppselprice },
         ])
         .then((response) => {
           console.log("Quantity updated successfully.");
@@ -512,6 +515,7 @@ function PurchersingForm() {
       ppid: values.ppid,
       ppname: productName,
       ppprice: values.ppprice,
+      ppselprice: values.ppselprice,
       ppqty: values.ppqty,
       ppdescription: values.ppdescription,
     };
@@ -537,6 +541,7 @@ function PurchersingForm() {
           "Product Id",
           "Product Name",
           "Purchasing Price",
+          "Selling price",
           "Quantity",
           "Description",
         ],
@@ -545,6 +550,7 @@ function PurchersingForm() {
         data.ppid,
         data.ppname,
         data.ppprice,
+        data.ppselprice,
         data.ppqty,
         data.ppdescription,
       ]),
@@ -556,7 +562,7 @@ function PurchersingForm() {
       '<iframe src="' + pdfData + '" width="100%" height="100%"></iframe>'
     );
   };
-  
+
   return (
     <div className="fulldive">
       <div className="purchersingform">
@@ -621,6 +627,20 @@ function PurchersingForm() {
                   <td>
                     <Field
                       type="text"
+                      name="ppselprice"
+                      placeholder="Selling price"
+                      className="inputfield"
+                    />
+                    <ErrorMessage
+                      name="ppselprice"
+                      component="div"
+                      className="error"
+                    />
+                  </td>
+
+                  <td>
+                    <Field
+                      type="text"
                       name="ppqty"
                       placeholder="Quantity"
                       className="inputfield"
@@ -673,6 +693,7 @@ function PurchersingForm() {
                     <th className="thead">Product Id</th>
                     <th className="thead">Product Name</th>
                     <th className="thead">Purchasing Price</th>
+                    <th className="thead">Selling Price</th>
                     <th className="thead">Quantity</th>
                     <th className="thead">Description</th>
                   </tr>
@@ -683,12 +704,14 @@ function PurchersingForm() {
                       <td className="tdata">{data.ppid}</td>
                       <td className="tdata">{data.ppname}</td>
                       <td className="tdata">{data.ppprice}</td>
+                      <td className="tdata">{data.ppselprice}</td>
                       <td className="tdata">{data.ppqty}</td>
                       <td className="tdata">{data.ppdescription}</td>
                     </tr>
                   ))}
                   {Array.from({ length: 6 - formData.length }, (_, index) => (
                     <tr key={`empty-${index}`}>
+                      <td className="tdata"></td>
                       <td className="tdata"></td>
                       <td className="tdata"></td>
                       <td className="tdata"></td>
