@@ -176,7 +176,7 @@ export const SectionRefund = ({ currentInvoice, email }) => {
       }
     );
   };
-  const tempPriceForStripe = parseInt((netTotal * 100) / 250.0);
+  const tempPriceForStripe = parseInt(netTotal * 100);
   const priceForStripe = parseInt(tempPriceForStripe);
 
   const handleCardRefund = async () => {

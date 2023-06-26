@@ -154,7 +154,7 @@ export const AddtoCart = ({ currentInvoice, email }) => {
   //card payment
   const publishableKey =
     "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
-  const tempPriceForStripe = parseInt((netTotal * 100) / 250.0);
+  const tempPriceForStripe = parseInt(netTotal*100);
   const priceForStripe = parseInt(tempPriceForStripe);
   const payNow = async (token) => {
     try {
@@ -464,9 +464,10 @@ export const AddtoCart = ({ currentInvoice, email }) => {
                       <StripeCheckout
                         stripeKey={publishableKey}
                         label="CARD"
+                        currency="LKR"
                         name="Pay With Card"
                         amount={priceForStripe}
-                        description={`Your total is $${priceForStripe / 100}`}
+                        description={`Your total is Rs${priceForStripe/100}`}
                         token={payNow}
                         style={{
                           width: "80px",

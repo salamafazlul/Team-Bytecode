@@ -6,13 +6,13 @@ import CardInvoice from "./CardInvoice";
 
 function CardPayment(props) {
   const [cardInvoice, setCardInvoice] = useState();
-  const email=props.email;
+  const email = props.email;
   const balance = parseFloat(props.balance);
-  
+
   //card payment
   const publishableKey =
     "pk_test_51NI5LaAclf538auUPHQcqQbCJFYQsWfDTH3fRJDTg2ZOTclWmPyMM7b67NKwrql9o8wiL5q65KnLQNJC5uFB2eNc003S3YyfsT";
-  const tempPriceForStripe = parseInt((balance * 100) / 250.0);
+  const tempPriceForStripe = parseInt(balance * 100);
   const priceForStripe = parseInt(tempPriceForStripe);
   const payNow = async (token) => {
     try {
@@ -53,20 +53,17 @@ function CardPayment(props) {
                 </p>
               </div>
             </div>
-            <div className="flex col justify-content-center">
-                      <p className="fpx-1 bg-white rounded border px-1 py-2 " style={{textAlign:"center"}}>
-                        Card payment will be processed in USD!!
-                      </p>
-                    </div>
+            
             <div className="row my-3">
               <div className="flex col justify-content-center">
                 <div class="stripe_btn">
                   <StripeCheckout
                     stripeKey={publishableKey}
                     label="Pay With Card"
+                    currency="LKR"
                     name="Pay With Card"
                     amount={priceForStripe}
-                    description={`Your total is $${priceForStripe / 100}`}
+                    description={`Your total is Rs${priceForStripe / 100}`}
                     token={payNow}
                     style={{
                       width: "150px",

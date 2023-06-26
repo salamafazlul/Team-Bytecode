@@ -13,7 +13,7 @@ router.post("/payment", async (req, res) => {
     const charge = await Stripe.charges.create({
       source: token.id,
       amount,
-      currency: "usd",
+      currency: "lkr",
     });
     chargeId = charge.id; // Assign the value to chargeId
 
