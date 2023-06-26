@@ -48,22 +48,19 @@ const AddproductForm = () => {
     // Description: Yup.string().required(" requird"),
   });
 
-  /*
-  const onSubmit = async (values) => {
-    console.log(values);
-    const response = await axios
-      .post("http://localhost:3001/Product", values)
-      .then((res) => {
-        console.log(res);
-      });
-  };
-*/
-  /*
-const onSubmit = async (values) => {
-  console.log(values);
-  await axios.post("http://localhost:3001/Product", values);
-  setShowPopup(true);
-}; */
+ // ID increment
+ const [productID, setProductId] = useState("");
+ const handleCategoryIDChange = (event, setFieldValue) => {
+  const { value } = event.target;
+  const productID =
+    value.slice(0, 2).toUpperCase() +
+    Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0");
+  setProductId(productID);
+  setFieldValue("product_id", productID);
+  setFieldValue("product_name", value);
+};
 
   const onSubmit = (values, { resetForm }) => {
     setFormData(values);
@@ -88,6 +85,7 @@ const onSubmit = async (values) => {
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >
+          {({ setFieldValue }) => (
           <Form className="Purchers">
             <h3 className="title"> Add New Product</h3>
 
@@ -106,6 +104,9 @@ const onSubmit = async (values) => {
                       size={50}
                       placeholder="Enter Product Name"
                       className="input"
+                      onChange={(event) =>
+                        handleCategoryIDChange(event, setFieldValue)
+                      }
                     />
                   </td>
                 </tr>
@@ -225,6 +226,7 @@ const onSubmit = async (values) => {
               Clear
             </button>
           </Form>
+          )}
         </Formik>
       </div>
 

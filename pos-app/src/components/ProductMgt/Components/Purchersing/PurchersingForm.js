@@ -563,6 +563,14 @@ function PurchersingForm() {
     );
   };
 
+  const handleDelete = (index) => {
+    setFormData((prevData) => {
+      const newData = [...prevData];
+      newData.splice(index, 1);
+      return newData;
+    });
+  };
+
   return (
     <div className="fulldive">
       <div className="purchersingform">
@@ -707,6 +715,14 @@ function PurchersingForm() {
                       <td className="tdata">{data.ppselprice}</td>
                       <td className="tdata">{data.ppqty}</td>
                       <td className="tdata">{data.ppdescription}</td>
+                      <td className="tdata">
+        <button
+          className="delete-button"
+          onClick={() => handleDelete(index)}
+        >
+          Delete
+        </button>
+      </td>
                     </tr>
                   ))}
                   {Array.from({ length: 6 - formData.length }, (_, index) => (
@@ -722,7 +738,7 @@ function PurchersingForm() {
                 </tbody>
               </table>
             </div>
-            <button type="submit" className="boru">
+            <button type="submit" className="boru" >
               Save
             </button>
             <button
@@ -739,7 +755,7 @@ function PurchersingForm() {
           <div className="modal-overlay">
             <div className="popup">
               <h3>Confirmation</h3>
-              <p>Are you sure you want to Save this data?</p>
+              <p>Save GRN and Print GRN report</p>
               <div className="">
                 <button className="b1" onClick={handleSave}>
                   Confirm

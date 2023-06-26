@@ -103,6 +103,7 @@ const Removeform = () => {
                         getProductDetails(e.target.value);
                       }
                     }}
+                    
                   />
                 </td>
                 <td>Product name</td>

@@ -23,15 +23,19 @@ const Rform = () => {
     QTY: Yup.number().required(" requird"),
     Reason: Yup.string().required(" requird"),
   });
-
-  //update part
-  // const [formData, setFormData] = useState([]);
-  // const handleSave = (form) => {
-  //   axios.put(`http://localhost:3001/product/return`, form).then((res) => {
-  //     console.log(res.data);
-
-  //   });
-  // };
+  //get product name
+  const [productName, setProductName] = useState("");
+  const getProductDetails = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/Product/${id}`);
+      const productData = response.data;
+      if (productData) {
+        setProductName(productData.Product_name); // Set the fetched product name
+      }
+    } catch (error) {
+      console.log("Error retrieving product details:", error);
+    }
+  };
 
   const handleSave = async (form) => {
     setShowPopup(false);
@@ -80,6 +84,12 @@ const Rform = () => {
                       size={50}
                       placeholder="Enter Product ID"
                       className="barshort"
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault(); // Prevent form submission
+                          getProductDetails(e.target.value);
+                        }
+                      }}
                     />
                   </td>
                   <td>
@@ -93,6 +103,7 @@ const Rform = () => {
                       size={50}
                       placeholder="Enter product name"
                       className="bar"
+                      value={productName}
                     />
                   </td>
                 </tr>
@@ -130,7 +141,11 @@ const Rform = () => {
             <button className="bb1" typ="button">
               Update
             </button>
-            <button type="reset" className="bb2">
+            <button
+              type="reset"
+              className="bb2"
+              onClick={() => setProductName("")}
+            >
               Clear
             </button>
           </Form>
