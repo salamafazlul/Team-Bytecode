@@ -1,12 +1,11 @@
 .rform{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    /* grid-template-columns: 2.5fr 1fr; */
 }
 .bar {
     width: 23.8vw;
@@ -106,6 +105,8 @@
     padding: 0.2vw 1vw 0vw 0vw;
 }
 .hrule{
-    height: px;
-    color: rgb(2, 2, 59);
+    height: .2vh;
+    width: 85vw;
+    background-color: rgb(2, 2, 59);
+    margin-left: 0vw;
 }

@@ -1,23 +1,24 @@
 .fulldiv{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
+    width: 100vw;
+    
 }
 
 
 .purchersingform{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
     justify-content: center;
+    
 }
 
 .inputfield{
@@ -75,12 +76,13 @@
 .GRN{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
+    width: 87vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
     justify-content: center;
+    height: 63.55vh;
 }
 
 .thead{
@@ -134,9 +136,10 @@
   align-content: center;
   transform: translate3d(0, 0, 0);
   transition: all .4s;
-  margin-left: 15vw;
+  margin-left: 21.5vw;
   margin-top: 3vh;
   box-sizing: border-box;
+  justify-content: center;
 }
 
 .grnTable{

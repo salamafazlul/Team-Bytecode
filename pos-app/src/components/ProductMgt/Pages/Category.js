@@ -7,7 +7,7 @@ import Showcattegory from "../Components/Category/Showcattegory";
 
 function Category() {
   return (
-    <div className="App">
+    <div className="page">
       <div>
         <Sidenav userRole="storekeeper" />
       </div>

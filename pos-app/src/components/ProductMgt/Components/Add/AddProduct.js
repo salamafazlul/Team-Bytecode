@@ -228,6 +228,8 @@ const AddproductForm = () => {
           </Form>
           )}
         </Formik>
+        <hr className="hrule"
+      />
       </div>
 
       {showPopup && (

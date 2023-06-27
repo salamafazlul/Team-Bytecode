@@ -16,7 +16,7 @@
    /* width: 100%;
 } */
 
-.App {
+.page {
     width: 100vw;
     height: 100vh;
     background-image:url('./components/images/bg.jpg');
@@ -24,6 +24,14 @@
     display: flex;
     font-size: medium;
     /*font-size: calc(10px + 2vmin);*/
-    color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);    
+    overflow: hidden;
+    /* overflow-x: hidden; */
   }
+
+  .scorele{
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
   

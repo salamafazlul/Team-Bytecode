@@ -61,7 +61,7 @@ function RemoveCategory() {
                         name="Category_ID"
                         size={20}
                         placeholder="Category ID"
-                        className=""
+                        className="input"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -80,7 +80,7 @@ function RemoveCategory() {
                         type="text"
                         name="Category_name"
                         placeholder="Category Name"
-                        className=""
+                        className="input"
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                       />
@@ -89,10 +89,16 @@ function RemoveCategory() {
                   </tr>
                 </tbody>
               </table>
-              <button type="submit">Remove</button>
+              <button className="b1" type="submit">
+                Remove
+              </button>
+              <button className="b2" type="reset">
+                clear
+              </button>
             </Form>
           )}
         </Formik>
+        <hr className="hrule" />
       </div>
 
       {showPopup && (

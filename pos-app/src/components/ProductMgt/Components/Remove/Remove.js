@@ -126,7 +126,7 @@ const Removeform = () => {
             </tbody>
           </table>
 
-          <button type="submit" className="bb1">
+          <button  type="submit" className="b1">
             Remove
           </button>
           <button type="reset" className="bb2" onClick={handleClear}>
@@ -134,6 +134,7 @@ const Removeform = () => {
           </button>
         </Form>
       </Formik>
+      
     </div>
 
     {showPopup && (

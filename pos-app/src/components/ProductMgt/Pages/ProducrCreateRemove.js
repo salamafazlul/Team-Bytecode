@@ -7,13 +7,15 @@ import Remove from "../Components/Remove/Remove";
 
 const AddRemove = () => {
   return (
-    <div className="App">
+    <div className="page">
       <Sidenav userRole="storekeeper" />
-      <div>
+      <div >
         <Header />
+        <div className="scorele">
         <AddProduct />
         <Return />
         <Remove />
+        </div>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ function CategoryForm() {
                         name="category_name"
                         size={20}
                         placeholder="Category Name"
-                        className=""
+                        className="input"
                         onChange={(event) =>
                           handleCategoryNameChange(event, setFieldValue)
                         }
@@ -83,7 +83,7 @@ function CategoryForm() {
                         name="category_id"
                         size={20}
                         placeholder="Category ID"
-                        className=""
+                        className="input"
                         readOnly
                       />
                     </td>
@@ -92,12 +92,13 @@ function CategoryForm() {
               </table>
 
               <div>
-                <button type="submit">Submit</button>
-                <button type="reset"> Clear </button>
+                <button className="b1" type="submit">Submit</button>
+                <button className="b2" type="reset"> Clear </button>
               </div>
             </Form>
           )}
         </Formik>
+        <hr className="hrule"/>
       </div>
       {showPopup && (
         <div className="modal-overlay">
