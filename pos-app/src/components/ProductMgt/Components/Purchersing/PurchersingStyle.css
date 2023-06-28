@@ -21,9 +21,35 @@
     
 }
 
-.inputfield{
+.inputfield_1{
     width: 12vw;
-    height: 10px;
+    height: 5.5vh;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1vh 0 0 1vw;
+    
+}
+
+.inputfield_2{
+    width: 9vw;
+    height: 5.5vh;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+    margin: 1vh 0 0 1vw;
+    
+}
+
+.inputfield_3{
+    width: 20vw;
+    height: 5.5vh;
     padding: 10px;
     border-radius: 12px;
     border: 1.5px solid lightgrey;
@@ -101,7 +127,7 @@
 
 .tdata{
     width: 10vw;
-    height: 10px;
+    height: 5vh;
     padding: 10px;
     border-radius: px;
     border: 1.5px solid lightgrey;

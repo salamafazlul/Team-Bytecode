@@ -72,6 +72,9 @@ function RemoveCategory() {
                       />
                       <ErrorMessage name="Category_ID" />
                     </td>
+                    <td><button className="b1" type="submit">
+                Remove
+              </button></td>
                   </tr>
                   <tr>
                     <td>Category Name</td>
@@ -86,15 +89,12 @@ function RemoveCategory() {
                       />
                       <ErrorMessage name="Category_name" />
                     </td>
+                    <td><button className="b2" type="reset">
+                clear
+              </button></td>
                   </tr>
                 </tbody>
               </table>
-              <button className="b1" type="submit">
-                Remove
-              </button>
-              <button className="b2" type="reset">
-                clear
-              </button>
             </Form>
           )}
         </Formik>

@@ -7,3 +7,43 @@
     display: grid;
     /* grid-template-columns: 2.5fr 1fr; */
 }
+
+.bbb1{
+    width: 9vw;
+    background-color:rgba(88, 154, 192, 1);
+    border-radius: 10px;
+    border-style: none;
+    box-shadow:#000205; 
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    height: 5vh; 
+    align-content: center;
+    transform: translate3d(0, 0, 0);
+    transition: all .4s;
+    margin-left: 8vw;
+    /* margin-top: 12vh; */
+    box-sizing: border-box;
+  }
+
+.but2{
+    width: 9vw;
+    background-color: rgba(88, 154, 192, 1);
+    border-radius: 10px;
+    border-style: none;
+    box-shadow:#000205; 
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    height: 5vh; 
+    text-align: center;
+    transform: translate3d(0, 0, 0);
+    transition: all .4s;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    box-sizing: border-box;
+  }

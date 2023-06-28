@@ -40,7 +40,7 @@ const AddproductForm = () => {
     product_id: Yup.string()
       .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
       .required(" requird"),
-    stock: Yup.number().required(" requird"),
+    stock: Yup.number().required(" requird") .min(0, "Quantity must be a positive value"),
     buying_price: Yup.number().required(" requird"),
     selling_price: Yup.number().required(" requird"),
     category_id: Yup.string().required(" requrid"),
@@ -136,8 +136,12 @@ const AddproductForm = () => {
                       name="stock"
                       placeholder="Quntity"
                       className="inputshort"
+                      
                     />
                   </td>
+                  <td><button className="b1" type="onsubmit">
+              Add
+            </button></td>
                 </tr>
                 <tr>
                   <td>
@@ -167,6 +171,9 @@ const AddproductForm = () => {
                       className="inputshort"
                     />
                   </td>
+                  <td> <button type="reset" className="b2">
+              Clear
+            </button></td>
                 </tr>
                 <tr>
                   <td>
@@ -219,12 +226,6 @@ const AddproductForm = () => {
                 </tr>
               </tbody>
             </table>
-            <button className="b1" type="onsubmit">
-              Add
-            </button>
-            <button type="reset" className="b2">
-              Clear
-            </button>
           </Form>
           )}
         </Formik>

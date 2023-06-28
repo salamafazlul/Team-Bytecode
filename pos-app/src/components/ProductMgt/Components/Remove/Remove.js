@@ -122,16 +122,15 @@ const Removeform = () => {
                     }}                 
                   />
                 </td>
+                <td><button  type="submit" className="bbb1">
+            Remove
+          </button><button type="reset" className="but2" onClick={handleClear}>
+            Clear
+          </button>
+          </td>
               </tr>
             </tbody>
           </table>
-
-          <button  type="submit" className="b1">
-            Remove
-          </button>
-          <button type="reset" className="bb2" onClick={handleClear}>
-            Clear
-          </button>
         </Form>
       </Formik>
       

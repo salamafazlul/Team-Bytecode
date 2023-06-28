@@ -20,7 +20,9 @@ const Rform = () => {
       .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
       .required(" requird"),
     ProductName: Yup.string().required(" requird"),
-    QTY: Yup.number().required(" requird"),
+    QTY: Yup.number()
+      .required(" requird")
+      .min(0, "Stock must be a positive value"),
     Reason: Yup.string().required(" requird"),
   });
   //get product name
@@ -106,6 +108,11 @@ const Rform = () => {
                       value={productName}
                     />
                   </td>
+                  <td>
+                  <button className="bb1" typ="button">
+              Update
+            </button>
+                  </td>
                 </tr>
                 <tr>
                   <td>
@@ -134,24 +141,21 @@ const Rform = () => {
                       className="bar"
                     />
                   </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <button className="bb1" typ="button">
-              Update
-            </button>
-            <button
+                  <td>
+                  <button
               type="reset"
               className="bb2"
               onClick={() => setProductName("")}
             >
               Clear
             </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Form>
         </Formik>
-        <hr className="hrule"
-      />
+        <hr className="hrule" />
       </div>
 
       {showPopup && (

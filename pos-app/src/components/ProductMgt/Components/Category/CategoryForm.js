@@ -73,6 +73,7 @@ function CategoryForm() {
                         }
                       />
                     </td>
+                    <td><button className="b1" type="submit">Submit</button></td>
                   </tr>
 
                   <tr>
@@ -87,14 +88,10 @@ function CategoryForm() {
                         readOnly
                       />
                     </td>
+                    <td><button className="b2" type="reset"> Clear </button></td>
                   </tr>
                 </tbody>
               </table>
-
-              <div>
-                <button className="b1" type="submit">Submit</button>
-                <button className="b2" type="reset"> Clear </button>
-              </div>
             </Form>
           )}
         </Formik>

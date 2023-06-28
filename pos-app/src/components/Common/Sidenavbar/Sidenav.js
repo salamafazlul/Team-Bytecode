@@ -49,7 +49,7 @@ function SideNavi(props) {
       <div className="logodiv">
         <button className="logout">
           <MdLogout />
-          <span className="butonname"> Logout</span>
+          <p className="butonname"> Logout</p>
         </button>
       </div>
     </div>
