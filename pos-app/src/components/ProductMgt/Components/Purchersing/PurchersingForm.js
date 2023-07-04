@@ -6,7 +6,7 @@ import "./PurchersingStyle.css";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import {RiDeleteBack2Line } from "react-icons/ri";
+import { RiDeleteBack2Line } from "react-icons/ri";
 
 function PurchersingForm() {
   const [productName, setProductName] = useState("");
@@ -29,11 +29,18 @@ function PurchersingForm() {
     resetForm();
   };
 
+
+  
   const validationSchema = Yup.object().shape({
     ppid: Yup.string().required("Required"),
     // ppname: Yup.string().required("Required"),
     ppprice: Yup.number().required("Required"),
-    ppselprice: Yup.number().required("Required"),
+    ppselprice: Yup.number()
+      .required("Required")
+      .moreThan(
+        Yup.ref("ppprice"),
+        "Selling price must be greater than the buying price"
+      ),
     ppqty: Yup.number().required("Required"),
   });
 
@@ -50,11 +57,15 @@ function PurchersingForm() {
   };
 
   const handleSave = () => {
-    
     formData.forEach((data) =>
       axios
         .put(`http://localhost:3001/product`, [
-          { productId: data.ppid, newQuantity: data.ppqty,newBuyingprice: data.ppprice, newSellingprice: data.ppselprice },
+          {
+            productId: data.ppid,
+            newQuantity: data.ppqty,
+            newBuyingprice: data.ppprice,
+            newSellingprice: data.ppselprice,
+          },
         ])
         .then((response) => {
           console.log("Quantity updated successfully.");
@@ -65,6 +76,7 @@ function PurchersingForm() {
     );
     setShowConfirmation(false);
     generatePDF();
+    setFormData([]);
     // navigate("/Purchasing", { replace: true });
   };
 
@@ -128,6 +140,10 @@ function PurchersingForm() {
       newData.splice(index, 1);
       return newData;
     });
+  };
+
+  const resetForm = () => {
+    setProductName("");
   };
 
   const isSaveButtonDisabled = formData.length === 0;
@@ -240,7 +256,7 @@ function PurchersingForm() {
             <button type="submit" className="purbutton01">
               Add
             </button>
-            <button type="reset" className="purbutton02">
+            <button type="reset" className="purbutton02" onClick={resetForm}>
               Clear
             </button>
           </Form>
@@ -276,14 +292,14 @@ function PurchersingForm() {
                       <td className="tdata">{data.ppselprice}</td>
                       <td className="tdata">{data.ppqty}</td>
                       <td className="tdata">{data.ppdescription}</td>
-                      <td >
-        <button
-          className="delete-button"
-          onClick={() => handleDelete(index)}
-        >
-          <RiDeleteBack2Line/>
-        </button>
-      </td>
+                      <td>
+                        <button
+                          className="delete-button"
+                          onClick={() => handleDelete(index)}
+                        >
+                          <RiDeleteBack2Line />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                   {Array.from({ length: 6 - formData.length }, (_, index) => (
@@ -299,7 +315,11 @@ function PurchersingForm() {
                 </tbody>
               </table>
             </div>
-            <button type="submit" className="boru" disabled={isSaveButtonDisabled} >
+            <button
+              type="submit"
+              className="boru"
+              disabled={isSaveButtonDisabled}
+            >
               Save
             </button>
             <button

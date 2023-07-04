@@ -19,7 +19,7 @@ const Rform = () => {
     ProductID: Yup.string()
       .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
       .required(" requird"),
-    ProductName: Yup.string().required(" requird"),
+    // ProductName: Yup.string().required(" requird"),
     QTY: Yup.number()
       .required(" requird")
       .min(0, "Stock must be a positive value"),

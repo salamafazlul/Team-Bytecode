@@ -21,6 +21,14 @@ function CategoryForm() {
     category_name: "",
   };
 
+  const validationSchema = Yup.object().shape({
+    category_name: Yup.string().required(" requird"),
+    category_id: Yup.string()
+      .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
+      .required(" requird"),
+  });
+
+
   const handleSubmit = async () => {
     const response = await axios.post(
       "http://localhost:3001/Product_Category",
@@ -51,7 +59,7 @@ function CategoryForm() {
       <div className="categorycreate">
         <Formik
           onSubmit={onSubmit}
-          validationSchema={null}
+          validationSchema={validationSchema}
           initialValues={initialValues}
         >
           {({ setFieldValue }) => (
@@ -60,7 +68,10 @@ function CategoryForm() {
               <table>
                 <tbody>
                   <tr>
-                    <td>Category Name</td>
+                    <td>
+                    <label>Category Name</label>
+                    <ErrorMessage name="category_name" component="span" />
+                    </td>
                     <td>
                       <Field
                         type="text"
@@ -77,7 +88,10 @@ function CategoryForm() {
                   </tr>
 
                   <tr>
-                    <td>Category ID</td>
+                    <td>
+                      <label>Category ID</label>
+                    <ErrorMessage name="category_id" component="span" />
+                    </td>
                     <td>
                       <Field
                         type="text"

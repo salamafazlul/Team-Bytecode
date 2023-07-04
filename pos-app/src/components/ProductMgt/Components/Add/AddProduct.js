@@ -32,7 +32,7 @@ const AddproductForm = () => {
     selling_price: "",
     category_id: "",
     reorder_level: "",
-    Description: "",
+   
   };
 
   const validationSchema = Yup.object().shape({
@@ -42,10 +42,14 @@ const AddproductForm = () => {
       .required(" requird"),
     stock: Yup.number().required(" requird") .min(0, "Quantity must be a positive value"),
     buying_price: Yup.number().required(" requird"),
-    selling_price: Yup.number().required(" requird"),
+    selling_price: Yup.number()
+      .required("Required")
+      .moreThan(
+        Yup.ref("buying_price"),
+        "Selling price must be greater than the buying price"
+      ),
     category_id: Yup.string().required(" requrid"),
     reorder_level: Yup.number().required(" requird"),
-    // Description: Yup.string().required(" requird"),
   });
 
  // ID increment
@@ -212,7 +216,7 @@ const AddproductForm = () => {
                     />
                   </th>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>Description</td>
                   <td colSpan="3">
                     <Field
@@ -223,7 +227,7 @@ const AddproductForm = () => {
                       className="input"
                     />
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </Form>

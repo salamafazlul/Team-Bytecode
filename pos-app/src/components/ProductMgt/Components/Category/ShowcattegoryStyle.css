@@ -13,5 +13,7 @@
 .Cidfield{
     justify-content: center;
     align-content: center;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 

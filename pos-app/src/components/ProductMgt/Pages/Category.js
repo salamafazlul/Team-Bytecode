@@ -11,11 +11,15 @@ function Category() {
       <div>
         <Sidenav userRole="storekeeper" />
       </div>
-      <div>
+      <div >
+        <div > 
         <Header />
+        <div className="elscore">
         <CategoryForm />
         <RemoveCategory />
         <Showcattegory />
+        </div>
+        </div>
       </div>
     </div>
   );

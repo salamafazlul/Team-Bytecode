@@ -22,7 +22,7 @@ export const Navideta = [
   },
 
   {
-    title: "Report",
+    title: "Product Report",
     icon: <TbReportSearch />,
     link: "",
   },

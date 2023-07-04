@@ -4,6 +4,7 @@ import Header from "../../Common/Hederbar/Heder";
 import AddProduct from "../Components/Add/AddProduct";
 import Return from "../Components/Return/Return";
 import Remove from "../Components/Remove/Remove";
+import Edit from "../Components/Edit/EditProduct"
 
 const AddRemove = () => {
   return (
@@ -11,10 +12,11 @@ const AddRemove = () => {
       <Sidenav userRole="storekeeper" />
       <div >
         <Header />
-        <div className="scorele">
+        <div className="elscore">
         <AddProduct />
         <Return />
         <Remove />
+        <Edit/>
         </div>
       </div>
     </div>

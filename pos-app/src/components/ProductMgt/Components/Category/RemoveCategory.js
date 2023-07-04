@@ -21,6 +21,14 @@ function RemoveCategory() {
   };
   const navigate = useNavigate();
 
+  const validationSchema = Yup.object().shape({
+    // Category_name: Yup.string().required(" requird"),
+    Category_ID: Yup.string()
+      .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
+      .required(" requird"),
+  });
+
+
   const handleConfirm = async (values) => {
     await axios.delete(`http://localhost:3001/Product_Category/${categoryID}`);
     setShowPopup(false);
@@ -47,14 +55,20 @@ function RemoveCategory() {
   return (
     <>
       <div className="category_remove_table">
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik 
+        validationSchema={validationSchema} 
+        initialValues={initialValues} 
+        onSubmit={onSubmit}>
           {({ errors, touched }) => (
             <Form>
               <h3>Category Remove</h3>
               <table>
                 <tbody>
                   <tr>
-                    <td>Category ID</td>
+                    <td>
+                    <label>Category ID</label>
+                    <ErrorMessage name="Category_ID" component="span" />
+                    </td>
                     <td>
                       <Field
                         type="text"
@@ -70,7 +84,6 @@ function RemoveCategory() {
                           }
                         }}
                       />
-                      <ErrorMessage name="Category_ID" />
                     </td>
                     <td><button className="b1" type="submit">
                 Remove
@@ -78,6 +91,7 @@ function RemoveCategory() {
                   </tr>
                   <tr>
                     <td>Category Name</td>
+                    <ErrorMessage name="Category_name" component="span" />
                     <td>
                       <Field
                         type="text"
@@ -87,9 +101,9 @@ function RemoveCategory() {
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                       />
-                      <ErrorMessage name="Category_name" />
+
                     </td>
-                    <td><button className="b2" type="reset">
+                    <td><button className="b2" type="reset" >
                 clear
               </button></td>
                   </tr>

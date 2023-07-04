@@ -36,7 +36,7 @@ const Login = () => {
         if (response.data.results.user_role === "admin") {
           history("/Dashboard")();
         } else if (response.data.results.user_role === "storekeeper") {
-          history("/Storekeeper")();
+          history("/Purchasing")();
         } else if (response.data.results.user_role === "cashier") {
           history("/Cashier")();
         }
