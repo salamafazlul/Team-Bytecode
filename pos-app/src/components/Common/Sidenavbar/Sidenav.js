@@ -47,9 +47,9 @@ function SideNavi(props) {
         })}
       </ul>
       <div className="logodiv">
-        <button className="logout">
-          <MdLogout />
-          <span className="butonname"> Logout</span>
+        <button className="logout" > 
+          {/* <MdLogout /> */}
+          <p className="butonname"> Logout</p>
         </button>
       </div>
     </div>

@@ -1,10 +1,10 @@
 .categorycreate{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
+    width: 100vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    /* grid-template-columns: 2.5fr 1fr; */
 }

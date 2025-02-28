@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Product, Product_Category } = require("../models");
+const { Product, Product_Category, DeleteProduct } = require("../models");
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
@@ -224,11 +224,43 @@ router.post("/", async (req, res) => {
   res.json(post);
 });
 
+//delete category
 router.delete("/:id", async (req, res) => {
   const category = await Product_Category.findByPk(req.params.id);
   if (!category) {
     return res.status(404).send({ error: "Category not found" });
   }
+
+  //find related products
+  const product = await Product.findAll({
+    where: {
+      category_id: req.params.id,
+    },
+  });
+  // console.log(product);
+
+  //copy related products to new table
+  for (const p of product) {
+    await DeleteProduct.create({
+      deleteProduct_id: p.product_id,
+      product_name: p.product_name,
+      buying_price: p.buying_price,
+      selling_price: p.selling_price,
+      stock: p.stock,
+      reorder_level: p.reorder_level,
+      reorder_status: p.reorder_status,
+      expiry_date: p.expiry_date,
+    });
+  }
+
+  //delete products from product table
+  await Product.destroy({
+    where: {
+      category_id: req.params.id,
+    },
+  });
+
+  //delete category
   await category.destroy();
   res.send({ message: "Category deleted successfully" });
 });

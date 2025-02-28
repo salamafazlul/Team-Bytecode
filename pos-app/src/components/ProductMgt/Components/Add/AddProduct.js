@@ -32,7 +32,7 @@ const AddproductForm = () => {
     selling_price: "",
     category_id: "",
     reorder_level: "",
-    Description: "",
+   
   };
 
   const validationSchema = Yup.object().shape({
@@ -40,30 +40,31 @@ const AddproductForm = () => {
     product_id: Yup.string()
       .matches(/^[a-zA-Z]{2}[0-9]{4}$/, "ID must be in format XX1234")
       .required(" requird"),
-    stock: Yup.number().required(" requird"),
+    stock: Yup.number().required(" requird") .min(0, "Quantity must be a positive value"),
     buying_price: Yup.number().required(" requird"),
-    selling_price: Yup.number().required(" requird"),
+    selling_price: Yup.number()
+      .required("Required")
+      .moreThan(
+        Yup.ref("buying_price"),
+        "Selling price must be greater than the buying price"
+      ),
     category_id: Yup.string().required(" requrid"),
     reorder_level: Yup.number().required(" requird"),
-    // Description: Yup.string().required(" requird"),
   });
 
-  /*
-  const onSubmit = async (values) => {
-    console.log(values);
-    const response = await axios
-      .post("http://localhost:3001/Product", values)
-      .then((res) => {
-        console.log(res);
-      });
-  };
-*/
-  /*
-const onSubmit = async (values) => {
-  console.log(values);
-  await axios.post("http://localhost:3001/Product", values);
-  setShowPopup(true);
-}; */
+ // ID increment
+ const [productID, setProductId] = useState("");
+ const handleCategoryIDChange = (event, setFieldValue) => {
+  const { value } = event.target;
+  const productID =
+    value.slice(0, 2).toUpperCase() +
+    Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0");
+  setProductId(productID);
+  setFieldValue("product_id", productID);
+  setFieldValue("product_name", value);
+};
 
   const onSubmit = (values, { resetForm }) => {
     setFormData(values);
@@ -88,6 +89,7 @@ const onSubmit = async (values) => {
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >
+          {({ setFieldValue }) => (
           <Form className="Purchers">
             <h3 className="title"> Add New Product</h3>
 
@@ -106,6 +108,9 @@ const onSubmit = async (values) => {
                       size={50}
                       placeholder="Enter Product Name"
                       className="input"
+                      onChange={(event) =>
+                        handleCategoryIDChange(event, setFieldValue)
+                      }
                     />
                   </td>
                 </tr>
@@ -135,8 +140,12 @@ const onSubmit = async (values) => {
                       name="stock"
                       placeholder="Quntity"
                       className="inputshort"
+                      
                     />
                   </td>
+                  <td><button className="b1" type="onsubmit">
+              Add
+            </button></td>
                 </tr>
                 <tr>
                   <td>
@@ -166,6 +175,9 @@ const onSubmit = async (values) => {
                       className="inputshort"
                     />
                   </td>
+                  <td> <button type="reset" className="b2">
+              Clear
+            </button></td>
                 </tr>
                 <tr>
                   <td>
@@ -204,7 +216,7 @@ const onSubmit = async (values) => {
                     />
                   </th>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>Description</td>
                   <td colSpan="3">
                     <Field
@@ -215,17 +227,14 @@ const onSubmit = async (values) => {
                       className="input"
                     />
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
-            <button className="b1" type="onsubmit">
-              Add
-            </button>
-            <button type="reset" className="b2">
-              Clear
-            </button>
           </Form>
+          )}
         </Formik>
+        <hr className="hrule"
+      />
       </div>
 
       {showPopup && (

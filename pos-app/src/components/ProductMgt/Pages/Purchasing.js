@@ -5,7 +5,7 @@ import PurchersingForm from "../Components/Purchersing/PurchersingForm";
 
 function Mainpage() {
   return (
-    <div className="App">
+    <div className="page">
       <div>
         <Sidenav userRole="storekeeper" />
       </div>

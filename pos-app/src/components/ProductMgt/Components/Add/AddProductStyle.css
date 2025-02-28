@@ -1,12 +1,12 @@
 .addform{
     background-color: rgba(255, 255, 255, 0.818);
     opacity: 75%; 
-    width: 82.3vw;
+    width: 100vw;
     padding: 1vw 1vw 1vw 1vw;
     background-size: auto;
     display:flex;    
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    /* grid-template-columns: 2.5fr 1fr; */
 }
 
 .Purchers{
@@ -29,7 +29,7 @@
   align-content: center;
   transform: translate3d(0, 0, 0);
   transition: all .4s;
-  margin-left: 8vw;
+  margin-left: 6vw;
   /* margin-top: 12vh; */
   box-sizing: border-box;
 }
@@ -50,7 +50,7 @@
   text-align: center;
   transform: translate3d(0, 0, 0);
   transition: all .4s;
-  margin-left: 8vw;
+  margin-left: 6vw;
   margin-top: 2vh;
   box-sizing: border-box;
 
@@ -58,8 +58,8 @@
 
 
 .input {
-    width: 44vw;
-    height: 10px;
+    width: 41.5vw;
+    height: 5.5vh;
     padding: 10px;
     border-radius: 12px;
     border: 1.5px solid lightgrey;
@@ -67,8 +67,6 @@
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0px 0px 20px -18px;
     margin: 1.5vh 2vw 0 1vw;
-    
-  
   }
   
   .input:hover {
@@ -89,7 +87,7 @@
   .inputshort {
     width: 16vw;
     margin: 1.5vh 2vw 0 1vw;
-    height: 10px;
+    height: 5.5vh;
     padding: 10px;
     border-radius: 12px;
     border: 1.5px solid lightgrey;
@@ -98,7 +96,7 @@
     box-shadow: 0px 0px 20px -18px;
   }
   .select{
-    height: 40px;
+    height: 5.5vh;
     font-size: 0.8rem;
   }
 
@@ -157,10 +155,10 @@ span{
   text-align: right;
 }
 
-.b1,
+/* .b1,
 .b2 {
   margin-left: 10px;
-}
+} */
 
 .rule{
   height: 1px;

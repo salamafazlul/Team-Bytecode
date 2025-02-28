@@ -6,7 +6,7 @@ const {
   Product,
   Sale_of_Refund,
 } = require("../models");
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 //get invoice list /api/getInvoiceList
 router.get("/", async (req, res) => {
@@ -95,12 +95,12 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
       where: {
         sale_id: invoice_id,
         refund_id: {
-          [Op.not]: currentInvoice
-        }
-      }
+          [Op.not]: currentInvoice,
+        },
+      },
     });
     if (refundMade) {
-      return res.json({ status: 400});
+      return res.json({ status: 400 });
     }
     // Check if a record already exists in Sale_of_Refund for the currentInvoice
     const existingRecord = await Sale_of_Refund.findOne({
@@ -142,13 +142,13 @@ router.get("/api/getInvoiceDetail", async (req, res) => {
     res.status(500).send("An error occurred while retrieving the invoice.");
   }
 });
-router.get('/api/getProduct', async (req, res) => {
+router.get("/api/getProduct", async (req, res) => {
   try {
     const products = await Product.findAll();
     res.send(products);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 

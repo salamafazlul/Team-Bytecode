@@ -19,8 +19,8 @@ function Showcattegory() {
       <h3>Show Category</h3>
       {name.map((item) => (
         <>
-          <span className="Cidfield">{item.category_name}</span>
-          <span>{item.category_id}</span>
+          <p className="Cidfield"> ID - {item.category_id} Name - {item.category_name} </p>
+
         </>
       ))}
     </div>

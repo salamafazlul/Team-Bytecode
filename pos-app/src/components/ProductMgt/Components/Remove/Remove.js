@@ -103,6 +103,7 @@ const Removeform = () => {
                         getProductDetails(e.target.value);
                       }
                     }}
+                    
                   />
                 </td>
                 <td>Product name</td>
@@ -121,18 +122,19 @@ const Removeform = () => {
                     }}                 
                   />
                 </td>
+                <td><button  type="submit" className="bbb1">
+            Remove
+          </button>
+          <button type="reset" className="but2" onClick={handleClear}>
+            Clear
+          </button>
+          </td>
               </tr>
             </tbody>
           </table>
-
-          <button type="submit" className="bb1">
-            Remove
-          </button>
-          <button type="reset" className="bb2" onClick={handleClear}>
-            Clear
-          </button>
         </Form>
       </Formik>
+      <hr className="hrule" />
     </div>
 
     {showPopup && (
