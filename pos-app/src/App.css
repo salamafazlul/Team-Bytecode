@@ -1,151 +1,17 @@
-.App {
-  text-align: center;
-  display : flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  right: 0;
-
-
+*{
+    padding: 0;
+    margin: 0;
 }
-
-.auth-form-container , .login-form {
-  display: flex;
-  flex-direction: column;
-  padding: 50px 70px;
+.main-app-layout{
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    background-image: url("./components/images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #cccccc;
 }
-
-
-.auth-form-container {
-  background: linear-gradient(0deg, rgba(34, 32, 167, 0) 0%, rgba(216, 214, 214, 0.788) 100%);
+.main-context-container{
+   /* background: #000; */
+   width: 100%;
 }
-
-
-label{
-  text-align: left;
-  padding: 0.1rem 0;
-}
-
-input{
-  margin: 0.5rem 0;
-  border: none;
-  border-radius: 5px;
-  padding: 0.4rem 0.3rem;
-  background-color: #D9D9D9;
-  text-align: left;
-}
-
-.sign{
-  border: none;
-  background-color: #b1b1b1;
-  width: 50%;
-  margin-top: 15px;
-  padding: 10px 0px;
-  border-radius: 10px;
-  align-self: center;
-  box-shadow: 0 4px 2px -2px rgb(0, 0, 0);
-  
-}
-
-.link-btn{
-  border: none;
-  padding: 10px 0px;
-  background-color: white;
- 
-}
-
-
-.logo{
-  left: 0;
-}
-
-.split{
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-  background-image: url('./components/images/bg.jpg');
-  background-size: 180vh;
-  background-repeat : no-repeat;
-}
-
-.p1{
-  margin: 0px;
-  padding: 0;
-  font-size:60px ;
-  color: white;
-  text-shadow: 1cm;
-}
-
-.p2{
-  margin: 0px;
-  padding: 0;
-  font-size: 30px ;
-  color: white;
-  text-shadow: 1cm;
-}
-.p3{
-  margin: 0px;
-  padding: 0;
-  font-size: 15px ;
-  color: white;
-  font-style: italic;
-  text-shadow: 1cm;
-}
-
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-/* Style the image inside the centered container, if needed */
-.centered img {
-  width: 300px;
-
-}
-
-h1{
-  color: white;
-}
-
-@media (min-width: 1025px) {
-  .h-custom {
-  height: 100vh !important;
-  }
-  }
-  
-  .card-registration .select-input.form-control[readonly]:not([disabled]) {
-  font-size: 1rem;
-  line-height: 2.15;
-  padding-left: .75em;
-  padding-right: .75em;
-  }
-  
-  .card-registration .select-arrow {
-  top: 13px;
-  }
-  
-  .bg-grey {
-  background-color: #eae8e8;
-  }
-  
-  @media (min-width: 992px) {
-  .card-registration-2 .bg-grey {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-  }
-  }
-  
-  @media (max-width: 991px) {
-  .card-registration-2 .bg-grey {
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  }
-  }
-  
